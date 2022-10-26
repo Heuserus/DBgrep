@@ -1,5 +1,7 @@
 # DBgrep
 
+https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.redbubble.com%2Fde%2Fi%2Fposter%2FASCII-Alpaka-BW-von-Yincinerate%2F45126625.LVTDI&psig=AOvVaw3m62gTMJwkYWKZ-GBM843v&ust=1666860064188000&source=images&cd=vfe&ved=0CAwQjRxqFwoTCKCVxeG__foCFQAAAAAdAAAAABAE
+
 ## Features / project boundaries
 
  - Implementation in Java
