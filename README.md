@@ -1,6 +1,6 @@
 # DBgrep
 
-https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.redbubble.com%2Fde%2Fi%2Fposter%2FASCII-Alpaka-BW-von-Yincinerate%2F45126625.LVTDI&psig=AOvVaw3m62gTMJwkYWKZ-GBM843v&ust=1666860064188000&source=images&cd=vfe&ved=0CAwQjRxqFwoTCKCVxeG__foCFQAAAAAdAAAAABAE
+[Llama Ascii Art](https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.redbubble.com%2Fde%2Fi%2Fposter%2FASCII-Alpaka-BW-von-Yincinerate%2F45126625.LVTDI&psig=AOvVaw3m62gTMJwkYWKZ-GBM843v&ust=1666860064188000&source=images&cd=vfe&ved=0CAwQjRxqFwoTCKCVxeG__foCFQAAAAAdAAAAABAE)
 
 ## Features / project boundaries
 
@@ -30,42 +30,46 @@ password=wurst
  - Enduser 
  - Software
 
-MVP
-Zugriff auf NoSQL und SQL Databases
-Profile System
-CLI + Result Presentation
-One SQL and one NoSQL Database for testing purposes
-High Unit Test Coverage
-Dynamic Driver Loading
-Enduser Documentation ( Help Commands )
-Javadocs
-Simple Regexp (nur % und das was mongodb unterstützt)
+## MVP
 
-Addons
-Read The Docs
-Profile Creation Edit in CLI (Vorlagensystem)
-Regexp (Clientside)
-Hesliche ASCII ART (yaml backflip)
+- Zugriff auf NoSQL und SQL Databases
+- Profile System
+- CLI + Result Presentation
+- One SQL and one NoSQL Database for testing purposes
+- High Unit Test Coverage
+- Dynamic Driver Loading
+- Enduser Documentation ( Help Commands )
+- Javadocs
+- Simple Regexp (nur % und das was mongodb unterstützt)
 
-Milestone 1 
-Postgres und MongoDB auflegen
-Projekt Archistruktur erstellen
-Basic Abfrage an beide Datenbanken + CLI
-CLI Logik festlegen (Marco)
+## Addons
 
-Milestone 2  
-Profile System + CLI
-Detailed Datenbankabfragen + CLI
-Dynamic Driver Loading (Simon)
-Ab Milestone 2 Unit Tests 
-Tests auch auf linux
+- Read The Docs
+- Profile Creation Edit in CLI (Vorlagensystem)
+- Regexp (Clientside)
+- Hesliche ASCII ART (yaml backflip)
 
-Milestone 3
-Probleme and Bug fixes
-Fancy Result presentation und Help System
-Deployment + Enduser Tests (Auch auf linux)
-(Abfragen die wir aus Milestone 2 verschoben haben) + Regexp
+## Milestone 1 
 
+- Postgres und MongoDB auflegen
+- Projekt Archistruktur erstellen
+- Basic Abfrage an beide Datenbanken + CLI
+- CLI Logik festlegen (Marco)
+
+## Milestone 2  
+
+- Profile System + CLI
+- Detailed Datenbankabfragen + CLI
+- Dynamic Driver Loading (Simon)
+- Ab Milestone 2 Unit Tests 
+- Tests auch auf linux
+
+## Milestone 3
+
+- Probleme and Bug fixes
+- Fancy Result presentation und Help System
+- Deployment + Enduser Tests (Auch auf linux)
+- (Abfragen die wir aus Milestone 2 verschoben haben) + Regexp
 
 
 
