@@ -38,10 +38,35 @@ One SQL and one NoSQL Database for testing purposes
 High Unit Test Coverage
 Dynamic Driver Loading
 Enduser Documentation ( Help Commands )
+Javadocs
+Simple Regexp (nur % und das was mongodb unterstützt)
 
 Addons
 Read The Docs
-Profile Creation in CLI
-Hesliche ASCII ART
+Profile Creation Edit in CLI (Vorlagensystem)
+Regexp (Clientside)
+Hesliche ASCII ART (yaml backflip)
 
-Milestones
+Milestone 1 
+Postgres und MongoDB auflegen
+Projekt Archistruktur erstellen
+Basic Abfrage an beide Datenbanken + CLI
+CLI Logik festlegen (Marco)
+
+Milestone 2  
+Profile System + CLI
+Detailed Datenbankabfragen + CLI
+Dynamic Driver Loading (Simon)
+Ab Milestone 2 Unit Tests 
+Tests auch auf linux
+
+Milestone 3
+Probleme and Bug fixes
+Fancy Result presentation und Help System
+Deployment + Enduser Tests (Auch auf linux)
+(Abfragen die wir aus Milestone 2 verschoben haben) + Regexp
+
+
+
+
+
