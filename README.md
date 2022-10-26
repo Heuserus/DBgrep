@@ -27,3 +27,19 @@ password=wurst
 
  - Enduser 
  - Software
+
+MVP
+Zugriff auf NoSQL und SQL Databases
+Profile System
+CLI + Result Presentation
+One SQL and one NoSQL Database for testing purposes
+High Unit Test Coverage
+Dynamic Driver Loading
+Enduser Documentation ( Help Commands )
+
+Addons
+Read The Docs
+Profile Creation in CLI
+Hesliche ASCII ART
+
+Milestones
