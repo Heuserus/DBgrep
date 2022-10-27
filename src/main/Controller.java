@@ -15,14 +15,10 @@ public class Controller {
     ProfileLoader profileLoader;
     Output output;
     
+    public void run(ConnectionInfo cI, Request rQ){
 
-
-    public Controller(ConnectionInfo cI, Request rQ){
         connectionInfo = cI;
         request = rQ;
-    }
-
-    public void run(){
 
         //Profile Loading Stuff
         connectionInfo = profileLoader.getInfo(connectionInfo);
@@ -40,9 +36,11 @@ public class Controller {
         //Output gibt Ergebnis aus
         output.print(result);
 
-        
+    }
 
-
+    //maybe machen wir ein allgemeines output object oder wir verlagern logik in den output. Das müssen wir noch überlegen
+    public void help(String arg){
+        output.print(arg);
     }
 
     
