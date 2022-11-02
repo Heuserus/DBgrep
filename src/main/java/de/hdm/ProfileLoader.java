@@ -1,6 +1,6 @@
-package main;
+package de.hdm;
 
-import main.helper.ConnectionInfo;
+import de.hdm.helper.ConnectionInfo;
 
 public class ProfileLoader {
     

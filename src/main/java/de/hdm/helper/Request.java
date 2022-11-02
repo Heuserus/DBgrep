@@ -1,4 +1,4 @@
-package main.helper;
+package de.hdm.helper;
 
 public class Request {
     
