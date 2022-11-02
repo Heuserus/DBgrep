@@ -1,10 +1,8 @@
-package main;
+package de.hdm;
 
-
-
-import main.helper.ConnectionInfo;
-import main.helper.Request;
-import main.helper.Result;
+import de.hdm.helper.ConnectionInfo;
+import de.hdm.helper.Request;
+import de.hdm.helper.Result;
 
 
 public class Controller {

@@ -1,4 +1,4 @@
-package main;
+package de.hdm;
 
 public class DriverLoader {
     
