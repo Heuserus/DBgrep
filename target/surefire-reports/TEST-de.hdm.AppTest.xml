@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="de.hdm.AppTest" time="0.075" tests="1" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="de.hdm.AppTest" time="0.081" tests="1" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="19"/>
     <property name="sun.cpu.isalist" value="amd64"/>
     <property name="sun.jnu.encoding" value="Cp1252"/>
-    <property name="java.class.path" value="d:\Dokumente\Studium\Medieninformatik B.Sc\6.Semester\Database and Application\DBgrep\target\test-classes;d:\Dokumente\Studium\Medieninformatik B.Sc\6.Semester\Database and Application\DBgrep\target\classes;C:\Users\geupe\.m2\repository\junit\junit\4.11\junit-4.11.jar;C:\Users\geupe\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;"/>
+    <property name="java.class.path" value="D:\Dokumente\Studium\Medieninformatik B.Sc\6.Semester\Database and Application\DBgrep\target\test-classes;D:\Dokumente\Studium\Medieninformatik B.Sc\6.Semester\Database and Application\DBgrep\target\classes;C:\Users\geupe\.m2\repository\junit\junit\4.11\junit-4.11.jar;C:\Users\geupe\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;"/>
     <property name="java.vm.vendor" value="Oracle Corporation"/>
     <property name="sun.arch.data.model" value="64"/>
     <property name="user.variant" value=""/>
@@ -15,9 +15,9 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="DE"/>
     <property name="sun.boot.library.path" value="C:\Program Files\OpenJDK\jdk-19\bin"/>
-    <property name="sun.java.command" value="C:\Users\geupe\AppData\Local\Temp\surefire13903374692181955763\surefirebooter5812099420558629621.jar C:\Users\geupe\AppData\Local\Temp\surefire13903374692181955763 2022-11-02T11-57-18_571-jvmRun1 surefire9093887083584689712tmp surefire_01394725525612178303tmp"/>
+    <property name="sun.java.command" value="C:\Users\geupe\AppData\Local\Temp\surefire142648808786180600\surefirebooter16775044724933858280.jar C:\Users\geupe\AppData\Local\Temp\surefire142648808786180600 2022-11-02T12-53-50_863-jvmRun1 surefire3540028384075640449tmp surefire_09467941805132273737tmp"/>
     <property name="jdk.debug" value="release"/>
-    <property name="surefire.test.class.path" value="d:\Dokumente\Studium\Medieninformatik B.Sc\6.Semester\Database and Application\DBgrep\target\test-classes;d:\Dokumente\Studium\Medieninformatik B.Sc\6.Semester\Database and Application\DBgrep\target\classes;C:\Users\geupe\.m2\repository\junit\junit\4.11\junit-4.11.jar;C:\Users\geupe\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;"/>
+    <property name="surefire.test.class.path" value="D:\Dokumente\Studium\Medieninformatik B.Sc\6.Semester\Database and Application\DBgrep\target\test-classes;D:\Dokumente\Studium\Medieninformatik B.Sc\6.Semester\Database and Application\DBgrep\target\classes;C:\Users\geupe\.m2\repository\junit\junit\4.11\junit-4.11.jar;C:\Users\geupe\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
     <property name="user.home" value="C:\Users\geupe"/>
     <property name="user.language" value="de"/>
@@ -25,12 +25,12 @@
     <property name="java.version.date" value="2022-09-20"/>
     <property name="java.home" value="C:\Program Files\OpenJDK\jdk-19"/>
     <property name="file.separator" value="\"/>
-    <property name="basedir" value="d:\Dokumente\Studium\Medieninformatik B.Sc\6.Semester\Database and Application\DBgrep"/>
+    <property name="basedir" value="D:\Dokumente\Studium\Medieninformatik B.Sc\6.Semester\Database and Application\DBgrep"/>
     <property name="java.vm.compressedOopsMode" value="32-bit"/>
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\geupe\AppData\Local\Temp\surefire13903374692181955763\surefirebooter5812099420558629621.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\geupe\AppData\Local\Temp\surefire142648808786180600\surefirebooter16775044724933858280.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="19+36-2238"/>
@@ -45,7 +45,7 @@
     <property name="java.vendor.url.bug" value="https://bugreport.java.com/bugreport/"/>
     <property name="java.io.tmpdir" value="C:\Users\geupe\AppData\Local\Temp\"/>
     <property name="java.version" value="19"/>
-    <property name="user.dir" value="d:\Dokumente\Studium\Medieninformatik B.Sc\6.Semester\Database and Application\DBgrep"/>
+    <property name="user.dir" value="D:\Dokumente\Studium\Medieninformatik B.Sc\6.Semester\Database and Application\DBgrep"/>
     <property name="os.arch" value="amd64"/>
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
     <property name="sun.os.patch.level" value=""/>
@@ -58,5 +58,5 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="63.0"/>
   </properties>
-  <testcase name="shouldAnswerWithTrue" classname="de.hdm.AppTest" time="0.007"/>
+  <testcase name="shouldAnswerWithTrue" classname="de.hdm.AppTest" time="0.011"/>
 </testsuite>
