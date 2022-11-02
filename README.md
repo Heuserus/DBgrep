@@ -51,9 +51,10 @@ password=wurst
 
 ## Milestone 1 
 
-- Postgres und MongoDB auflegen
-- Projekt Archistruktur erstellen
-- Basic Abfrage an beide Datenbanken + CLI
+- Postgres und MongoDB auflegen (Simon)
+- Projekt Archistruktur erstellen (Alle) -> done
+- Basic Abfrage an PostgresDB (Ben)
+- Basic Abfrage an MongoDB (Luca)
 - CLI Logik festlegen (Marco)
 
 ## Milestone 2  
