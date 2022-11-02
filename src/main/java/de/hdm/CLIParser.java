@@ -1,11 +1,13 @@
-package main;
+package de.hdm;
 
-import main.helper.ConnectionInfo;
-import main.helper.Request;
-import main.Controller;
+import de.hdm.helper.ConnectionInfo;
+import de.hdm.helper.Request;
+import de.hdm.Controller;
 
 public class CLIParser {
     
+    Controller controller;
+
     void parse (String[] args) {
 
         if(args[0] == "--help"){

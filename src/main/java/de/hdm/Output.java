@@ -1,6 +1,6 @@
-package main;
+package de.hdm;
 
-import main.helper.Result;
+import de.hdm.helper.Result;
 
 public class Output {
     
