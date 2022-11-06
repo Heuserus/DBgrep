@@ -9,20 +9,23 @@ import org.bson.Document;
 import static com.mongodb.client.model.Filters.eq;
 //import com.mongodb.client.MongoDatabase;
 
-public class MongoDB {
+public class MongoDriver {
     //public static MongoClient mongoClient;
     //public static DBCollection con;
     //public static DB database;
 
     //private static String uri = "mongodb+srv://lv042:<K6Uu9882EFFeWvgU>@dbgrep.o3uj6ms.mongodb.net/?retryWrites=true&w=majority";
 
-    public static void main(String[] args) {
-
-
-        ConnectionString connectionString = new ConnectionString("mongodb+srv://user:87654321@dbgrep.o3uj6ms.mongodb.net/?retryWrites=true&w=majority");
-        MongoClientSettings settings = MongoClientSettings.builder()
+    static MongoClientSettings settings;
+    ConnectionString connectionString;
+    //Constructor for MongoClient
+    public MongoDriver(String url, String user, String password) {
+        connectionString = new ConnectionString("mongodb+srv://user:87654321@dbgrep.o3uj6ms.mongodb.net/?retryWrites=true&w=majority");
+        settings = MongoClientSettings.builder()
                 .applyConnectionString(connectionString)
                 .serverApi(ServerApi.builder().version(ServerApiVersion.V1).build()).build();
+    }
+    public static void main(String[] args) {
         MongoClient mongoClient = MongoClients.create(settings);
         MongoDatabase database = mongoClient.getDatabase("test");
         database.getCollection("testdb").insertOne(new Document("moive", "MongoDB"));
