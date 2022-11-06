@@ -44,7 +44,7 @@ public class MongoDriver {
         System.out.println("Collection testdb selected successfully");
 
         //Find object in collection
-        Document myDoc = collection.find(eq("name", "test")).first();
+        Document myDoc = collection.find(eq("title", "Star Wars")).first();
         System.out.println(myDoc.toJson());
 
 
@@ -64,9 +64,13 @@ public class MongoDriver {
         return database.getCollection(collectionName);
     }
 
-    public String findFirstKey(String collectionName, MongoDatabase database) {
-        database.getCollection(collectionName).find().first();
+    public String findFirst(String collectionName, MongoDatabase database, String key, String value) {
+        database.getCollection(collectionName).find(eq(key, value)).first();
         return null;
+    }
+
+    public void find(String collectionName, MongoDatabase database, String key, String value) {
+        database.getCollection(collectionName).find(eq(key, value)).forEach((Consumer<? super Document>) System.out::println);
     }
 
 }
