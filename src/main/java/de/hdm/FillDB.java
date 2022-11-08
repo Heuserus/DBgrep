@@ -16,7 +16,7 @@ import org.postgresql.util.PSQLException;
 
 public class FillDB {
     public static void main(String[] args) {
-        clearDBs();
+        // clearDBs();
         sql();
     }
 
