@@ -1,10 +1,10 @@
 package de.hdm;
 
-import de.hdm.helper.Result;
+import de.hdm.helper.ResultOutput;
 
 public class Output {
     
-    public void print(Result result){
+    public void print(ResultOutput result){
         System.out.println(result.name);
     }
 

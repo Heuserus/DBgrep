@@ -1,9 +1,9 @@
 package de.hdm.helper;
 
-public class Result {
+public class ResultOutput {
     public String name;
 
-    public Result(String n){
+    public ResultOutput(String n){
         name = n;
     }
 
