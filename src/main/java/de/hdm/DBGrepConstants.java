@@ -1,8 +1,9 @@
 package de.hdm;
 
 public class DBGrepConstants {
-    enum ExitCode {
-        OK(0, "search successfull");
+    public static enum ExitCode {
+        OK(0, "search successfull"),
+        MISSING_PROFILE(1, "Missing profile or Database connection properties.");
 
         // fields
         private final int code;
