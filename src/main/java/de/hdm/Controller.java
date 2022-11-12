@@ -1,18 +1,26 @@
+
+
 package de.hdm;
+
+import java.sql.Statement;
+import java.sql.ResultSet;
 
 import de.hdm.helper.ConnectionInfo;
 import de.hdm.helper.Request;
-import de.hdm.helper.Result;
+import de.hdm.helper.ResultOutput;
+import main.SQLConnection;
 
 
 public class Controller {
-    
+
     ConnectionInfo connectionInfo;
     Request request;
-    
+
     ProfileLoader profileLoader;
     Output output;
-    
+    SQLConnection sqlConnection;
+    MongoConnection mongoConnection;
+
     public void run(ConnectionInfo cI, Request rQ){
 
         connectionInfo = cI;
@@ -20,16 +28,23 @@ public class Controller {
 
         //Profile Loading Stuff
         connectionInfo = profileLoader.getInfo(connectionInfo);
+
         //driver Loader Stuff
 
         //Connector baut connection
+        mongoConnection = new MongoConnection(connectionInfo.url, connectionInfo.username, connectionInfo.password);
+        //find
+
+
 
         //Request logic
-
+        String example = "SELECT COUNT(\"hstbenennung\") as \"a\" FROM fahrzeuginfo";
         //connection führt request aus
+        //ResultSet result = sqlConnection.query(statement,example);
 
         //controller baut result object
-        Result result = new Result("Test");
+        ResultOutput resultOutput = new ResultOutput("Test");
+
 
         //Output gibt Ergebnis aus
         output.print(result);
@@ -41,7 +56,7 @@ public class Controller {
         output.print(arg);
     }
 
-    
-    
+
+
 
 }
