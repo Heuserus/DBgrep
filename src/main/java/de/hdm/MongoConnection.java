@@ -64,9 +64,9 @@ public class MongoConnection {
         return database.getCollection(collectionName);
     }
 
-    public String findFirst(String collectionName, MongoDatabase database, String key, String value) {
-        database.getCollection(collectionName).find(eq(key, value)).first();
-        return null;
+    public Document findFirst(String collectionName, MongoDatabase database, String key, String value) {
+
+        return database.getCollection(collectionName).find(eq(key, value)).first();
     }
 
     public void find(String collectionName, MongoDatabase database, String key, String value) {

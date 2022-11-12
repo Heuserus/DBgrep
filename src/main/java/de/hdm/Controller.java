@@ -5,10 +5,14 @@ package de.hdm;
 import java.sql.Statement;
 import java.sql.ResultSet;
 
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 import de.hdm.helper.ConnectionInfo;
 import de.hdm.helper.Request;
 import de.hdm.helper.ResultOutput;
-import main.SQLConnection;
+import org.bson.Document;
+
+import static com.mongodb.client.model.Filters.eq;
 
 
 public class Controller {
@@ -18,7 +22,6 @@ public class Controller {
 
     ProfileLoader profileLoader;
     Output output;
-    SQLConnection sqlConnection;
     MongoConnection mongoConnection;
 
     public void run(ConnectionInfo cI, Request rQ){
@@ -29,25 +32,23 @@ public class Controller {
         //Profile Loading Stuff
         connectionInfo = profileLoader.getInfo(connectionInfo);
 
-        //driver Loader Stuff
 
         //Connector baut connection
         mongoConnection = new MongoConnection(connectionInfo.url, connectionInfo.username, connectionInfo.password);
-        //find
+        MongoDatabase database = mongoConnection.getDatabase("test");
+        //MongoCollection<Document> collection = database.getCollection("testdb");
 
 
+        //Find object in collection
+        Document myDoc = mongoConnection.findFirst("test", database, "title", "Star Wars");
 
-        //Request logic
-        String example = "SELECT COUNT(\"hstbenennung\") as \"a\" FROM fahrzeuginfo";
-        //connection führt request aus
-        //ResultSet result = sqlConnection.query(statement,example);
 
         //controller baut result object
         ResultOutput resultOutput = new ResultOutput("Test");
 
 
         //Output gibt Ergebnis aus
-        output.print(result);
+        output.print(myDoc.toJson());
 
     }
 
