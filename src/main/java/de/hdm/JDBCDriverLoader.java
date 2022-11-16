@@ -14,7 +14,7 @@ import java.util.ServiceLoader;
 public class JDBCDriverLoader {
 
     /**
-     * Loads a JDBC Driver from a JAR file.
+     * Loads a JDBC Driver from a JAR file using the Service Provider Interface pattern.
      * @param path Path to the JAR file
      * @return {@link Driver} object that can be registered via the method {@link DriverManager#registerDriver(Driver)}
      */
@@ -27,7 +27,7 @@ public class JDBCDriverLoader {
         URLClassLoader classLoader = new URLClassLoader(urls);
         ServiceLoader<Driver> serviceLoader= ServiceLoader.load(Driver.class, classLoader);
         Iterator<Driver> it = serviceLoader.iterator(); // TODO catch ServiceConfigurationError for robus code
-        // get last element of iterator. This seems to be the loaded driver
+        // get last element of iterator. This seems to be the driver loaded above
         Driver driver = null;
         while (it.hasNext()){
             driver = it.next();
