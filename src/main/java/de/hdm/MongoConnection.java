@@ -8,7 +8,7 @@ import com.mongodb.client.MongoDatabase;
 import de.hdm.helper.ConnectionInfo;
 import org.bson.Document;
 
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.function.Consumer;
 
 import static com.mongodb.client.model.Filters.eq;
@@ -47,6 +47,8 @@ public class MongoConnection {
         System.out.println("Collection testdb selected successfully");
 
         //Find object in collection
+        findAll(collection, database, "title", "Star Wars");
+
         Document myDoc = collection.find(eq("title", "Star Wars")).first();
         System.out.println(myDoc.toJson());
 
@@ -76,8 +78,25 @@ public class MongoConnection {
             return collection.find(eq(key, value)).first();
     }
 
-    public void find(String collectionName, MongoDatabase database, String key, String value) {
+    public Document findFirst(MongoCollection<Document> collection, MongoDatabase database, String key, String value) {
+            return collection.find(eq(key, value)).first();
+    }
+
+    public void findPrint(String collectionName, MongoDatabase database, String key, String value) {
         database.getCollection(collectionName).find(eq(key, value)).forEach((Consumer<? super Document>) System.out::println);
+    }
+
+
+    public static MongoCollection<Document>[] findAll(MongoCollection<Document> collection, MongoDatabase database, String key, int value) {
+        ArrayList<Document> documents = new ArrayList<Document>();
+        collection.find(eq(key, value)).forEach((Consumer<? super Document>) documents::add);
+        return documents.toArray(new MongoCollection[documents.size()]);
+    }
+
+    public static MongoCollection<Document>[] findAll(MongoCollection<Document> collection, MongoDatabase database, String key, String value) {
+        ArrayList<Document> documents = new ArrayList<Document>();
+        collection.find(eq(key, value)).forEach((Consumer<? super Document>) documents::add);
+        return documents.toArray(new MongoCollection[documents.size()]);
     }
 
 
