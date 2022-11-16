@@ -136,7 +136,8 @@ public class MongoConnection {
         return documents.toArray(new Document[documents.size()]);
     }
 
-    public static Document[] findAll(MongoCollection<Document> collection, MongoDatabase database, String key, boolean value) {
+    public 
+ Document[] findAll(MongoCollection<Document> collection, MongoDatabase database, String key, boolean value) {
         ArrayList<Document> documents = new ArrayList<>();
         collection.find(eq(key, value)).forEach((Consumer<? super Document>) documents::add);
 
@@ -144,7 +145,8 @@ public class MongoConnection {
         return documents.toArray(new Document[documents.size()]);
     }
 
-    public static Document[] findAll(MongoCollection<Document> collection, MongoDatabase database, String key, double value) {
+    public 
+ Document[] findAll(MongoCollection<Document> collection, MongoDatabase database, String key, double value) {
         ArrayList<Document> documents = new ArrayList<>();
         collection.find(eq(key, value)).forEach((Consumer<? super Document>) documents::add);
 
@@ -152,7 +154,8 @@ public class MongoConnection {
         return documents.toArray(new Document[documents.size()]);
     }
 
-    public static Document[] findAll(MongoCollection<Document> collection, MongoDatabase database, String key, long value) {
+    public 
+ Document[] findAll(MongoCollection<Document> collection, MongoDatabase database, String key, long value) {
         ArrayList<Document> documents = new ArrayList<>();
         collection.find(eq(key, value)).forEach((Consumer<? super Document>) documents::add);
 
@@ -160,7 +163,8 @@ public class MongoConnection {
         return documents.toArray(new Document[documents.size()]);
     }
 
-    public static Document[] findAll(MongoCollection<Document> collection, MongoDatabase database, String key, float value) {
+    public 
+ Document[] findAll(MongoCollection<Document> collection, MongoDatabase database, String key, float value) {
         ArrayList<Document> documents = new ArrayList<>();
         collection.find(eq(key, value)).forEach((Consumer<? super Document>) documents::add);
 
@@ -168,7 +172,8 @@ public class MongoConnection {
         return documents.toArray(new Document[documents.size()]);
     }
 
-    public static Document[] findAll(MongoCollection<Document> collection, MongoDatabase database, String key, short value) {
+    public 
+ Document[] findAll(MongoCollection<Document> collection, MongoDatabase database, String key, short value) {
         ArrayList<Document> documents = new ArrayList<>();
         collection.find(eq(key, value)).forEach((Consumer<? super Document>) documents::add);
 

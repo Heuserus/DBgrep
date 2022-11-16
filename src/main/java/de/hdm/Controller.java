@@ -3,10 +3,15 @@ package de.hdm;
 import java.sql.Statement;
 import java.sql.ResultSet;
 
+import com.mongodb.ConnectionString;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 import de.hdm.helper.ConnectionInfo;
 import de.hdm.helper.Request;
 import de.hdm.helper.ResultOutput;
 import main.SQLConnection;
+import org.bson.Document;
 
 
 public class Controller {
@@ -46,6 +51,28 @@ public class Controller {
             
         }
         else{
+            //Mongo
+            connectionInfo.url = "dbgrep.o3uj6ms.mongodb.net/?retryWrites=true&w=majority";
+            connectionInfo.username = "user";
+            connectionInfo.password = "87654321";
+
+            //String buildUri = "mongodb+srv://" + connectionInfo.username + ":" + connectionInfo.password + "@" + connectionInfo.url;
+            MongoConnection mongoClient = new MongoConnection(connectionInfo);
+
+
+            MongoDatabase database = mongoClient.getDatabase("test");
+            MongoCollection<Document> collection = database.getCollection("testdb");
+            System.out.println("Collection testdb selected successfully");
+
+            //Find object in collection
+            //System.out.println(findFirst(collection, database, "title", "Star Wars"));
+
+            //all bjects in array
+
+            Document[] all = mongoClient.findAll(collection, database, "title", "Star Wars");
+            for (int i = 0; i < all.length; i++) {
+                System.out.println(all[i]);
+            }
             
         }
        
