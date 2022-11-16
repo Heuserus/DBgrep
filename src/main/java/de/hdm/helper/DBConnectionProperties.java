@@ -35,8 +35,8 @@ public class DBConnectionProperties {
         File file = new File(profile.get());
         ObjectMapper objectMapper = new ObjectMapper(new YAMLFactory());
 
-        Profile profile = objectMapper.readValue(file, Profile.class);
-        return ConnectionInfo.fromProfile(profile);
+        ConnectionInfo profile = objectMapper.readValue(file, ConnectionInfo.class);
+        return profile;
     }
 
     public ConnectionInfo getConnectionInfo() {
