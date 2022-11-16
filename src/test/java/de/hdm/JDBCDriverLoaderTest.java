@@ -30,11 +30,7 @@ public class JDBCDriverLoaderTest {
     }
 
     @Test(expected = FileNotFoundException.class)
-    public void assertFileNotFound(){
-        try{
+    public void assertFileNotFound() throws IOException{
             JDBCDriverLoader.loadDriver("blah/fasel");
-        } catch(IOException e){
-            e.printStackTrace();
-        }
     }
 }
