@@ -5,3 +5,4 @@ public class ConnectionInfo {
     public String username;
     public String password;
 }
+
