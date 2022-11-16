@@ -5,8 +5,10 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import de.hdm.helper.ConnectionInfo;
 import org.bson.Document;
 
+import java.util.Collection;
 import java.util.function.Consumer;
 
 import static com.mongodb.client.model.Filters.eq;
@@ -23,7 +25,8 @@ public class MongoConnection {
     static ConnectionString connectionString;
     static MongoClient mongoClient;
     //Constructor for MongoClient
-    public MongoConnection(String url, String user, String password) {
+    public MongoConnection(ConnectionInfo connectionInfo) {
+        connectionString = new ConnectionString(connectionInfo.url);
         connectionString = new ConnectionString("mongodb+srv://user:87654321@dbgrep.o3uj6ms.mongodb.net/?retryWrites=true&w=majority");
         settings = MongoClientSettings.builder()
                 .applyConnectionString(connectionString)
@@ -69,8 +72,13 @@ public class MongoConnection {
         return database.getCollection(collectionName).find(eq(key, value)).first();
     }
 
+    public Document findFirst(MongoCollection<Document> collection, MongoDatabase database, String key, int value) {
+            return collection.find(eq(key, value)).first();
+    }
+
     public void find(String collectionName, MongoDatabase database, String key, String value) {
         database.getCollection(collectionName).find(eq(key, value)).forEach((Consumer<? super Document>) System.out::println);
     }
+
 
 }

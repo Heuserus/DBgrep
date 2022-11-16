@@ -4,7 +4,9 @@ package de.hdm;
 
 import java.sql.Statement;
 import java.sql.ResultSet;
+import java.math.*;
 
+import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import de.hdm.helper.ConnectionInfo;
@@ -34,11 +36,13 @@ public class Controller {
 
 
         //Connector baut connection
-        mongoConnection = new MongoConnection(connectionInfo.url, connectionInfo.username, connectionInfo.password);
+        mongoConnection = new MongoConnection(connectionInfo);
         MongoDatabase database = mongoConnection.getDatabase("test");
         //MongoCollection<Document> collection = database.getCollection("testdb");
 
-
+        database = mongoConnection.getDatabase("test");
+        collection = mongoConnection.getCollection("testdb");
+        mongoConnection.findFirst(collection, database, "title", "Star Wars");
         //Find object in collection
         Document myDoc = mongoConnection.findFirst("test", database, "title", "Star Wars");
 
