@@ -67,3 +67,15 @@ if (obj instanceof DoStuff) {
     stuffToDo.doStuff();
 }
 ```
+
+https://hevodata.com/learn/mongodb-jdbc/
+
+```java
+try {
+  Class.forName("mongodb.jdbc.MongoDriver");
+} catch (ClassNotFoundException e) {
+  System.out.println("ERROR: Unable to load SQLServer JDBC Driver");
+  e.printStackTrace();
+  return;
+}
+```

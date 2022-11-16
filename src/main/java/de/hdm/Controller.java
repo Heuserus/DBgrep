@@ -1,58 +1,60 @@
-
-
 package de.hdm;
 
 import java.sql.Statement;
 import java.sql.ResultSet;
-import java.math.*;
 
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
 import de.hdm.helper.ConnectionInfo;
 import de.hdm.helper.Request;
 import de.hdm.helper.ResultOutput;
-import org.bson.Document;
-
-import static com.mongodb.client.model.Filters.eq;
+import main.SQLConnection;
 
 
 public class Controller {
-
+    
     ConnectionInfo connectionInfo;
     Request request;
-
+    
     ProfileLoader profileLoader;
     Output output;
-    MongoConnection mongoConnection;
+    SQLConnection sqlConnection;
 
+    Boolean sql;
+    
     public void run(ConnectionInfo cI, Request rQ){
 
         connectionInfo = cI;
         request = rQ;
 
+        //remove later
+        sql = true;
+
         //Profile Loading Stuff
         connectionInfo = profileLoader.getInfo(connectionInfo);
 
+        if(sql){
+             //driver Loader Stuff
 
         //Connector baut connection
-        mongoConnection = new MongoConnection(connectionInfo);
-        MongoDatabase database = mongoConnection.getDatabase("test");
-        //MongoCollection<Document> collection = database.getCollection("testdb");
+        Connection connection = sqlConnection.connection(connectionInfo);
+        Statement statement = sqlConnection.getStatement(connection);
 
-        database = mongoConnection.getDatabase("test");
-        collection = mongoConnection.getCollection("testdb");
-        mongoConnection.findFirst(collection, database, "title", "Star Wars");
-        //Find object in collection
-        Document myDoc = mongoConnection.findFirst("test", database, "title", "Star Wars");
+        //Request logic
+        String example = "SELECT COUNT(\"hstbenennung\") as \"a\" FROM fahrzeuginfo";
+        //connection führt request aus
+        ResultSet result = sqlConnection.query(statement,example);
 
+            
+        }
+        else{
+            
+        }
+       
 
         //controller baut result object
         ResultOutput resultOutput = new ResultOutput("Test");
 
-
         //Output gibt Ergebnis aus
-        output.print(myDoc.toJson());
+        output.print(result);
 
     }
 
@@ -61,7 +63,7 @@ public class Controller {
         output.print(arg);
     }
 
-
-
+    
+    
 
 }
