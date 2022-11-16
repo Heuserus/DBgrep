@@ -17,15 +17,22 @@ public class Controller {
     ProfileLoader profileLoader;
     Output output;
     SQLConnection sqlConnection;
+
+    Boolean sql;
     
     public void run(ConnectionInfo cI, Request rQ){
 
         connectionInfo = cI;
         request = rQ;
 
+        //remove later
+        sql = true;
+
         //Profile Loading Stuff
         connectionInfo = profileLoader.getInfo(connectionInfo);
-        //driver Loader Stuff
+
+        if(sql){
+             //driver Loader Stuff
 
         //Connector baut connection
         Connection connection = sqlConnection.connection(connectionInfo);
@@ -35,6 +42,13 @@ public class Controller {
         String example = "SELECT COUNT(\"hstbenennung\") as \"a\" FROM fahrzeuginfo";
         //connection führt request aus
         ResultSet result = sqlConnection.query(statement,example);
+
+            
+        }
+        else{
+            
+        }
+       
 
         //controller baut result object
         ResultOutput resultOutput = new ResultOutput("Test");
