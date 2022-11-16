@@ -13,19 +13,6 @@ import java.util.ServiceLoader;
 
 public class JDBCDriverLoader {
 
-    public static void main(String[] args) {
-        try{
-            Driver d = JDBCDriverLoader.loadDriver("drivers/ojdbc11.jar");
-            Driver dx = JDBCDriverLoader.loadDriver("drivers/mariadb-java-client-3.1.0.jar");
-            System.out.println(d.toString());
-            System.out.println(dx.toString());
-            // System.out.println(d.toString());
-        } catch(IOException e){
-            e.printStackTrace();
-        }
-    }
-
-
     /**
      * Loads a JDBC Driver from a JAR file.
      * @param path Path to the JAR file
