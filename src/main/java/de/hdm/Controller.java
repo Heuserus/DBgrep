@@ -28,7 +28,7 @@ public class Controller {
         //driver Loader Stuff
 
         //Connector baut connection
-        Connection connection = sqlConnection.connection(connectionInfo.url, connectionInfo.username, connectionInfo.password);
+        Connection connection = sqlConnection.connection(connectionInfo);
         Statement statement = sqlConnection.getStatement(connection);
 
         //Request logic

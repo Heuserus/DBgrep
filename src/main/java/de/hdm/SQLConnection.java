@@ -9,11 +9,13 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
+import de.hdm.helper.ConnectionInfo;
+
 public class SQLConnection {
 
-    public Connection connection(String jdbcURL, String username, String password){
+    public Connection connection(ConnectionInfo connectionInfo){
       Connection connection = null;
-      connection = DriverManager.getConnection(jdbcURL, username, password);
+      connection = DriverManager.getConnection(connectionInfo.url, connectionInfo.username, connectionInfo.password);
 
       return connection;
     }
