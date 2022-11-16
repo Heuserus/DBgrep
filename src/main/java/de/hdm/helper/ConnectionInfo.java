@@ -1,8 +1,12 @@
 package de.hdm.helper;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import picocli.CommandLine.Option;
 
 public class ConnectionInfo {
+    @JsonIgnore
+    public String url;
 
     @Option(names = "--driver", description = "", required = true)
     private String driver;
@@ -58,6 +62,6 @@ public class ConnectionInfo {
     public void setPassword(String password) {
         this.password = password;
     }
-    
 
 }
+
