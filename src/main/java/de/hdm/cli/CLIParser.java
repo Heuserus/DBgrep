@@ -3,7 +3,7 @@ package de.hdm.cli;
 import de.hdm.Controller;
 import de.hdm.datacontainer.ConnectionInfo;
 import de.hdm.datacontainer.Query;
-import de.hdm.exceptions.DBGrepException;
+import de.hdm.exception.DBGrepException;
 import picocli.CommandLine.ArgGroup;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;

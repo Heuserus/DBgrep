@@ -11,7 +11,7 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 import de.hdm.constants.DBGrepConstants.ExitCode;
 import de.hdm.datacontainer.ConnectionInfo;
-import de.hdm.exceptions.MissingProfileException;
+import de.hdm.exception.MissingProfileException;
 import picocli.CommandLine.ArgGroup;
 import picocli.CommandLine.Option;
 

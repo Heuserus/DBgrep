@@ -1,4 +1,4 @@
-package de.hdm.exceptions;
+package de.hdm.exception;
 
 import de.hdm.constants.DBGrepConstants.ExitCode;
 
