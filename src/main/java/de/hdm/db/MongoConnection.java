@@ -1,11 +1,13 @@
-package de.hdm;
+package de.hdm.db;
 import com.mongodb.*;
 import com.mongodb.ServerApi;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import de.hdm.helper.ConnectionInfo;
+
+import de.hdm.datacontainer.ConnectionInfo;
+
 import org.bson.Document;
 
 import java.util.ArrayList;

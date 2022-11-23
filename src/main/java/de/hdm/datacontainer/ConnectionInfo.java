@@ -1,4 +1,4 @@
-package de.hdm.helper;
+package de.hdm.datacontainer;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -10,6 +10,9 @@ public class ConnectionInfo {
 
     @Option(names = "--driver", description = "", required = true)
     private String driver;
+
+    @Option(names = "--host", description = "", required = true)
+    private String host;
 
     @Option(names = "--port", description = "", required = true)
     private Integer port;

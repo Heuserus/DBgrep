@@ -1,8 +1,9 @@
-package de.hdm;
+package de.hdm.cli;
 
-import de.hdm.Exceptions.DBGrepException;
-import de.hdm.helper.DBConnectionParser;
-import de.hdm.helper.ConnectionInfo;
+import de.hdm.Controller;
+import de.hdm.datacontainer.ConnectionInfo;
+import de.hdm.datacontainer.Query;
+import de.hdm.exceptions.DBGrepException;
 import picocli.CommandLine.ArgGroup;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -34,8 +35,7 @@ public class CLIParser implements Callable<Integer> {
   @Option(names = { "-r", "--recursive" }, description = "follow foreign keys")
   private boolean recursive;
 
-  Controller controller = new Controller();
-
+  
   @Override
   public Integer call() throws Exception {
     ConnectionInfo connectionInfo = null;
@@ -48,7 +48,63 @@ public class CLIParser implements Callable<Integer> {
       }
       return -1;
     }
-    controller.setConnectionInfo(connectionInfo);
+    Controller controller = new Controller(connectionInfo, new Query());
     return 0;
   }
+
+  public DBConnectionParser getConnectionProperties() {
+    return connectionProperties;
+  }
+
+  public void setConnectionProperties(DBConnectionParser connectionProperties) {
+    this.connectionProperties = connectionProperties;
+  }
+
+  public boolean isHelp() {
+    return help;
+  }
+
+  public void setHelp(boolean help) {
+    this.help = help;
+  }
+
+  public String getColumn() {
+    return column;
+  }
+
+  public void setColumn(String column) {
+    this.column = column;
+  }
+
+  public String getColumnName() {
+    return columnName;
+  }
+
+  public void setColumnName(String columnName) {
+    this.columnName = columnName;
+  }
+
+  public String getTable() {
+    return table;
+  }
+
+  public void setTable(String table) {
+    this.table = table;
+  }
+
+  public String getTableName() {
+    return tableName;
+  }
+
+  public void setTableName(String tableName) {
+    this.tableName = tableName;
+  }
+
+  public boolean isRecursive() {
+    return recursive;
+  }
+
+  public void setRecursive(boolean recursive) {
+    this.recursive = recursive;
+  }  
 }

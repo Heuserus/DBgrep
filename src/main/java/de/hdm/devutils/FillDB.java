@@ -1,4 +1,4 @@
-package de.hdm;
+package de.hdm.devutils;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

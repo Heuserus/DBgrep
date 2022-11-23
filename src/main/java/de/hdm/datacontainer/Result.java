@@ -1,11 +1,8 @@
-package de.hdm;
+package de.hdm.datacontainer;
 
-import de.hdm.helper.ResultOutput;
-
-public class Output {
+public class Result {
     
-    public void print(ResultOutput result){
-        System.out.println(result.name);
+    public Result(String string) {
     }
 
     //maybe noch Request Object oder Result Object zu Output Object ändern

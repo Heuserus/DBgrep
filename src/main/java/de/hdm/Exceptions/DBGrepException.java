@@ -1,6 +1,6 @@
-package de.hdm.Exceptions;
+package de.hdm.exceptions;
 
-import de.hdm.DBGrepConstants.ExitCode;
+import de.hdm.constants.DBGrepConstants.ExitCode;
 
 public abstract class DBGrepException extends Exception{
     private ExitCode exitCode;
