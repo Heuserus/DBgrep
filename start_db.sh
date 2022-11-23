@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-dir="$(echo $0 | sed "s/\/filldb\.sh//g")/docker"
+dir="$(echo $0 | sed "s/\/start_db\.sh//g")/docker"
 
 cleanup()
 {
