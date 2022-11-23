@@ -39,11 +39,13 @@ public class MongoConnection {
     public static void main(String[] args) {
 
         ConnectionInfo connectionInfo = new ConnectionInfo();
-        connectionInfo.url = "dbgrep.o3uj6ms.mongodb.net/?retryWrites=true&w=majority";
-        connectionInfo.setUsername("user");
-        connectionInfo.setPassword("87654321");
 
-        String buildUri = "mongodb+srv://" + connectionInfo.getUsername() + ":" + connectionInfo.getPassword() + "@" + connectionInfo.url;
+        //mongodb://root:example@localhost/
+        connectionInfo.url = "localhost/";
+        connectionInfo.setUsername("root");
+        connectionInfo.setPassword("example");
+
+        String buildUri = "mongodb://" + connectionInfo.getUsername() + ":" + connectionInfo.getPassword() + "@" + connectionInfo.url;
         //Own constructor for testing lol
         connectionString = new ConnectionString(buildUri);
         settings = MongoClientSettings.builder()
@@ -52,8 +54,8 @@ public class MongoConnection {
         mongoClient = MongoClients.create(settings);
 
 
-        MongoDatabase database = mongoClient.getDatabase("test");
-        MongoCollection<Document> collection = database.getCollection("testdb");
+        MongoDatabase database = mongoClient.getDatabase("dbgrep");
+        MongoCollection<Document> collection = database.getCollection("fahrzeuginfo");
         System.out.println("Collection testdb selected successfully");
 
         //Find object in collection
@@ -61,7 +63,7 @@ public class MongoConnection {
 
         //all bjects in array
 
-        Document[] all = findAll(collection, database, "title", "Star Wars");
+        Document[] all = findAll(collection, database, "HSTBenennung", "Volkswagen");
         for (int i = 0; i < all.length; i++) {
             System.out.println(all[i]);
         }
