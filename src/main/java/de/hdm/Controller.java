@@ -1,39 +1,41 @@
 package de.hdm;
 
 import java.sql.Statement;
+import java.sql.Connection;
 import java.sql.ResultSet;
 
 import com.mongodb.ConnectionString;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import de.hdm.helper.ConnectionInfo;
-import de.hdm.helper.Request;
-import de.hdm.helper.ResultOutput;
-import main.SQLConnection;
+
+import de.hdm.datacontainer.ConnectionInfo;
+import de.hdm.datacontainer.Query;
+import de.hdm.datacontainer.Result;
+import de.hdm.db.MongoConnection;
+import de.hdm.db.SQLConnection;
+
 import org.bson.Document;
 
 
 public class Controller {
     
     ConnectionInfo connectionInfo;
-    Request request;
+    Query request;
     
-    Output output;
+    Result result;
     SQLConnection sqlConnection;
 
     Boolean sql;
     
-    public void run(ConnectionInfo cI, Request rQ){
-
-        connectionInfo = cI;
-        request = rQ;
-
+    public Controller (ConnectionInfo connectionInfo, Query request){
+        this.connectionInfo = connectionInfo;
+        this.request = request;
+    }
+    public void run(){
         //remove later
         sql = true;
 
-        //Profile Loading Stuff
-        connectionInfo = profileLoader.getInfo(connectionInfo);
 
         if(sql){
              //driver Loader Stuff
@@ -52,8 +54,8 @@ public class Controller {
         else{
             //Mongo
             connectionInfo.url = "dbgrep.o3uj6ms.mongodb.net/?retryWrites=true&w=majority";
-            connectionInfo.username = "user";
-            connectionInfo.password = "87654321";
+            connectionInfo.setUsername("user");
+            connectionInfo.setPassword("87654321");
 
             //String buildUri = "mongodb+srv://" + connectionInfo.username + ":" + connectionInfo.password + "@" + connectionInfo.url;
             MongoConnection mongoClient = new MongoConnection(connectionInfo);
@@ -77,23 +79,15 @@ public class Controller {
        
 
         //controller baut result object
-        ResultOutput resultOutput = new ResultOutput("Test");
+        Result resultOutput = new Result("Test");
 
         //Output gibt Ergebnis aus
-        output.print(result);
+        // result.print(resultOutput);
 
     }
 
     //maybe machen wir ein allgemeines output object oder wir verlagern logik in den output. Das müssen wir noch überlegen
     public void help(String arg){
-        output.print(arg);
+        result.print(arg);
     }
-
-    public void setConnectionInfo(ConnectionInfo connectionInfo) {
-        this.connectionInfo = connectionInfo;
-    }
-
-    
-    
-
 }

@@ -1,4 +1,4 @@
-package de.hdm;
+package de.hdm.constants;
 
 public class DBGrepConstants {
     public static enum ExitCode {

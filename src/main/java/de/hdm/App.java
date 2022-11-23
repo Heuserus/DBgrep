@@ -1,5 +1,6 @@
 package de.hdm;
 
+import de.hdm.cli.CLIParser;
 import picocli.*;
 
 public class App {

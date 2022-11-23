@@ -1,4 +1,4 @@
-package de.hdm.helper;
+package de.hdm.cli;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,8 +9,9 @@ import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
-import de.hdm.DBGrepConstants.ExitCode;
-import de.hdm.Exceptions.MissingProfileException;
+import de.hdm.constants.DBGrepConstants.ExitCode;
+import de.hdm.datacontainer.ConnectionInfo;
+import de.hdm.exceptions.MissingProfileException;
 import picocli.CommandLine.ArgGroup;
 import picocli.CommandLine.Option;
 
@@ -38,7 +39,7 @@ public class DBConnectionParser {
         ConnectionInfo profile = objectMapper.readValue(file, ConnectionInfo.class);
         return profile;
     }
-
+    
     public ConnectionInfo getConnectionInfo() {
         return connectionInfo;
     }
