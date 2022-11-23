@@ -14,7 +14,7 @@ import de.hdm.Exceptions.MissingProfileException;
 import picocli.CommandLine.ArgGroup;
 import picocli.CommandLine.Option;
 
-public class DBConnectionProperties {
+public class DBConnectionParser {
     @ArgGroup(exclusive = false, heading = "Connection Properties")
     ConnectionInfo connectionInfo;
 
@@ -22,7 +22,7 @@ public class DBConnectionProperties {
     Optional<String> profile;
 
 
-    public ConnectionInfo prepare()
+    public ConnectionInfo parse()
             throws StreamReadException, DatabindException, IOException, MissingProfileException {
         if (connectionInfo != null) {
             return connectionInfo;
@@ -35,8 +35,8 @@ public class DBConnectionProperties {
         File file = new File(profile.get());
         ObjectMapper objectMapper = new ObjectMapper(new YAMLFactory());
 
-        Profile profile = objectMapper.readValue(file, Profile.class);
-        return ConnectionInfo.fromProfile(profile);
+        ConnectionInfo profile = objectMapper.readValue(file, ConnectionInfo.class);
+        return profile;
     }
 
     public ConnectionInfo getConnectionInfo() {

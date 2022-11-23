@@ -1,8 +1,12 @@
 package de.hdm.helper;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import picocli.CommandLine.Option;
 
 public class ConnectionInfo {
+    @JsonIgnore
+    public String url;
 
     @Option(names = "--driver", description = "", required = true)
     private String driver;
@@ -19,14 +23,45 @@ public class ConnectionInfo {
     @Option(names = "--password", description = "", required = true)
     private String password;
 
-    public static ConnectionInfo fromProfile(Profile profile) {
-        final var connectionInfo = new ConnectionInfo();
-        connectionInfo.driver = profile.getDriver();
-        connectionInfo.port = profile.getPort();
-        connectionInfo.dbname = profile.getDbname();
-        connectionInfo.username = profile.getUsername();
-        connectionInfo.password = profile.getPassword();
-        return connectionInfo;
+    public String getDriver() {
+        return driver;
+    }
+
+    public void setDriver(String driver) {
+        this.driver = driver;
+    }
+
+    public Integer getPort() {
+        return port;
+    }
+
+    public void setPort(Integer port) {
+        this.port = port;
+    }
+
+    public String getDbname() {
+        return dbname;
+    }
+
+    public void setDbname(String dbname) {
+        this.dbname = dbname;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
 }
+

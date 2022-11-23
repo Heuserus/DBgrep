@@ -1,7 +1,7 @@
 package de.hdm;
 
 import de.hdm.Exceptions.DBGrepException;
-import de.hdm.helper.DBConnectionProperties;
+import de.hdm.helper.DBConnectionParser;
 import de.hdm.helper.ConnectionInfo;
 import picocli.CommandLine.ArgGroup;
 import picocli.CommandLine.Command;
@@ -13,7 +13,7 @@ import java.util.concurrent.Callable;
 public class CLIParser implements Callable<Integer> {
 
   @ArgGroup(exclusive = true, multiplicity = "1", heading = "Connection Details")
-  DBConnectionProperties connectionProperties;
+  DBConnectionParser connectionProperties;
 
   @Option(names = { "-h", "--help" }, usageHelp = true, description = "display help message")
   private boolean help = false;
@@ -40,7 +40,7 @@ public class CLIParser implements Callable<Integer> {
   public Integer call() throws Exception {
     ConnectionInfo connectionInfo = null;
     try {
-      connectionInfo = connectionProperties.prepare();
+      connectionInfo = connectionProperties.parse();
     } catch (Exception e) {
       if (e instanceof DBGrepException) {
         DBGrepException exception = (DBGrepException) e;
