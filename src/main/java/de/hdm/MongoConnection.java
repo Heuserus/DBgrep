@@ -9,7 +9,6 @@ import de.hdm.helper.ConnectionInfo;
 import org.bson.Document;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.function.Consumer;
 
 import static com.mongodb.client.model.Filters.eq;
@@ -27,7 +26,7 @@ public class MongoConnection {
     static MongoClient mongoClient;
     //Constructor for MongoClient
     public MongoConnection(ConnectionInfo connectionInfo) {
-        String buildUri = "mongodb+srv://" + connectionInfo.username + ":" + connectionInfo.password + "@" + connectionInfo.url;
+        String buildUri = "mongodb+srv://" + connectionInfo.getUsername() + ":" + connectionInfo.getPassword() + "@" + connectionInfo.url;
         connectionString = new ConnectionString(buildUri);
 
         settings = MongoClientSettings.builder()
@@ -39,10 +38,10 @@ public class MongoConnection {
 
         ConnectionInfo connectionInfo = new ConnectionInfo();
         connectionInfo.url = "dbgrep.o3uj6ms.mongodb.net/?retryWrites=true&w=majority";
-        connectionInfo.username = "user";
-        connectionInfo.password = "87654321";
+        connectionInfo.setUsername("user");
+        connectionInfo.setPassword("87654321");
 
-        String buildUri = "mongodb+srv://" + connectionInfo.username + ":" + connectionInfo.password + "@" + connectionInfo.url;
+        String buildUri = "mongodb+srv://" + connectionInfo.getUsername() + ":" + connectionInfo.getPassword() + "@" + connectionInfo.url;
         //Own constructor for testing lol
         connectionString = new ConnectionString(buildUri);
         settings = MongoClientSettings.builder()

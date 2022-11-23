@@ -10,7 +10,7 @@ import com.mongodb.client.MongoDatabase;
 import de.hdm.helper.ConnectionInfo;
 import de.hdm.helper.Request;
 import de.hdm.helper.ResultOutput;
-import main.SQLConnection;
+import de.hdm.SQLConnection;
 import org.bson.Document;
 
 
