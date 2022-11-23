@@ -19,7 +19,6 @@ public class Controller {
     ConnectionInfo connectionInfo;
     Request request;
     
-    ProfileLoader profileLoader;
     Output output;
     SQLConnection sqlConnection;
 
@@ -88,6 +87,10 @@ public class Controller {
     //maybe machen wir ein allgemeines output object oder wir verlagern logik in den output. Das müssen wir noch überlegen
     public void help(String arg){
         output.print(arg);
+    }
+
+    public void setConnectionInfo(ConnectionInfo connectionInfo) {
+        this.connectionInfo = connectionInfo;
     }
 
     

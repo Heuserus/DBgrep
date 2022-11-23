@@ -1,16 +1,11 @@
 package de.hdm;
-import de.hdm.CLIParser;
+
+import picocli.*;
 
 public class App {
 
-    
-
-    public static void main( String[] args )
-    {
-        System.out.println("hello");
-        // CLIParser cliParser = new CLIParser();
-        // cliParser.parse(args);
-        
+    public static void main(String[] args) {
+        int exitCode = new CommandLine(new CLIParser()).execute(args);
+        System.exit(exitCode);
     }
-    
 }
