@@ -24,6 +24,16 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
 public class FillDB {
+
+    //Copied main method to call this function for testing
+    public static void setupDatabases() {
+        String csvFilePath = "./docker/Fahrzeuginformationen.csv";
+        clearDBs();
+        sql(csvFilePath);
+        noSql(csvFilePath);
+    }
+
+
     public static void main(String[] args) {
         String csvFilePath = "./docker/Fahrzeuginformationen.csv";
         clearDBs();
