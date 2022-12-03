@@ -17,9 +17,9 @@ public class MongoConnectionTest {
     @Test
     public void assertFindCollumn (){
         ConnectionInfo connectionInfo = new ConnectionInfo();
-        connectionInfo.url = "dbgrep.o3uj6ms.mongodb.net/?retryWrites=true&w=majority";
-        connectionInfo.setUsername("user");
-        connectionInfo.setPassword("87654321");
+        connectionInfo.url = "localhost/";
+        connectionInfo.setUsername("root");
+        connectionInfo.setPassword("example");
 
         MongoConnection mongoClient = new MongoConnection(connectionInfo);
 
@@ -36,7 +36,10 @@ public class MongoConnectionTest {
 
 
         //not yet working
-        Process p = Runtime.getRuntime().exec("start_db.sh");
+        //System.out.println("Working Directory = " + System.getProperty("user.dir"));
+        //start file
+        Process p = Runtime.getRuntime().exec(new String[]{"./start_db.sh"});
+
         p.waitFor();
         FillDB.setupDatabases();
     }

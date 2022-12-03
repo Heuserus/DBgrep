@@ -200,7 +200,7 @@ public class FillDB {
 
 
     private static void noSql(String csvFilePath) {
-        ConnectionString connectionString = new ConnectionString("mongodb://root:example@localhost/");
+        ConnectionString connectionString = new ConnectionString("mongodb://root:example@localhost/dbgrep?authSource=admin");
         final int batchSize = 20;
         MongoClientSettings settings = MongoClientSettings.builder()
                 .applyConnectionString(connectionString)
@@ -208,7 +208,7 @@ public class FillDB {
         ArrayList<Document> batch = new ArrayList<>();
         try (MongoClient mongoClient = MongoClients.create(settings)) {
             MongoDatabase database = mongoClient.getDatabase("dbgrep");
-            // create collection
+            // create collectione
             try {
                 database.createCollection("fahrzeuginfo");
             } catch (MongoCommandException e) {

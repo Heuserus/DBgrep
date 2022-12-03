@@ -28,7 +28,9 @@ public class MongoConnection {
     static MongoClient mongoClient;
     //Constructor for MongoClient
     public MongoConnection(ConnectionInfo connectionInfo) {
-        String buildUri = "mongodb+srv://" + connectionInfo.getUsername() + ":" + connectionInfo.getPassword() + "@" + connectionInfo.url;
+        String buildUri = "mongodb://" + connectionInfo.getUsername() + ":" + connectionInfo.getPassword() + "@" + connectionInfo.url;
+
+        System.out.println(buildUri);
         connectionString = new ConnectionString(buildUri);
 
         settings = MongoClientSettings.builder()

@@ -12,6 +12,4 @@ trap "cleanup" INT KILL TERM STOP
 
 docker-compose -f "$dir/docker-compose.yml" up -d
 
-#docker-compose -f "$dir/docker-compose.yml" logs -f
-
-sleep 5
+docker-compose -f "$dir/docker-compose.yml" logs -f
