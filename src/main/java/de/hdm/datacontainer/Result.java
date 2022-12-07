@@ -6,7 +6,7 @@ public class Result {
     
     String[] tableNames;
     String[] columnNames;
-    HashMap<String, String>[] objects;
+    HashMap<String, HashMap<String,String>[]> objects;
 
     
 }

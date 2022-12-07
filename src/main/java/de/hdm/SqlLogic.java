@@ -19,11 +19,8 @@ public class SqlLogic implements ILogic {
 
     }
     public Result request(Query query){
+
         
-        //query.getname
-        //
-
-
         return null;
         
     }
