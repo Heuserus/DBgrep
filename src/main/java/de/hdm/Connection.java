@@ -1,12 +1,7 @@
 package de.hdm;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
-import de.hdm.datacontainer.ConnectionInfo;
-import de.hdm.datacontainer.Result;
-
-public interface IDBConnection {
+public interface Connection {
 
 
 
@@ -15,15 +10,13 @@ public interface IDBConnection {
 
 
 //                -C, --column-name	search for all column names (keys) of the specified name
-    public Result searchColumnNames(String column, String table);
+    public String[] searchColumnName(String column, String[] table);
 
 //    [-c, --count ]	displays result count
-    public Result searchTableNames(String table);
+    public String[] searchTableNames(String table);
 
 //    -t, --table	specifies table to be searched
-    public Result searchObjects(String table, String[] conditions);
 
-    public void connect(ConnectionInfo connectionInfo) throws SQLException;
 //    -T, --table-name	specifies a table name to be searched
 
 //    - r, --recursive	follow foreign keys
