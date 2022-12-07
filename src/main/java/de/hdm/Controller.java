@@ -1,14 +1,12 @@
 package de.hdm;
 
-import java.sql.Statement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.DriverManager;
 
 import de.hdm.datacontainer.ConnectionInfo;
 import de.hdm.datacontainer.Query;
-import de.hdm.datacontainer.Result;
-import de.hdm.IDBConnection;
+import de.hdm.db.IDBConnection;
+import de.hdm.db.ILogic;
+import de.hdm.db.SQLConnection;
 
 
 public class Controller {
@@ -18,19 +16,22 @@ public class Controller {
     
     ILogic logic;
     
-    public Controller(ConnectionInfo connectionInfo2, Query query2) {
+    public Controller(ConnectionInfo connectionInfo, Query query) {
+        this.connectionInfo = connectionInfo;
+        this.query = query;
     }
 
     public void run(ConnectionInfo cI, Query rQ) throws SQLException{
 
         connectionInfo = cI;
         query = rQ;
-        IDBConnection dbConnection = new SqlConnection();
+        IDBConnection dbConnection = new SQLConnection();
 
         if(true){
-            dbConnection = new SqlConnection();
+            dbConnection = new SQLConnection();
         }
         else{
+
         }
         
 
@@ -38,5 +39,5 @@ public class Controller {
 
 
         
-}
+    }
 }

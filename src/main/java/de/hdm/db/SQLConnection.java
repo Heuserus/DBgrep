@@ -1,4 +1,4 @@
-package de.hdm;
+package de.hdm.db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -12,8 +12,9 @@ import java.util.ArrayList;
 
 import de.hdm.datacontainer.ConnectionInfo;
 import de.hdm.datacontainer.Result;
+import de.hdm.db.IDBConnection;
 
-public class SqlConnection implements IDBConnection {
+public class SQLConnection implements IDBConnection {
 
     Statement statement;
     Connection connection;

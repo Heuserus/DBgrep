@@ -4,9 +4,7 @@ import java.util.HashMap;
 
 public class Result {
     
-    String[] tableNames;
+    String[] tablenames;
     String[] columnNames;
-    HashMap<String, HashMap<String,String>[]> objects;
-
-    
+    HashMap<String, HashMap<String, String>[]> objects;
 }

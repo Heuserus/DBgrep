@@ -1,4 +1,4 @@
-package de.hdm;
+package de.hdm.db;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

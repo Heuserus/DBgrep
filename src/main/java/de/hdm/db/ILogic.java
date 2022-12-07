@@ -1,4 +1,4 @@
-package de.hdm;
+package de.hdm.db;
 
 import de.hdm.datacontainer.*;
 
