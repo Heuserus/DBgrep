@@ -2,46 +2,55 @@ package de.hdm.db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
+import java.sql.DatabaseMetaData;
+import java.util.ArrayList;
 
 import de.hdm.datacontainer.ConnectionInfo;
+import de.hdm.datacontainer.Result;
+import de.hdm.db.IDBConnection;
 
-public class SQLConnection {
+public class SQLConnection implements IDBConnection {
 
-  public Connection connection(ConnectionInfo connectionInfo) {
-    Connection connection = null;
-    try {
-      connection = DriverManager.getConnection(connectionInfo.url, connectionInfo.getUsername(),
-          connectionInfo.getPassword());
-    } catch (SQLException e) {
-      // TODO throw meaningfull excfeption with our ownerror code
-      e.printStackTrace();
-    }
+    Statement statement;
+    Connection connection;
 
-    return connection;
-  }
-
-  public Statement getStatement(Connection connection) {
-    Statement statement = null;
-    try {
+    public void connect(ConnectionInfo connectionInfo) throws SQLException{
+      connection = DriverManager.getConnection(connectionInfo.url, connectionInfo.getUsername(), connectionInfo.getPassword());
       statement = connection.createStatement();
-    } catch (SQLException e) {
-      // TODO throw meaningfull excfeption with our ownerror code
-      e.printStackTrace();
     }
-    return statement;
-  }
 
-  public ResultSet query(Statement statement, String query) {
-    ResultSet resultSet = null;
-    try {
-      resultSet = statement.executeQuery(query);
-    } catch (SQLException e) {
-      // TODO throw meaningfull excfeption with our ownerror code
-      e.printStackTrace();
+    public Result searchTableNames(String table){
+
+      return null;
     }
-    return resultSet;
-  }
+
+    public Result searchColumnNames(String column, String table){
+
+      return null;
+    }
+
+    public Result searchObjects(String table, String[] conditions){
+      return null;
+    }
+    
+    
+    
+
+
+
+
+
+    public DatabaseMetaData getDBMetaData(Connection connection) throws SQLException{
+      return connection.getMetaData();
+    }
+
+    public ResultSet getTableNames(DatabaseMetaData metadata, String pattern) throws SQLException{
+      String [] types = {"Table"};
+      return getDBMetaData(connection).getTables(null,null,pattern,types);
+    }
 }
