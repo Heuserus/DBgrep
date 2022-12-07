@@ -18,6 +18,9 @@ public class Controller {
     
     ILogic logic;
     
+    public Controller(ConnectionInfo connectionInfo2, Query query2) {
+    }
+
     public void run(ConnectionInfo cI, Query rQ) throws SQLException{
 
         connectionInfo = cI;
