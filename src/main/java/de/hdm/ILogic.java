@@ -2,7 +2,7 @@ package de.hdm;
 
 import de.hdm.datacontainer.*;
 
-public interface Logic {
+public interface ILogic {
     
     
     public int count(Result result);

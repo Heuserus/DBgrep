@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import de.hdm.datacontainer.ConnectionInfo;
 import de.hdm.datacontainer.Result;
 
-public class SqlConnection implements DBConnection {
+public class SqlConnection implements IDBConnection {
 
     Statement statement;
     Connection connection;

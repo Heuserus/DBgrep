@@ -8,7 +8,7 @@ import java.sql.DriverManager;
 import de.hdm.datacontainer.ConnectionInfo;
 import de.hdm.datacontainer.Query;
 import de.hdm.datacontainer.Result;
-import de.hdm.DBConnection;
+import de.hdm.IDBConnection;
 
 
 public class Controller {
@@ -16,13 +16,13 @@ public class Controller {
     ConnectionInfo connectionInfo;
     Query query;
     
-    Logic logic;
+    ILogic logic;
     
     public void run(ConnectionInfo cI, Query rQ) throws SQLException{
 
         connectionInfo = cI;
         query = rQ;
-        DBConnection dbConnection = new SqlConnection();
+        IDBConnection dbConnection = new SqlConnection();
 
         if(true){
             dbConnection = new SqlConnection();

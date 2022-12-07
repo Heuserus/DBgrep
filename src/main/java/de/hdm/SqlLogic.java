@@ -3,7 +3,7 @@ package de.hdm;
 import de.hdm.datacontainer.Query;
 import de.hdm.datacontainer.Result;
 
-public class SqlLogic implements Logic {
+public class SqlLogic implements ILogic {
     
 
     public SqlConnection sqlConnection;

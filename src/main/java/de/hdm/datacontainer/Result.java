@@ -1,10 +1,12 @@
 package de.hdm.datacontainer;
 
+import java.util.HashMap;
+
 public class Result {
     
     String[] tableNames;
     String[] columnNames;
-    String[][][] objects;
+    HashMap<String, String>[] objects;
 
     
 }
