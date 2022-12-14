@@ -71,4 +71,9 @@ public class SQLConnection implements IDBConnection {
       String [] types = {"Table"};
       return getDBMetaData(connection).getTables(null,null,pattern,types);
     }
+
+    @Override
+    public void close() throws Exception {
+        connection.close();
+    }
 }
