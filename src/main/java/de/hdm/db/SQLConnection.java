@@ -24,17 +24,35 @@ public class SQLConnection implements IDBConnection {
       statement = connection.createStatement();
     }
 
-    public Result searchTableNames(String table){
+    public Result searchTableNames(String table) throws SQLException{
+      ResultSet tablenames = statement.executeQuery("Show tables");
+      
+
 
       return null;
     }
 
-    public Result searchColumnNames(String column, String table){
-
+    public Result searchColumnNames(String column, String table) throws SQLException{
+      ResultSet columnnames = statement.executeQuery("SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = N'" + table + "'");
       return null;
     }
 
-    public Result searchObjects(String table, String[] conditions){
+    public Result searchObjects(String table, String[] conditions) throws SQLException{
+      StringBuilder queryBuilder = new StringBuilder();
+      queryBuilder.append("SELECT * FROM " + table);
+
+      if (conditions.length > 0) {
+          queryBuilder.append(" WHERE ");
+
+          for (int i = 0; i < conditions.length; i++) {
+              queryBuilder.append(conditions[i]);
+
+              if (i != conditions.length - 1) {
+                  queryBuilder.append(" AND ");
+              }
+          }
+      }
+      ResultSet result  = statement.executeQuery(queryBuilder.toString());
       return null;
     }
     
