@@ -1,27 +1,158 @@
-package de.hdm.db;
+package de.hdm.db.mongo;
 import com.mongodb.*;
 import com.mongodb.ServerApi;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.*;
 
+import com.mongodb.connection.ClusterDescription;
 import de.hdm.datacontainer.ConnectionInfo;
 
+import de.hdm.datacontainer.Result;
+import de.hdm.db.IDBConnection;
 import org.bson.Document;
 
+import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Consumer;
 
 import static com.mongodb.client.model.Filters.eq;
 //import com.mongodb.client.MongoDatabase;
 
-public class MongoConnection {
-    //public static MongoClient mongoClient;
-    //public static DBCollection con;
-    //public static DB database;
-
+public class MongoConnection implements IDBConnection {
     //private static String uri = "mongodb+srv://lv042:<K6Uu9882EFFeWvgU>@dbgrep.o3uj6ms.mongodb.net/?retryWrites=true&w=majority";
+
+    MongoDatabase database;
+
+
+    //constructor??
+    public void connect(ConnectionInfo connectionInfo) throws SQLException {
+        String buildUri = "mongodb+srv://" + connectionInfo.getUsername() + ":" + connectionInfo.getPassword() + "@" + connectionInfo.url;
+        connectionString = new ConnectionString(buildUri);
+
+        settings = MongoClientSettings.builder()
+                .applyConnectionString(connectionString)
+                .serverApi(ServerApi.builder().version(ServerApiVersion.V1).build()).build();
+        //active connection
+        mongoClient = MongoClients.create(settings);
+        //but als needs to select the database before
+        database = mongoClient.getDatabase(connectionInfo.getDbname());
+    }
+
+
+
+
+
+
+    public Result searchTableNames(String table) throws SQLException{
+        //search for table names in the mongo database
+        MongoCollection<Document> collection = database.getCollection(table);
+        System.out.println("searchTableNames: "+ collection);
+
+
+
+
+        return null;
+    }
+
+
+    public Result searchColumnNames(String column, String table) throws SQLException{
+        MongoCollection<Document> collection = database.getCollection(table);
+        FindIterable<Document> documents = collection.find(new Document("column", new Document("$exists", true)));
+
+        List<Document> documentList = new ArrayList<>();
+        for (Document doc : documents) {
+            documentList.add(doc);
+        }
+        System.out.println("searchColumnNames: "+ documentList);
+
+
+        return null;
+    }
+
+    public Result searchObjects(String table, String[] conditions) throws SQLException{
+
+        //how should this be implemented in mongo?
+
+
+        return null;
+    }
+
+
+    public DatabaseMetaData getDBMetaData(Connection connection) throws SQLException{
+        return connection.getMetaData();
+    }
+
+    public ClusterDescription getDBMetaData() {
+        //not sure if this makes sense in mongo
+
+        //Get the cluster description
+        ClusterDescription clusterDescription = mongoClient.getClusterDescription();
+
+        return clusterDescription;
+    }
+
+
+    public ResultSet getTableNames(String pattern) throws SQLException{
+
+        String [] types = {"Table"};
+        return getDBMetaData(connection).getTables(null,null,pattern,types);
+    }
+
+    @Override
+    public void close() throws Exception {
+        connection.close();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     static MongoClientSettings settings; //only for testing purposes static
     static ConnectionString connectionString;
