@@ -20,8 +20,11 @@ import static com.mongodb.client.model.Filters.eq;
 
 public class MongoConnection implements IDBConnection {
     //private static String uri = "mongodb+srv://lv042:<K6Uu9882EFFeWvgU>@dbgrep.o3uj6ms.mongodb.net/?retryWrites=true&w=majority";
-
+    MongoClient mongoClient;
     MongoDatabase database;
+    MongoClientSettings settings; //only for testing purposes static
+    ConnectionString connectionString;
+
 
 
     //constructor??
@@ -92,226 +95,20 @@ public class MongoConnection implements IDBConnection {
     }
 
 
-    public ResultSet getTableNames(String pattern) throws SQLException{
-
-        String [] types = {"Table"};
-        return getDBMetaData(connection).getTables(null,null,pattern,types);
+    public List<String> getTableNames(String pattern) {
+        //how should I implement a pattern in mongo?
+        List<String> collectionNames = new ArrayList<>();
+        MongoIterable<String> collections = database.listCollectionNames();
+        for (String name : collections) {
+            collectionNames.add(name);
+        }
+        System.out.println("getTableNames: "+ collectionNames);
+        return collectionNames;
     }
 
     @Override
     public void close() throws Exception {
-        connection.close();
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    static MongoClientSettings settings; //only for testing purposes static
-    static ConnectionString connectionString;
-    static MongoClient mongoClient;
-    //Constructor for MongoClient
-    public MongoConnection(ConnectionInfo connectionInfo) {
-        String buildUri = "mongodb+srv://" + connectionInfo.getUsername() + ":" + connectionInfo.getPassword() + "@" + connectionInfo.url;
-        connectionString = new ConnectionString(buildUri);
-
-        settings = MongoClientSettings.builder()
-                .applyConnectionString(connectionString)
-                .serverApi(ServerApi.builder().version(ServerApiVersion.V1).build()).build();
-        mongoClient = MongoClients.create(settings);
-    }
-    public static void main(String[] args) {
-
-        ConnectionInfo connectionInfo = new ConnectionInfo();
-
-        //mongodb://root:example@localhost/
-        connectionInfo.url = "localhost/";
-        connectionInfo.setUsername("root");
-        connectionInfo.setPassword("example");
-
-        String buildUri = "mongodb://" + connectionInfo.getUsername() + ":" + connectionInfo.getPassword() + "@" + connectionInfo.url;
-        //Own constructor for testing lol
-        connectionString = new ConnectionString(buildUri);
-        settings = MongoClientSettings.builder()
-                .applyConnectionString(connectionString)
-                .serverApi(ServerApi.builder().version(ServerApiVersion.V1).build()).build();
-        mongoClient = MongoClients.create(settings);
-
-
-        MongoDatabase database = mongoClient.getDatabase("dbgrep");
-        MongoCollection<Document> collection = database.getCollection("fahrzeuginfo");
-        System.out.println("Collection testdb selected successfully");
-
-        //Find object in collection
-        //System.out.println(findFirst(collection, database, "title", "Star Wars"));
-
-        //all bjects in array
-
-        Document[] all = findAll(collection, database, "HSTBenennung", "Volkswagen");
-        for (int i = 0; i < all.length; i++) {
-            System.out.println(all[i]);
-        }
-
-
-
-
-    }
-
-    public MongoDatabase getDatabase(String databaseName)  {
-        return mongoClient.getDatabase(databaseName);
-    }
-
-    public void close() {
         mongoClient.close();
     }
 
-    public MongoCollection<Document> getCollection(String collectionName, MongoDatabase database) {
-        return database.getCollection(collectionName);
-    }
-
-    public static Document findFirst(String collectionName, MongoDatabase database, String key, String value) {
-        return database.getCollection(collectionName).find(eq(key, value)).first();
-    }
-
-    public static Document findFirst(MongoCollection<Document> collection, MongoDatabase database, String key, int value) {
-            return collection.find(eq(key, value)).first();
-    }
-
-    public static Document findFirst(MongoCollection<Document> collection, MongoDatabase database, String key, String value) {
-            return collection.find(eq(key, value)).first();
-    }
-
-    public static Document findFirst(MongoCollection<Document> collection, MongoDatabase database, String key, double value) {
-            return collection.find(eq(key, value)).first();
-    }
-
-    public static Document findFirst(MongoCollection<Document> collection, MongoDatabase database, String key, long value) {
-            return collection.find(eq(key, value)).first();
-    }
-
-    public static Document findFirst(MongoCollection<Document> collection, MongoDatabase database, String key, boolean value) {
-            return collection.find(eq(key, value)).first();
-    }
-
-
-    public static Document findFirst(MongoCollection<Document> collection, MongoDatabase database, String key, short value) {
-            return collection.find(eq(key, value)).first();
-    }
-
-    public static Document findFirst(MongoCollection<Document> collection, MongoDatabase database, String key, float value) {
-            return collection.find(eq(key, value)).first();
-    }
-
-    public static void findPrint(String collectionName, MongoDatabase database, String key, String value) {
-        database.getCollection(collectionName).find(eq(key, value)).forEach((Consumer<? super Document>) System.out::println);
-    }
-
-
-    public static Document[] findAll(MongoCollection<Document> collection, MongoDatabase database, String key, int value) {
-        ArrayList<Document> documents = new ArrayList<>();
-        collection.find(eq(key, value)).forEach((Consumer<? super Document>) documents::add);
-
-
-        return documents.toArray(new Document[documents.size()]);
-    }
-
-    public static Document[] findAll(MongoCollection<Document> collection, MongoDatabase database, String key, String value) {
-        ArrayList<Document> documents = new ArrayList<>();
-        collection.find(eq(key, value)).forEach((Consumer<? super Document>) documents::add);
-
-
-        return documents.toArray(new Document[documents.size()]);
-    }
-
-    public 
- Document[] findAll(MongoCollection<Document> collection, MongoDatabase database, String key, boolean value) {
-        ArrayList<Document> documents = new ArrayList<>();
-        collection.find(eq(key, value)).forEach((Consumer<? super Document>) documents::add);
-
-
-        return documents.toArray(new Document[documents.size()]);
-    }
-
-    public 
- Document[] findAll(MongoCollection<Document> collection, MongoDatabase database, String key, double value) {
-        ArrayList<Document> documents = new ArrayList<>();
-        collection.find(eq(key, value)).forEach((Consumer<? super Document>) documents::add);
-
-
-        return documents.toArray(new Document[documents.size()]);
-    }
-
-    public 
- Document[] findAll(MongoCollection<Document> collection, MongoDatabase database, String key, long value) {
-        ArrayList<Document> documents = new ArrayList<>();
-        collection.find(eq(key, value)).forEach((Consumer<? super Document>) documents::add);
-
-
-        return documents.toArray(new Document[documents.size()]);
-    }
-
-    public 
- Document[] findAll(MongoCollection<Document> collection, MongoDatabase database, String key, float value) {
-        ArrayList<Document> documents = new ArrayList<>();
-        collection.find(eq(key, value)).forEach((Consumer<? super Document>) documents::add);
-
-
-        return documents.toArray(new Document[documents.size()]);
-    }
-
-    public 
- Document[] findAll(MongoCollection<Document> collection, MongoDatabase database, String key, short value) {
-        ArrayList<Document> documents = new ArrayList<>();
-        collection.find(eq(key, value)).forEach((Consumer<? super Document>) documents::add);
-
-
-        return documents.toArray(new Document[documents.size()]);
-    }
 }
