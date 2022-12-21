@@ -10,7 +10,7 @@ public class CLIParserTest {
     DBConnectionParser dbConnectionParser = new DBConnectionParser();
 
     @Test
-    void testCall(){
+    public void testCall(){
         // dbConnectionParser.s
         // cliParser.setConnectionProperties(dbConnectionParser);
     }
