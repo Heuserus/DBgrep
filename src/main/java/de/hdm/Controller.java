@@ -4,9 +4,11 @@ import java.sql.SQLException;
 
 import de.hdm.datacontainer.ConnectionInfo;
 import de.hdm.datacontainer.Query;
+import de.hdm.datacontainer.Result;
 import de.hdm.db.IDBConnection;
 import de.hdm.db.ILogic;
 import de.hdm.db.SQLConnection;
+import de.hdm.db.SqlLogic;
 
 
 public class Controller {
@@ -21,21 +23,22 @@ public class Controller {
         this.query = query;
     }
 
-    public void run(ConnectionInfo cI, Query rQ) throws SQLException{
+    public void run() throws SQLException{
 
-        connectionInfo = cI;
-        query = rQ;
-        IDBConnection dbConnection = new SQLConnection();
+        //query muss geprueft werden
+        IDBConnection dbConnection;
+        ILogic logic;
 
         if(true){
+            System.out.println("Contr");
             dbConnection = new SQLConnection();
+            logic = new SqlLogic((SQLConnection) dbConnection);
         }
         else{
-
+            
         }
-        
-
-        dbConnection.connect(cI);
+        dbConnection.connect(connectionInfo);
+        Result result = logic.request(query);
 
 
         

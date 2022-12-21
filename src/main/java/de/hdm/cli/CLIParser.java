@@ -43,18 +43,25 @@ public class CLIParser implements Callable<Integer> {
       connectionInfo = connectionProperties.parse();
     } catch (Exception e) {
       if (e instanceof DBGrepException) {
+        System.err.println("Failed to Parse Profile");
         DBGrepException exception = (DBGrepException) e;
         return exception.getExitCode().getCode();
       }
+      e.printStackTrace();
       return -1;
     }
-    Controller controller = new Controller(connectionInfo, new Query());
+    String[][] string = {{"--table", "%c%"}};
+    
+    Query query = new Query(string);
+    Controller controller = new Controller(connectionInfo,query);
+    controller.run();
     return 0;
   }
 
   public DBConnectionParser getConnectionProperties() {
     return connectionProperties;
   }
+
 
   public void setConnectionProperties(DBConnectionParser connectionProperties) {
     this.connectionProperties = connectionProperties;

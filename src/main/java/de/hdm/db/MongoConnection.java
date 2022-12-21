@@ -28,6 +28,7 @@ public class MongoConnection {
     static MongoClient mongoClient;
     //Constructor for MongoClient
     public MongoConnection(ConnectionInfo connectionInfo) {
+        //Hallo Luca, das musst du irgendwann noch zu geturl aendern. Gruesse
         String buildUri = "mongodb+srv://" + connectionInfo.getUsername() + ":" + connectionInfo.getPassword() + "@" + connectionInfo.url;
         connectionString = new ConnectionString(buildUri);
 
@@ -39,9 +40,10 @@ public class MongoConnection {
     public static void main(String[] args) {
 
         ConnectionInfo connectionInfo = new ConnectionInfo();
-
+        
+        
         //mongodb://root:example@localhost/
-        connectionInfo.url = "localhost/";
+        connectionInfo.setUrl("localhost/");
         connectionInfo.setUsername("root");
         connectionInfo.setPassword("example");
 
