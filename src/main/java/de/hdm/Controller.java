@@ -7,7 +7,6 @@ import de.hdm.datacontainer.Query;
 import de.hdm.db.IDBConnection;
 import de.hdm.db.ILogic;
 import de.hdm.db.sql.SQLConnection;
-import de.hdm.db.mongo.MongoConnection;
 
 
 

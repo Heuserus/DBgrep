@@ -42,10 +42,6 @@ public class MongoConnection implements IDBConnection {
     }
 
 
-
-
-
-
     public Result searchTableNames(String table) throws SQLException{
         //search for table names in the mongo database
         MongoCollection<Document> collection = database.getCollection(table);
@@ -73,27 +69,11 @@ public class MongoConnection implements IDBConnection {
     }
 
     public Result searchObjects(String table, String[] conditions) throws SQLException{
-
         //how should this be implemented in mongo?
 
 
         return null;
     }
-
-
-    public DatabaseMetaData getDBMetaData(Connection connection) throws SQLException{
-        return connection.getMetaData();
-    }
-
-    public ClusterDescription getDBMetaData() {
-        //not sure if this makes sense in mongo
-
-        //Get the cluster description
-        ClusterDescription clusterDescription = mongoClient.getClusterDescription();
-
-        return clusterDescription;
-    }
-
 
     public List<String> getTableNames(String pattern) {
         //how should I implement a pattern in mongo?
