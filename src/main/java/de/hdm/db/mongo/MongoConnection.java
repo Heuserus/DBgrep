@@ -28,7 +28,12 @@ public class MongoConnection implements IDBConnection {
 
 
     //constructor??
-    public void connect(ConnectionInfo connectionInfo) throws SQLException {
+    public void connect(ConnectionInfo connectionInfo) {
+        if (connectionInfo.getDbname() == null || connectionInfo.getDbname().equals("") || connectionInfo.getPassword() == null || connectionInfo.getPassword().equals("")
+                || connectionInfo.getUsername() == null || connectionInfo.getUsername().equals("") || connectionInfo.url == null || connectionInfo.url.equals("")) {
+            throw new IllegalArgumentException("ConnectionInfo is not valid");
+        }
+
         String buildUri = "mongodb+srv://" + connectionInfo.getUsername() + ":" + connectionInfo.getPassword() + "@" + connectionInfo.url;
         connectionString = new ConnectionString(buildUri);
 
@@ -38,6 +43,7 @@ public class MongoConnection implements IDBConnection {
         //active connection
         mongoClient = MongoClients.create(settings);
         //but als needs to select the database before
+
         database = mongoClient.getDatabase(connectionInfo.getDbname());
     }
 
@@ -70,6 +76,41 @@ public class MongoConnection implements IDBConnection {
 
     public Result searchObjects(String table, String[] conditions) throws SQLException{
         //how should this be implemented in mongo?
+        MongoCollection<Document> collection = database.getCollection(table);
+        //if conditions are empty, return all documents
+        if (conditions.length == 0) {
+            FindIterable<Document> documents = collection.find();
+            List<Document> documentList = new ArrayList<>();
+            for (Document doc : documents) {
+                documentList.add(doc);
+            }
+            System.out.println("searchObjects: "+ documentList);
+        }
+
+        //example conditions for testing:
+
+
+//        //greater
+//        db.products.find({
+//                price: { $gt: 10 }
+//        })
+//
+//        //eq
+//        db.products.find({
+//                price: { $gt: 10, $lt: 20 }
+//        })
+//
+//        //
+//        db.products.find({
+//                $and: [
+//        { price: { $gt: 10 } },
+//        { category: { $eq: "clothing" } }
+//        ]
+//        })
+//        })
+
+
+
 
 
         return null;
@@ -90,5 +131,22 @@ public class MongoConnection implements IDBConnection {
     public void close() throws Exception {
         mongoClient.close();
     }
+
+    //main method
+    public static void main(String[] args) {
+        MongoConnection mongoConnection = new MongoConnection();
+        ConnectionInfo connectionInfo = new ConnectionInfo();
+        connectionInfo.setDriver("mongo");
+        connectionInfo.setUsername("lv042");
+        connectionInfo.url = "dbgrep.o3uj6ms.mongodb.net/?retryWrites=true&w=majority";
+        connectionInfo.setPassword("2MUSFpbbJlrSEcrH");
+        connectionInfo.setDbname("test");
+
+        //private static String uri = "mongodb+srv://lv042:<K6Uu9882EFFeWvgU>@dbgrep.o3uj6ms.mongodb.net/?retryWrites=true&w=majority";
+
+
+        mongoConnection.connect(connectionInfo);
+    }
+
 
 }

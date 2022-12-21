@@ -6,6 +6,8 @@ import de.hdm.datacontainer.ConnectionInfo;
 import de.hdm.datacontainer.Query;
 import de.hdm.db.IDBConnection;
 import de.hdm.db.ILogic;
+import de.hdm.db.mongo.MongoConnection;
+import de.hdm.db.mongo.MongoLogic;
 import de.hdm.db.sql.SQLConnection;
 
 
@@ -25,18 +27,26 @@ public class Controller {
     public void run(ConnectionInfo cI, Query rQ) throws SQLException{
 
         connectionInfo = cI;
-        query = rQ;
-        IDBConnection dbConnection = new SQLConnection();
+        IDBConnection dbConnection;
 
         if(true){
             dbConnection = new SQLConnection();
         }
         else{
-
+            dbConnection = new MongoConnection();
         }
-        
+
 
         dbConnection.connect(cI);
+
+
+
+
+
+
+
+
+
 
 
         
