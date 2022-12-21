@@ -25,7 +25,7 @@ public class SQLConnection implements IDBConnection {
     }
 
     public Result searchTableNames(String table) throws SQLException{
-      ResultSet tablenames = statement.executeQuery("Show tables");
+      ResultSet tablenames = statement.executeQuery("SELECT * FROM sys.TABLES WHERE TABLE_NAME LIKE '"+ table+"'");
       
 
 
@@ -67,8 +67,6 @@ public class SQLConnection implements IDBConnection {
       return connection.getMetaData();
     }
 
-    public ResultSet getTableNames(DatabaseMetaData metadata, String pattern) throws SQLException{
-      String [] types = {"Table"};
-      return getDBMetaData(connection).getTables(null,null,pattern,types);
-    }
+
 }
+
