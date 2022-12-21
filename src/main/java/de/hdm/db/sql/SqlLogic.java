@@ -1,9 +1,9 @@
-package de.hdm.db;
+package de.hdm.db.sql;
 
 import de.hdm.datacontainer.Query;
 import de.hdm.datacontainer.Result;
 import de.hdm.db.ILogic;
-import de.hdm.db.SQLConnection;
+import de.hdm.db.sql.SQLConnection;
 
 public class SqlLogic implements ILogic {
     
