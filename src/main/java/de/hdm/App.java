@@ -14,6 +14,7 @@ public class App {
             cmd.usage(System.out);
             System.exit(0);
         } else {
+            
             exitCode = cmd.execute(args);
         }
         System.exit(exitCode);

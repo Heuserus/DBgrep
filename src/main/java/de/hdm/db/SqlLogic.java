@@ -1,5 +1,7 @@
 package de.hdm.db;
 
+import java.sql.SQLException;
+
 import org.postgresql.core.SqlCommand;
 
 import de.hdm.datacontainer.Query;
@@ -26,15 +28,17 @@ public class SqlLogic implements ILogic {
         return 0;
 
     }
-    public Result request(Query query){
-        switch (query.queryString[query.queryString.length][0]) {
-            case "-table":  
-                System.out.println("Test");
-                     break;
-            case "-column":  
+    public Result request(Query query) throws SQLException{
+        switch (query.queryString[query.queryString.length-1][0]) {
+            case "--table":
+            System.out.println("--table");
+                break;
+                
+                     
+            case "--column":  
 
                      break;
-            case "table-names":
+            case "--table-names":
 
                      break;
         }

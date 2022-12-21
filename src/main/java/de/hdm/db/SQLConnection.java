@@ -20,7 +20,7 @@ public class SQLConnection implements IDBConnection {
     private Connection connection;
 
     public void connect(ConnectionInfo connectionInfo) throws SQLException{
-      connection = DriverManager.getConnection(connectionInfo.url, connectionInfo.getUsername(), connectionInfo.getPassword());
+      connection = DriverManager.getConnection(connectionInfo.getUrl(), connectionInfo.getUsername(), connectionInfo.getPassword());
       statement = connection.createStatement();
     }
 

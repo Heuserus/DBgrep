@@ -30,6 +30,7 @@ public class Controller {
         ILogic logic;
 
         if(true){
+            System.out.println("Contr");
             dbConnection = new SQLConnection();
             logic = new SqlLogic((SQLConnection) dbConnection);
         }
