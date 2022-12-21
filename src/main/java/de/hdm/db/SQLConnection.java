@@ -25,7 +25,7 @@ public class SQLConnection implements IDBConnection {
     }
 
     public Result searchTableNames(String table) throws SQLException{
-      ResultSet tablenames = statement.executeQuery("Show tables");
+      ResultSet tablenames = statement.executeQuery("SELECT * FROM sys.TABLES WHERE TABLE_NAME LIKE '"+ table+"'");
       
 
 
@@ -77,3 +77,4 @@ public class SQLConnection implements IDBConnection {
         connection.close();
     }
 }
+

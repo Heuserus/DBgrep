@@ -23,6 +23,7 @@ public class Controller {
 
     public void run(ConnectionInfo cI, Query rQ) throws SQLException{
 
+        //query muss geprueft werden
         connectionInfo = cI;
         query = rQ;
         IDBConnection dbConnection = new SQLConnection();
