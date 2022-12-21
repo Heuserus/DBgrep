@@ -1,14 +1,20 @@
 package de.hdm.db;
 
+import org.postgresql.core.SqlCommand;
+
 import de.hdm.datacontainer.Query;
 import de.hdm.datacontainer.Result;
 import de.hdm.db.ILogic;
 import de.hdm.db.SQLConnection;
 
 public class SqlLogic implements ILogic {
+    private SQLConnection sqlConnection;
+    private Query query;
     
-
-    public SQLConnection sqlConnection;
+    public SqlLogic(SQLConnection sqlConnection){
+        this.sqlConnection = sqlConnection;
+        
+    }
 
      
     public int count(Result result){
@@ -21,7 +27,17 @@ public class SqlLogic implements ILogic {
 
     }
     public Result request(Query query){
+        switch (query.queryString[query.queryString.length][0]) {
+            case "-table":  
+                System.out.println("Test");
+                     break;
+            case "-column":  
 
+                     break;
+            case "table-names":
+
+                     break;
+        }
         
         return null;
         

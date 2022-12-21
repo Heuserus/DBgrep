@@ -16,8 +16,8 @@ import de.hdm.db.IDBConnection;
 
 public class SQLConnection implements IDBConnection {
 
-    Statement statement;
-    Connection connection;
+    private Statement statement;
+    private Connection connection;
 
     public void connect(ConnectionInfo connectionInfo) throws SQLException{
       connection = DriverManager.getConnection(connectionInfo.url, connectionInfo.getUsername(), connectionInfo.getPassword());
@@ -56,12 +56,6 @@ public class SQLConnection implements IDBConnection {
       return null;
     }
     
-    
-    
-
-
-
-
 
     public DatabaseMetaData getDBMetaData(Connection connection) throws SQLException{
       return connection.getMetaData();
