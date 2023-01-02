@@ -1,9 +1,10 @@
 package de.hdm.constants;
 
 public class DBGrepConstants {
-    public static enum ExitCode {
+    public enum ExitCode {
         OK(0, "search successfull"),
-        MISSING_PROFILE(1, "Missing profile or Database connection properties.");
+        MISSING_PROFILE(1, "Missing profile or Database connection properties."),
+        INVALID_QUERY(2,"Provided database query is invalid.");
 
         // fields
         private final int code;
@@ -29,4 +30,5 @@ public class DBGrepConstants {
         }
     }
 
+    public static final String LOG_OP_EQUALS = "(\\w*[ä|Ä|ö|Ö|ü|Ü]*\\w*)+=(\\w*[ä|Ä|ö|Ö|ü|Ü]*\\w*)+";
 }
