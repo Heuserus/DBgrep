@@ -1,6 +1,9 @@
 package de.hdm.db;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.postgresql.core.SqlCommand;
 
@@ -28,8 +31,9 @@ public class SqlLogic implements ILogic {
         return 0;
 
     }
-    public Result request(Query query) throws SQLException{
-        switch (query.queryString[query.queryString.length-1][0]) {
+    public Result request(ArrayList<List<List<String>>> query) throws SQLException{
+        String argument = query.get(0).get(0).get(0);
+        switch (argument) {
             case "--table":
             System.out.println("--table");
                 break;

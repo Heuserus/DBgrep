@@ -1,9 +1,10 @@
 package de.hdm;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import de.hdm.datacontainer.ConnectionInfo;
-import de.hdm.datacontainer.Query;
 import de.hdm.datacontainer.Result;
 import de.hdm.db.IDBConnection;
 import de.hdm.db.ILogic;
@@ -14,18 +15,18 @@ import de.hdm.db.SqlLogic;
 public class Controller {
     
     ConnectionInfo connectionInfo;
-    Query query;
+    ArrayList<List<List<String>>> queryList;
     
     ILogic logic;
     
-    public Controller(ConnectionInfo connectionInfo, Query query) {
+    public Controller(ConnectionInfo connectionInfo, ArrayList<List<List<String>>> query) {
         this.connectionInfo = connectionInfo;
-        this.query = query;
+        this.queryList = query;
     }
 
     public void run() throws SQLException{
 
-        //query muss geprueft werden
+        //TODO: query muss geprueft werden
         IDBConnection dbConnection;
         ILogic logic;
 
@@ -38,7 +39,7 @@ public class Controller {
             
         }
         dbConnection.connect(connectionInfo);
-        Result result = logic.request(query);
+        Result result = logic.request(queryList);
 
 
         
