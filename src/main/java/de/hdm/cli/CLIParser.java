@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-
 @Command(name = "dbgrep", mixinStandardHelpOptions = true, version = "dbgrep 0.0.1", description = "offers features to conveniently search thorugh a database")
 public class CLIParser implements Callable<Integer> {
 
@@ -37,18 +36,19 @@ public class CLIParser implements Callable<Integer> {
       connectionInfo = connectionProperties.parse();
     } catch (Exception e) {
       if (e instanceof DBGrepException) {
+        System.err.println("Failed to Parse Profile");
         DBGrepException exception = (DBGrepException) e;
         return exception.getExitCode().getCode();
       }
+      e.printStackTrace();
       return -1;
     }
-    var args = new ArrayList<List<List<String>>>(); 
+    var commandlineArguments = new ArrayList<List<List<String>>>();
     for (Query argument : queryArguments) {
-      args.add(argument.parseQuery());
+      commandlineArguments.add(argument.parseQuery());
     }
-    queryArguments.get(0).parseQuery();
-    System.out.println(args);
-    Controller controller = new Controller(connectionInfo, new Query());
+    Controller controller = new Controller(connectionInfo, commandlineArguments);
+    controller.run();
     return 0;
   }
 
