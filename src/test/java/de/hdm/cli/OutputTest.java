@@ -14,6 +14,7 @@ import org.junit.Test;
 
 import de.hdm.datacontainer.Result;
 
+
 public class OutputTest {
 
     private static PrintStream backup;
@@ -38,6 +39,7 @@ public class OutputTest {
     @Test
     public void testNull() {
         var res = new Result(null, null, null);
+        stream.reset();
         Output.printResult(res);
         Assert.assertEquals("", stream.toString().replace("\r", ""));
     }
@@ -45,6 +47,7 @@ public class OutputTest {
     @Test
     public void testTableNames() {
         var res = new Result(new String[]{"a", "b", "c", "d"}, null, null);
+        stream.reset();
         Output.printResult(res);
         String testString = getFileContent("test_files/test_table_names_1");
         Assert.assertEquals(testString, stream.toString().replace("\r", ""));
@@ -53,6 +56,7 @@ public class OutputTest {
     @Test
     public void testColumnNames() {
         var res = new Result(null, new String[]{"a", "b", "c", "d"}, null);
+        stream.reset();
         Output.printResult(res);
         String testString = getFileContent("test_files/test_table_names_1");
         Assert.assertEquals(testString, stream.toString().replace("\r", ""));
@@ -76,6 +80,7 @@ public class OutputTest {
 
         // test
         var res = new Result(null, null, h);
+        stream.reset();
         Output.printResult(res);
         String testString = getFileContent("test_files/test_objects_1");
         Assert.assertEquals(testString, stream.toString().replaceAll("\r", ""));

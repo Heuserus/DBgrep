@@ -16,16 +16,16 @@ import de.hdm.db.IDBConnection;
 
 public class SQLConnection implements IDBConnection {
 
-    Statement statement;
-    Connection connection;
+    private Statement statement;
+    private Connection connection;
 
     public void connect(ConnectionInfo connectionInfo) throws SQLException{
-      connection = DriverManager.getConnection(connectionInfo.url, connectionInfo.getUsername(), connectionInfo.getPassword());
+      connection = DriverManager.getConnection(connectionInfo.getUrl(), connectionInfo.getUsername(), connectionInfo.getPassword());
       statement = connection.createStatement();
     }
 
     public Result searchTableNames(String table) throws SQLException{
-      ResultSet tablenames = statement.executeQuery("Show tables");
+      ResultSet tablenames = statement.executeQuery("SELECT * FROM sys.TABLES WHERE TABLE_NAME LIKE '"+ table+"'");
       
 
 
@@ -56,12 +56,6 @@ public class SQLConnection implements IDBConnection {
       return null;
     }
     
-    
-    
-
-
-
-
 
     public DatabaseMetaData getDBMetaData(Connection connection) throws SQLException{
       return connection.getMetaData();
@@ -77,3 +71,4 @@ public class SQLConnection implements IDBConnection {
         connection.close();
     }
 }
+
