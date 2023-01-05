@@ -1,6 +1,5 @@
 package de.hdm.db;
 
-import java.lang.reflect.Array;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;

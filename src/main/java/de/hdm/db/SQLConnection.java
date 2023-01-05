@@ -100,5 +100,7 @@ public class SQLConnection implements IDBConnection {
     public void close() throws Exception {
         connection.close();
     }
+
+    
 }
 
