@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import de.hdm.datacontainer.ConnectionInfo;
 import de.hdm.datacontainer.Result;
 
-public interface IDBConnection {
+public interface IDBConnection extends AutoCloseable {
 
 
 

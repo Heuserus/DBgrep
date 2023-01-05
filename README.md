@@ -4,17 +4,16 @@
 
 ## Features / project boundaries
 
- - Implementation in Java
- - CLI spec (original grep command to get some inspirations)
- - dbgrep --profile myMaria ...
- - Dynamic Jdbc driver loading
- - dpgrep --help profile
- - testdaten
- - relational + Nosql
- - Search scope: --table Article --column ..
- - Result presentation: Data, Tablnames, just tablename + count
- - dbgrep ... --regexp "Schm%dt"   --column amount --type int --range 200:300
-
+- Implementation in Java
+- CLI spec (original grep command to get some inspirations)
+- dbgrep --profile myMaria ...
+- Dynamic Jdbc driver loading
+- dpgrep --help profile
+- testdaten
+- relational + Nosql
+- Search scope: --table Article --column ..
+- Result presentation: Data, Tablnames, just tablename + count
+- dbgrep ... --regexp "Schm%dt"   --column amount --type int --range 200:300
 
 Profile file `myMaria.cfg`:
 
@@ -27,8 +26,8 @@ password=wurst
 
 ## Documentation
 
- - Enduser 
- - Software
+- Enduser
+- Software
 
 ## MVP
 
@@ -49,7 +48,7 @@ password=wurst
 - Regexp (Clientside)
 - Hesliche ASCII ART (yaml backflip)
 
-## Milestone 1 
+## Milestone 1
 
 - Postgres und MongoDB auflegen (Simon)
 - Projekt Archistruktur erstellen (Alle) -> done
@@ -57,12 +56,12 @@ password=wurst
 - Basic Abfrage an MongoDB (Luca)
 - CLI Logik festlegen (Marco)
 
-## Milestone 2  
+## Milestone 2
 
 - Profile System + CLI
 - Detailed Datenbankabfragen + CLI
 - Dynamic Driver Loading (Simon)
-- Ab Milestone 2 Unit Tests 
+- Ab Milestone 2 Unit Tests
 - Tests auch auf linux
 
 ## Milestone 3
@@ -72,6 +71,32 @@ password=wurst
 - Deployment + Enduser Tests (Auch auf linux)
 - (Abfragen die wir aus Milestone 2 verschoben haben) + Regexp
 
+## Already done
 
+- DB accesss for MongoDB and Postgres [partly]
+- Result representation [possibly needs to be extended]
+- One SQL and one NoSQL Database for testing purposes
+- Dynamic Driver Loading [done but not in production code]
 
+## Remaining Tasks
 
+- Map argument string to queries in MongoDB [Luca]\
+  ![69%](https://progress-bar.dev/69)
+  - Simple Regexp (nur % und das was mongodb unterstützt)  [Luca] \
+      ![0%](https://progress-bar.dev/0)
+- Map argument string to queries in Postgres [Ben] \
+  ![7%](https://progress-bar.dev/7)
+  - Simple Regexp (nur % und das was mongodb unterstützt)  [Ben] \
+    ![0%](https://progress-bar.dev/0)
+- implement validation of passed CL arguments [Marco] \
+  ![70%](https://progress-bar.dev/70)
+- add dynamic driver loading to production code [Simon] \
+  ![95%](https://progress-bar.dev/95)
+- User Documentation [Marco & Simon] \
+  ![80%](https://progress-bar.dev/80)
+- Project Documentation (Java Docs) [all of us]\
+  ![13%](https://progress-bar.dev/13)
+- High Unit Test Coverage [all of us]\
+  ![7%](https://progress-bar.dev/7)
+- testdaten [all of us]\
+  ![40%%](https://progress-bar.dev/40)

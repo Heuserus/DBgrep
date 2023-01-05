@@ -5,8 +5,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import picocli.CommandLine.Option;
 
 public class ConnectionInfo {
+
     @JsonIgnore
     public String url;
+
+    @Option(names = "--protocol", description = "", required = true)
+    private String protocol;
 
     @Option(names = "--driver", description = "", required = true)
     private String driver;
@@ -64,6 +68,31 @@ public class ConnectionInfo {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void setHost(String host){
+        this.host = host;
+    }
+
+    public String getHost(){
+        return host;
+    }
+
+    
+    public void setProtocol(String protocol) {
+        this.protocol = protocol;
+    }
+
+    public String getProtocol() {
+        return protocol;
+    }
+
+    public String getUrl(){
+        return protocol + "://" + host + ":" + port + "/" + dbname;
+    }
+    
+    public void setUrl(String url){
+        this.url = url;
     }
 
 }
