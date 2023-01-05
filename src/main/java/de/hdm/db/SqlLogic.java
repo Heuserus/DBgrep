@@ -43,8 +43,7 @@ public class SqlLogic implements ILogic {
                 
             case "-c":    
             case "--column":  
-            System.out.println("--column");
-                     break;
+            return sqlConnection.searchColumnNames(query.get(0).get(query.get(0).size()-1).get(1), query.get(0).get(query.get(0).size()-2).get(1));
             case "--table-names":
 
                      break;

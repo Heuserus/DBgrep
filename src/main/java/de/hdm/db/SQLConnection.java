@@ -59,8 +59,17 @@ public class SQLConnection implements IDBConnection {
   }
 
     public Result searchColumnNames(String column, String table) throws SQLException{
-      ResultSet columnnames = statement.executeQuery("SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = N'" + table + "'");
-      return null;
+      ResultSet rs = statement.executeQuery("select * from " + table);
+      ResultSetMetaData rsMetaData = rs.getMetaData();
+      int count = rsMetaData.getColumnCount();
+      List<String> columns = new ArrayList<>();
+      for(int i = 1; i<=count; i++) {
+        columns.add(rsMetaData.getColumnName(i));
+      }
+      List<String> matchingColumns = getMatchingStrings(columns, column);
+      String[] strings = matchingColumns.stream().toArray(String[]::new);
+      Result result = new Result(null,strings,null);
+      return result;
     }
 
     public Result searchObjects(String table, String[] conditions) throws SQLException{
