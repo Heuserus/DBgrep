@@ -88,22 +88,35 @@ public class MongoConnection implements IDBConnection {
         return new Result(null, columnNames, null);
     }
 
-    public Result searchObjects(String table, String[] conditions) throws SQLException{
-        //how should this be implemented in mongo?
+    public Result searchObjects(String table, String[] conditions) {
         MongoCollection<Document> collection = database.getCollection(table);
+        List<Document> documentList = new ArrayList<>();
         //if conditions are empty, return all documents
         if (conditions.length == 0) {
             FindIterable<Document> documents = collection.find();
-            List<Document> documentList = new ArrayList<>();
             for (Document doc : documents) {
                 documentList.add(doc);
             }
-            System.out.println("searchObjects: "+ documentList);
+        } else {
+            //if conditions are not empty, return only the documents that match the conditions
+            for (int i = 0; i < conditions.length; i++) {
+                String[] condition = conditions[i].split("=");
+                String key = condition[0];
+                String value = condition[1];
+                FindIterable<Document> documents = collection.find(new Document(key, value));
+                for (Document doc : documents) {
+                    documentList.add(doc);
+                }
+            }
         }
-
+        System.out.println("searchObjects: "+ documentList);
+        //Result rs = new Result(null, null, documentList);
         return null;
     }
 
+
+
+    //might be unimportant
     public List<String> getTableNames(String pattern) {
         //how should I implement a pattern in mongo?
         List<String> collectionNames = new ArrayList<>();
