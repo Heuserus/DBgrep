@@ -1,4 +1,4 @@
-package de.hdm.rsc;
+package de.hdm;
 
 public class AsciiArt {
 
