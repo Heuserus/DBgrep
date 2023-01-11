@@ -21,12 +21,6 @@ public class SqlLogic implements ILogic {
         
     }
 
-    private String[] getConditions(Query query){
-        
-
-
-        return null;
-    }
      
     public int count(Result result){
 
@@ -49,18 +43,13 @@ public class SqlLogic implements ILogic {
             case "-c":    
             case "--column":  
             return sqlConnection.searchColumnNames(query.get(0).get(query.get(0).size()-1).get(1), query.get(0).get(query.get(0).size()-2).get(1));
-            
+            case "--table-names":
 
-            case "-o":
-            case "--object":
-            System.out.println("Object");
-            break;
+                     break;
         }
         
         return null;
+        
     }
-
-    
-
     
 }
