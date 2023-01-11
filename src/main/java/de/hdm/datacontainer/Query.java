@@ -10,7 +10,7 @@ public class Query {
 
     @Option(names = { "-c",
             "-column" }, required = false, description = "column to be searched, table must be specified [if used without table search in every column the name provided matches")
-    private List<String> columns;
+    private List<String> columns = new ArrayList<String>();
 
     @Option(names = { "-t", "--table" }, required = false, description = "specifies table to be searched")
     private Optional<String> table;

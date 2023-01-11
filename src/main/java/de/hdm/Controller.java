@@ -1,5 +1,8 @@
 package de.hdm;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,11 +30,17 @@ public class Controller {
         this.queryList = query;
     }
 
-    public void run() throws SQLException{
+    public void run() throws SQLException, IOException{
 
         //TODO: query muss geprueft werden
         IDBConnection dbConnection;
         ILogic logic;
+
+        // Import Profile if missing
+        if(connectionInfo.getDriver() != null){
+            var driver = JDBCDriverLoader.loadDriver(connectionInfo.getDriver());            
+            DriverManager.registerDriver(driver);
+        }
 
         if(true){
             

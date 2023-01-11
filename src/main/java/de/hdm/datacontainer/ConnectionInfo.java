@@ -7,12 +7,12 @@ import picocli.CommandLine.Option;
 public class ConnectionInfo {
 
     @JsonIgnore
-    public String url;
+    public String url; // needed for mongodb
 
     @Option(names = "--protocol", description = "", required = true)
     private String protocol;
 
-    @Option(names = "--driver", description = "", required = true)
+    @Option(names = "--driver", description = "", required = false)
     private String driver;
 
     @Option(names = "--host", description = "", required = true)
