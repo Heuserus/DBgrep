@@ -31,7 +31,15 @@ public class SQLConnection implements IDBConnection {
 
     public Result searchTableNames(String table) throws SQLException{
       
-      ResultSet rs = metaData.getTables(null, null, "%", null);
+      List<String> matchingTables = getTableNames(table);
+      String[] strings = matchingTables.stream().toArray(String[]::new);
+      Result result = new Result(strings,null,null);
+    
+      return result;
+    }
+
+    public List<String> getTableNames(String table) throws SQLException{
+      ResultSet rs = metaData.getTables(null, null, table, null);
       
       List<String> tables = new ArrayList<>();
       while (rs.next()) {
@@ -41,14 +49,11 @@ public class SQLConnection implements IDBConnection {
           tables.add(rs.getString("TABLE_NAME"));
         }
       }
-      List<String> matchingTables = getMatchingStrings(tables, table);
-      String[] strings = matchingTables.stream().toArray(String[]::new);
-      Result result = new Result(strings,null,null);
-    
-      return result;
+      List<String> matchingTables = tables;
+      return matchingTables;
     }
 
-    public static List<String> getMatchingStrings(List<String> strings, String input) {
+    public List<String> getMatchingStrings(List<String> strings, String input) {
       List<String> matchingStrings = new ArrayList<>();
       for (String string : strings) {
           if (string.toLowerCase().contains(input.toLowerCase())) {
@@ -59,6 +64,20 @@ public class SQLConnection implements IDBConnection {
   }
 
     public Result searchColumnNames(String column, String table) throws SQLException{
+      List<String> tables = getTableNames(table);
+      List<String> matchingColumns = getColumnNames(column, tables.get(0));
+      
+      for(int i = 1; i< tables.size(); i++){
+        List<String> columnsOfTable = getColumnNames(column, tables.get(i));
+        matchingColumns.addAll(columnsOfTable);
+      }
+     
+      String[] strings = matchingColumns.stream().toArray(String[]::new);
+      Result result = new Result(null,strings,null);
+      return result;
+    }
+
+    List<String> getColumnNames(String column, String table) throws SQLException{
       ResultSet rs = statement.executeQuery("select * from " + table);
       ResultSetMetaData rsMetaData = rs.getMetaData();
       int count = rsMetaData.getColumnCount();
@@ -67,9 +86,7 @@ public class SQLConnection implements IDBConnection {
         columns.add(rsMetaData.getColumnName(i));
       }
       List<String> matchingColumns = getMatchingStrings(columns, column);
-      String[] strings = matchingColumns.stream().toArray(String[]::new);
-      Result result = new Result(null,strings,null);
-      return result;
+      return matchingColumns;
     }
 
 

@@ -38,22 +38,30 @@ public class SqlLogic implements ILogic {
 
     }
     public Result request(List<List<String>> query) throws SQLException{
-        String argument = query.get(query.get(0).size()-1).get(0);
+        String argument = query.get(query.size()-1).get(0);
         System.out.println(query);
         switch (argument) {
             case "--table":
             case "-t":
-            return sqlConnection.searchTableNames(query.get(query.get(0).size()-1).get(1) );
+            return sqlConnection.searchTableNames(query.get(query.size()-1).get(1) );
                 
                 
             case "-c":    
-            case "--column":  
-            return sqlConnection.searchColumnNames(query.get(query.get(0).size()-1).get(1), query.get(query.get(0).size()-2).get(1));
+            case "--column":
+            String columnName = query.get(query.size()-1).get(1);
+            String tableName;
+            if(query.size() > 1 && (query.get(query.size()-2).get(0).equals("-t")||query.get(query.size()-2).get(0).equals("--table"))){
+                tableName = query.get(query.get(0).size()-2).get(1);
+            }
+            else{
+                tableName = "%";
+            }
+
+            return sqlConnection.searchColumnNames(columnName, tableName);
             
 
-            case "-o":
-            case "--object":
-            System.out.println("Object");
+            default:
+            
             break;
         }
         
