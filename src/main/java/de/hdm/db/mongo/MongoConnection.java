@@ -51,12 +51,21 @@ public class MongoConnection implements IDBConnection {
     public Result searchTableNames(String table) throws SQLException{
         //search for table names in the mongo database
         MongoCollection<Document> collection = database.getCollection(table);
-        System.out.println("searchTableNames: "+ collection);
 
+        //create new tableNames array of the same size
+        String[] tableNames = new String[(int) collection.countDocuments()];
 
+        //iterate over the collection
+        int i = 0;
+        MongoCursor<String> cursor = database.listCollectionNames().iterator();
+        while(cursor.hasNext()){
+            tableNames[i] = cursor.next();
+            i++;
+        }
 
+        //put the result collection in the result object
 
-        return null;
+        Result result = new Result(tableNames, null, null );
     }
 
 
