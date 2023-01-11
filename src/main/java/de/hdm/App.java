@@ -8,7 +8,6 @@ public class App {
     public static void main(String[] args) {
         CLIParser cliParser = new CLIParser();
         CommandLine cmd = new CommandLine(cliParser);
-        cmd.parseArgs(args);
         int exitCode = -1;
         if(cliParser.isHelp()){
             cmd.usage(System.out);

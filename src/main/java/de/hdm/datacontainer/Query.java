@@ -10,7 +10,7 @@ public class Query {
 
     @Option(names = { "-c",
             "-column" }, required = false, description = "column to be searched, table must be specified [if used without table search in every column the name provided matches")
-    private Optional<String> column;
+    private List<String> column;
 
     @Option(names = { "-t", "--table" }, required = false, description = "specifies table to be searched")
     private Optional<String> table;
@@ -29,6 +29,10 @@ public class Query {
         column.ifPresent((column) -> commands.add(List.of("-c", column)));
         object.ifPresent((object) -> commands.add(List.of("-o", object)));
 
+
+        for (String columnName : columns) {
+            commands.add(List.of("-c", columnName));
+        }
         return commands;
     }
 }
