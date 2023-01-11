@@ -72,6 +72,7 @@ public class SQLConnection implements IDBConnection {
       return result;
     }
 
+
     public Result searchObjects(String table, String[] conditions) throws SQLException{
       StringBuilder queryBuilder = new StringBuilder();
       queryBuilder.append("SELECT * FROM " + table);
@@ -100,6 +101,8 @@ public class SQLConnection implements IDBConnection {
     public void close() throws Exception {
         connection.close();
     }
+
+    
 
     
 }

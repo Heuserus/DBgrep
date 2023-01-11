@@ -11,6 +11,6 @@ public interface ILogic {
     
     public int count(Result result);
     public int count(String[] result);
-    public Result request(ArrayList<List<List<String>>> query) throws SQLException;
+    public Result request(List<List<String>> query) throws SQLException;
 
 }
