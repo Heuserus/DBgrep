@@ -73,14 +73,19 @@ public class MongoConnection implements IDBConnection {
         MongoCollection<Document> collection = database.getCollection(table);
         FindIterable<Document> documents = collection.find(new Document("column", new Document("$exists", true)));
 
-        List<Document> documentList = new ArrayList<>();
-        for (Document doc : documents) {
-            documentList.add(doc);
+        // put the names of the columns in an array of strings
+        String[] columnNames = new String[(int) collection.countDocuments()];
+        int i = 0;
+        MongoCursor<Document> cursor = documents.iterator();
+        while(cursor.hasNext()){
+            Document doc = cursor.next();
+            if(doc.containsKey(column)) {
+                columnNames[i] = column;
+                i++;
+            }
         }
-        System.out.println("searchColumnNames: "+ documentList);
 
-
-        return null;
+        return new Result(null, columnNames, null);
     }
 
     public Result searchObjects(String table, String[] conditions) throws SQLException{
@@ -95,32 +100,6 @@ public class MongoConnection implements IDBConnection {
             }
             System.out.println("searchObjects: "+ documentList);
         }
-
-        //example conditions for testing:
-
-
-//        //greater
-//        db.products.find({
-//                price: { $gt: 10 }
-//        })
-//
-//        //eq
-//        db.products.find({
-//                price: { $gt: 10, $lt: 20 }
-//        })
-//
-//        //
-//        db.products.find({
-//                $and: [
-//        { price: { $gt: 10 } },
-//        { category: { $eq: "clothing" } }
-//        ]
-//        })
-//        })
-
-
-
-
 
         return null;
     }
