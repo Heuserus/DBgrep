@@ -31,16 +31,17 @@ public class SqlLogic implements ILogic {
 
     }
     public Result request(ArrayList<List<List<String>>> query) throws SQLException{
-        String argument = query.get(0).get(0).get(0);
+        String argument = query.get(0).get(query.get(0).size()-1).get(0);
+        System.out.println(query);
         switch (argument) {
             case "--table":
-            System.out.println("--table");
-                break;
+            case "-t":
+            return sqlConnection.searchTableNames(query.get(0).get(query.get(0).size()-1).get(1) );
                 
-                     
+                
+            case "-c":    
             case "--column":  
-
-                     break;
+            return sqlConnection.searchColumnNames(query.get(0).get(query.get(0).size()-1).get(1), query.get(0).get(query.get(0).size()-2).get(1));
             case "--table-names":
 
                      break;

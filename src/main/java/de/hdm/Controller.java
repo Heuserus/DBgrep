@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdm.cli.Output;
 import de.hdm.datacontainer.ConnectionInfo;
 import de.hdm.datacontainer.Result;
 import de.hdm.db.IDBConnection;
@@ -18,6 +19,8 @@ public class Controller {
     ArrayList<List<List<String>>> queryList;
     
     ILogic logic;
+
+    
     
     public Controller(ConnectionInfo connectionInfo, ArrayList<List<List<String>>> query) {
         this.connectionInfo = connectionInfo;
@@ -31,7 +34,7 @@ public class Controller {
         ILogic logic;
 
         if(true){
-            System.out.println("Contr");
+            
             dbConnection = new SQLConnection();
             logic = new SqlLogic((SQLConnection) dbConnection);
         }
@@ -40,6 +43,7 @@ public class Controller {
         }
         dbConnection.connect(connectionInfo);
         Result result = logic.request(queryList);
+        Output.printResult(result);
 
 
         
