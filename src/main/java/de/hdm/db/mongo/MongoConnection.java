@@ -65,7 +65,7 @@ public class MongoConnection implements IDBConnection {
 
         //put the result collection in the result object
 
-        Result result = new Result(tableNames, null, null );
+        return new Result(tableNames, null, null );
     }
 
 
