@@ -27,11 +27,29 @@ public class JDBCDriverLoader {
         URLClassLoader classLoader = new URLClassLoader(urls);
         ServiceLoader<Driver> serviceLoader= ServiceLoader.load(Driver.class, classLoader);
         Iterator<Driver> it = serviceLoader.iterator(); // TODO catch ServiceConfigurationError for robus code
+        
+        // count already loaded drivers
+        URLClassLoader _classLoader = new URLClassLoader(new URL[]{});
+        ServiceLoader<Driver> _serviceLoader= ServiceLoader.load(Driver.class, _classLoader);
+        Iterator<Driver> _it = _serviceLoader.iterator(); // TODO catch ServiceConfigurationError for robus code
+        var _count = 0;
+        while(_it.hasNext()){
+            _it.next();
+            _count++;
+        }
+
         // get last element of iterator. This seems to be the driver loaded above
+        var count = 0;
         Driver driver = null;
         while (it.hasNext()){
             driver = it.next();
+            count++;
         }
-        return driver;
+        
+        // Warn if more than one driver was loaded
+        if(count - _count != 1){
+            System.err.println("JDBCDriverLoader WARNING: More than one driver was loaded!");
+        }
+        return new DBGrepDriver(driver);
     }
 }
