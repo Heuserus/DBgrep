@@ -28,8 +28,7 @@ public class MongoConnection {
     static MongoClient mongoClient;
     //Constructor for MongoClient
     public MongoConnection(ConnectionInfo connectionInfo) {
-        //Hallo Luca, das musst du irgendwann noch zu geturl aendern. Gruesse
-        String buildUri = "mongodb+srv://" + connectionInfo.getUsername() + ":" + connectionInfo.getPassword() + "@" + connectionInfo.url;
+        String buildUri = "mongodb+srv://" + connectionInfo.getUsername() + ":" + connectionInfo.getPassword() + "@" + connectionInfo.getUrl();
         connectionString = new ConnectionString(buildUri);
 
         settings = MongoClientSettings.builder()
@@ -47,7 +46,7 @@ public class MongoConnection {
         connectionInfo.setUsername("root");
         connectionInfo.setPassword("example");
 
-        String buildUri = "mongodb://" + connectionInfo.getUsername() + ":" + connectionInfo.getPassword() + "@" + connectionInfo.url;
+        String buildUri = "mongodb://" + connectionInfo.getUsername() + ":" + connectionInfo.getPassword() + "@" + connectionInfo.getUrl();
         //Own constructor for testing lol
         connectionString = new ConnectionString(buildUri);
         settings = MongoClientSettings.builder()
