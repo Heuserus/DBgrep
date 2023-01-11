@@ -51,8 +51,11 @@ public class Controller {
             
         }
         dbConnection.connect(connectionInfo);
-        Result result = logic.request(queryList);
-        Output.printResult(result);
+        for(int i = 0; i < queryList.size(); i++){
+            Result result = logic.request(queryList.get(i));
+             Output.printResult(result);
+        }
+        
 
 
         

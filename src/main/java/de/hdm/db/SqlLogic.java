@@ -21,6 +21,12 @@ public class SqlLogic implements ILogic {
         
     }
 
+    private String[] getConditions(Query query){
+        
+
+
+        return null;
+    }
      
     public int count(Result result){
 
@@ -31,25 +37,38 @@ public class SqlLogic implements ILogic {
         return 0;
 
     }
-    public Result request(ArrayList<List<List<String>>> query) throws SQLException{
-        String argument = query.get(0).get(query.get(0).size()-1).get(0);
+    public Result request(List<List<String>> query) throws SQLException{
+        String argument = query.get(query.size()-1).get(0);
         System.out.println(query);
         switch (argument) {
             case "--table":
             case "-t":
-            return sqlConnection.searchTableNames(query.get(0).get(query.get(0).size()-1).get(1) );
+            return sqlConnection.searchTableNames(query.get(query.size()-1).get(1) );
                 
                 
             case "-c":    
-            case "--column":  
-            return sqlConnection.searchColumnNames(query.get(0).get(query.get(0).size()-1).get(1), query.get(0).get(query.get(0).size()-2).get(1));
-            case "--table-names":
+            case "--column":
+            String columnName = query.get(query.size()-1).get(1);
+            String tableName;
+            if(query.size() > 1 && (query.get(query.size()-2).get(0).equals("-t")||query.get(query.size()-2).get(0).equals("--table"))){
+                tableName = query.get(query.get(0).size()-2).get(1);
+            }
+            else{
+                tableName = "%";
+            }
 
-                     break;
+            return sqlConnection.searchColumnNames(columnName, tableName);
+            
+
+            default:
+            
+            break;
         }
         
         return null;
-        
     }
+
+    
+
     
 }

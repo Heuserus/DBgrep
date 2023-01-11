@@ -23,6 +23,8 @@ public class Query {
     public List<List<String>> parseQuery() {
         var commands = new ArrayList<List<String>>();
         table.ifPresent((table) -> commands.add(List.of("-t", table)));
+        
+
 
         for (String columnName : columns) {
             commands.add(List.of("-c", columnName));
