@@ -80,23 +80,23 @@ password=wurst
 
 ## Remaining Tasks
 
-- Map argument string to queries in MongoDB [Luca]\
+- [ ] Map argument string to queries in MongoDB [Luca]\
   ![69%](https://progress-bar.dev/69)
-  - Simple Regexp (nur % und das was mongodb unterstützt)  [Luca] \
+  - [ ] Simple Regexp (nur % und das was mongodb unterstützt)  [Luca] \
       ![0%](https://progress-bar.dev/0)
-- Map argument string to queries in Postgres [Ben] \
+- [ ] Map argument string to queries in Postgres [Ben] \
   ![7%](https://progress-bar.dev/7)
-  - Simple Regexp (nur % und das was mongodb unterstützt)  [Ben] \
+  - [ ] Simple Regexp (nur % und das was mongodb unterstützt)  [Ben] \
     ![0%](https://progress-bar.dev/0)
-- implement validation of passed CL arguments [Marco] \
+- [ ] implement validation of passed CL arguments [Marco] \
   ![70%](https://progress-bar.dev/70)
-- add dynamic driver loading to production code [Simon] \
-  ![95%](https://progress-bar.dev/95)
-- User Documentation [Marco & Simon] \
+- [x] add dynamic driver loading to production code [Simon] \
+  ![100%](https://progress-bar.dev/100)
+- [ ] User Documentation [Marco & Simon] \
   ![80%](https://progress-bar.dev/80)
-- Project Documentation (Java Docs) [all of us]\
+- [ ] Project Documentation (Java Docs) [all of us]\
   ![13%](https://progress-bar.dev/13)
-- High Unit Test Coverage [all of us]\
+- [ ] High Unit Test Coverage [all of us]\
   ![7%](https://progress-bar.dev/7)
-- testdaten [all of us]\
+- [ ] testdaten [all of us]\
   ![40%%](https://progress-bar.dev/40)
