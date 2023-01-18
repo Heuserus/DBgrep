@@ -1,6 +1,5 @@
 package de.hdm.db;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import de.hdm.datacontainer.ConnectionInfo;

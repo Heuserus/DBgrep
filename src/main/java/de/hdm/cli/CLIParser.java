@@ -43,11 +43,7 @@ public class CLIParser implements Callable<Integer> {
       e.printStackTrace();
       return -1;
     }
-    var commandlineArguments = new ArrayList<List<List<String>>>();
-    for (Query argument : queryArguments) {
-      commandlineArguments.add(argument.parseQuery());
-    }
-    Controller controller = new Controller(connectionInfo, commandlineArguments);
+    Controller controller = new Controller(connectionInfo, queryArguments);
     controller.run();
     return 0;
   }
