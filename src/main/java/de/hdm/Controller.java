@@ -9,8 +9,8 @@ import de.hdm.datacontainer.ConnectionInfo;
 import de.hdm.datacontainer.Result;
 import de.hdm.db.IDBConnection;
 import de.hdm.db.ILogic;
-import de.hdm.db.SQLConnection;
-import de.hdm.db.SqlLogic;
+import de.hdm.db.sql.SQLConnection;
+import de.hdm.db.sql.SqlLogic;
 
 
 public class Controller {
@@ -36,7 +36,7 @@ public class Controller {
         if(true){
             
             dbConnection = new SQLConnection();
-            logic = new SqlLogic((SQLConnection) dbConnection);
+           logic = new SqlLogic((SQLConnection) dbConnection);
         }
         else{
             

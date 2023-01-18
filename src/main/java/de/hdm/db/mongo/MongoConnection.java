@@ -27,6 +27,22 @@ public class MongoConnection implements IDBConnection {
 
 
 
+    public static void main(String[] args) {
+        
+
+        String buildUri = "mongodb+srv://lv042:<K6Uu9882EFFeWvgU>@dbgrep.o3uj6ms.mongodb.net/?retryWrites=true&w=majority";
+        ConnectionString cs = new ConnectionString(buildUri);
+
+        var st = MongoClientSettings.builder()
+                .applyConnectionString(cs)
+                .serverApi(ServerApi.builder().version(ServerApiVersion.V1).build()).build();
+        //active connection
+        var mongoClient = MongoClients.create(st);
+        //but als needs to select the database before
+
+        var db = mongoClient.getDatabase("test");
+    }
+
     //constructor??
     public void connect(ConnectionInfo connectionInfo) {
         if (connectionInfo.getDbname() == null || connectionInfo.getDbname().equals("") || connectionInfo.getPassword() == null || connectionInfo.getPassword().equals("")
@@ -133,21 +149,7 @@ public class MongoConnection implements IDBConnection {
         mongoClient.close();
     }
 
-    //main method
-    public static void main(String[] args) {
-        MongoConnection mongoConnection = new MongoConnection();
-        ConnectionInfo connectionInfo = new ConnectionInfo();
-        connectionInfo.setDriver("mongo");
-        connectionInfo.setUsername("lv042");
-        connectionInfo.url = "dbgrep.o3uj6ms.mongodb.net/?retryWrites=true&w=majority";
-        connectionInfo.setPassword("2MUSFpbbJlrSEcrH");
-        connectionInfo.setDbname("test");
 
-        //private static String uri = "mongodb+srv://lv042:<K6Uu9882EFFeWvgU>@dbgrep.o3uj6ms.mongodb.net/?retryWrites=true&w=majority";
-
-
-        mongoConnection.connect(connectionInfo);
-    }
 
 
 }

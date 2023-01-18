@@ -6,6 +6,7 @@ import picocli.*;
 public class App {
 
     public static void main(String[] args) {
+        AsciiArt.display_welcome_message();
         CLIParser cliParser = new CLIParser();
         CommandLine cmd = new CommandLine(cliParser);
         int exitCode = -1;
