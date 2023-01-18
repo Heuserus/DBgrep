@@ -23,18 +23,24 @@ import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
+import de.hdm.JDBCDriverLoader;
+
 public class FillDB {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, SQLException {
+        var driver = JDBCDriverLoader.loadDriver("drivers/mariadb-java-client-3.1.0.jar");
+        DriverManager.registerDriver(driver);
         String csvFilePath = "./docker/Fahrzeuginformationen.csv";
-        clearDBs();
-        sql(csvFilePath);
+        clearDBs("jdbc:postgresql://localhost:5432/dbgrep", "root", "example");
+        clearDBs("jdbc:mariadb://localhost:3306/dbgrep", "root", "example");
+        sql(csvFilePath, "jdbc:postgresql://localhost:5432/dbgrep", "root", "example");
+        sql(csvFilePath, "jdbc:mariadb://localhost:3306/dbgrep", "root", "example");
         noSql(csvFilePath);
     }
 
-    private static void sql(String csvFilePath) {
-        String jdbcURL = "jdbc:postgresql://localhost:5432/dbgrep";
-        String username = "root";
-        String password = "example";
+    private static void sql(String csvFilePath, String jdbcURL, String username, String password) {
+        // String jdbcURL = "jdbc:postgresql://localhost:5432/dbgrep";
+        // String username = "root";
+        // String password = "example";
 
         int batchSize = 20; // TODO anpassen zu sinnvoller Zahl
 
@@ -54,19 +60,19 @@ public class FillDB {
             // create table ------------------------------------------------------------
             String create_table = "CREATE TABLE IF NOT EXISTS fahrzeuginfo " + // 25 spalten
                     "(" +
-                    "HSTBenennung VARCHAR, " +
-                    "HTBenennung VARCHAR, " +
-                    "UTBenennung VARCHAR, " +
-                    "Karosserie VARCHAR, " +
+                    "HSTBenennung VARCHAR(500), " +
+                    "HTBenennung VARCHAR(500), " +
+                    "UTBenennung VARCHAR(500), " +
+                    "Karosserie VARCHAR(500), " +
                     "NeupreisBrutto INTEGER, " +
-                    "Produktgruppe VARCHAR, " +
-                    "Kraftstoffart VARCHAR, " +
-                    "Schadstoffklasse VARCHAR, " +
+                    "Produktgruppe VARCHAR(500), " +
+                    "Kraftstoffart VARCHAR(500), " +
+                    "Schadstoffklasse VARCHAR(500), " +
                     "CCM INTEGER, " +
                     "KW INTEGER, " +
                     "HSTPS INTEGER, " +
-                    "Getriebeart VARCHAR, " +
-                    "GetriebeBenennung VARCHAR, " +
+                    "Getriebeart VARCHAR(500), " +
+                    "GetriebeBenennung VARCHAR(500), " +
                     "AnzahlderTüren INTEGER, " +
                     "Leergewicht INTEGER, " +
                     "Zuladung INTEGER, " +
@@ -75,10 +81,10 @@ public class FillDB {
                     "Breite INTEGER, " +
                     "Höhe INTEGER, " +
                     "CO2Emissionen INTEGER, " +
-                    "MinEnergieeffizienzklasse VARCHAR, " +
-                    "Antrieb VARCHAR, " +
-                    "KSTAMotor VARCHAR, " +
-                    "HSTHTBenennung VARCHAR" +
+                    "MinEnergieeffizienzklasse VARCHAR(500), " +
+                    "Antrieb VARCHAR(500), " +
+                    "KSTAMotor VARCHAR(500), " +
+                    "HSTHTBenennung VARCHAR(500)" +
                     ")";
 
             s.executeUpdate(create_table);
@@ -169,7 +175,7 @@ public class FillDB {
             ResultSet set = s.executeQuery("SELECT COUNT(\"hstbenennung\") as \"a\" FROM fahrzeuginfo");
             set.next();
             int dataCount = set.getInt("a");
-            System.out.println("Filling Postgres done! Data count: " + dataCount);
+            System.out.println("Filling " + jdbcURL + " done! Data count: " + dataCount);
 
             connection.commit();
             connection.close();
@@ -251,10 +257,10 @@ public class FillDB {
         }
     }
 
-    private static void clearDBs() {
-        String jdbcURL = "jdbc:postgresql://localhost:5432/dbgrep";
-        String username = "root";
-        String password = "example";
+    private static void clearDBs(String jdbcURL, String username, String password) {
+        // String jdbcURL = "jdbc:postgresql://localhost:5432/dbgrep";
+        // String username = "root";
+        // String password = "example";
 
         try (Connection conn = DriverManager.getConnection(jdbcURL, username, password)) {
             conn.createStatement().executeUpdate("DROP TABLE fahrzeuginfo");
