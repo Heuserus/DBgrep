@@ -1,6 +1,7 @@
 package de.hdm;
 
 import de.hdm.cli.CLIParser;
+import de.hdm.exception.DBGrepException;
 import picocli.*;
 
 public class App {
@@ -13,8 +14,13 @@ public class App {
             cmd.usage(System.out);
             System.exit(0);
         } else {
-            
-            exitCode = cmd.execute(args);
+            try {
+                exitCode = cmd.execute(args);
+            } catch(DBGrepException e){
+                System.err.println(e.getMessage());
+                e.printStackTrace();
+                System.exit(e.getExitCode().getCode());
+            }
         }
         System.exit(exitCode);
     }

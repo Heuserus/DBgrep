@@ -31,4 +31,12 @@ public class Query {
         }
         return commands;
     }
+
+    public List<String> getColumns() {
+        return columns;
+    }
+
+    public Optional<String> getTable() {
+        return table;
+    }
 }

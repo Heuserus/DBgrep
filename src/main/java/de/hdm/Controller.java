@@ -13,8 +13,10 @@ import de.hdm.datacontainer.Query;
 import de.hdm.datacontainer.Result;
 import de.hdm.db.IDBConnection;
 import de.hdm.db.ILogic;
+import de.hdm.db.MongoConnect;
 import de.hdm.db.SQLConnection;
 import de.hdm.db.SqlLogic;
+import de.hdm.exception.UnknownDBTypeException;
 
 
 public class Controller {
@@ -56,9 +58,17 @@ public class Controller {
                 Output.printResult(result);
             }
         }
+
         // MongoDB Stuff
+        else if (connectionInfo.getProtocol().toLowerCase().contains("mongo")) {
+            try(var mongoConnection = new MongoConnect(connectionInfo)){
+                Result result = mongoConnection.request(queryList);
+                Output.printResult(result);
+            }
+        }
+
         else {
-            
+            throw new UnknownDBTypeException("Unknown database type for given protocol '" + connectionInfo.getProtocol() + "'.");
         }
     }
 
