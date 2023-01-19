@@ -9,6 +9,7 @@ import de.hdm.datacontainer.Result;
 import org.bson.Document;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Consumer;
 
 import static com.mongodb.client.model.Filters.eq;
@@ -61,10 +62,11 @@ public class MongoConnection {
 
         //iterate over the collection
         int i = 0;
-        MongoCursor<String> cursor = database.listCollectionNames().iterator();
-        while(cursor.hasNext()){
-            tableNames[i] = cursor.next();
-            i++;
+        try (MongoCursor<String> cursor = database.listCollectionNames().iterator()) {
+            while (cursor.hasNext()) {
+                tableNames[i] = cursor.next();
+                i++;
+            }
         }
 
         //put the result collection in the result object
@@ -90,6 +92,32 @@ public class MongoConnection {
         }
 
         return new Result(null, columnNames, null);
+    }
+
+    public Result searchObjects(String table, String[] conditions) {
+        MongoCollection<Document> collection = database.getCollection(table);
+        List<Document> documentList = new ArrayList<>();
+        //if conditions are empty, return all documents
+        if (conditions.length == 0) {
+            FindIterable<Document> documents = collection.find();
+            for (Document doc : documents) {
+                documentList.add(doc);
+            }
+        } else {
+            //if conditions are not empty, return only the documents that match the conditions
+            for (String s : conditions) {
+                String[] condition = s.split("=");
+                String key = condition[0];
+                String value = condition[1];
+                FindIterable<Document> documents = collection.find(new Document(key, value));
+                for (Document doc : documents) {
+                    documentList.add(doc);
+                }
+            }
+        }
+        System.out.println("searchObjects: "+ documentList);
+        //Result rs = new Result(null, null, documentList);
+        return null;
     }
 }
 
