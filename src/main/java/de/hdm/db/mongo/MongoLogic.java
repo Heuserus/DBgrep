@@ -1,4 +1,4 @@
-package de.hdm.db;
+package de.hdm.db.mongo;
 
 public class MongoLogic {
     

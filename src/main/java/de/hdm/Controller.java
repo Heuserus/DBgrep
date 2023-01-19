@@ -1,6 +1,5 @@
 package de.hdm;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -13,9 +12,9 @@ import de.hdm.datacontainer.Query;
 import de.hdm.datacontainer.Result;
 import de.hdm.db.IDBConnection;
 import de.hdm.db.ILogic;
-import de.hdm.db.MongoConnect;
-import de.hdm.db.SQLConnection;
-import de.hdm.db.SqlLogic;
+import de.hdm.db.mongo.MongoConnect;
+import de.hdm.db.sql.SQLConnection;
+import de.hdm.db.sql.SqlLogic;
 import de.hdm.exception.UnknownDBTypeException;
 
 

@@ -1,4 +1,4 @@
-package de.hdm.db;
+package de.hdm.db.sql;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

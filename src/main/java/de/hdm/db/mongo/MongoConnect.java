@@ -1,4 +1,4 @@
-package de.hdm.db;
+package de.hdm.db.mongo;
 
 import java.sql.SQLException;
 import java.util.List;
