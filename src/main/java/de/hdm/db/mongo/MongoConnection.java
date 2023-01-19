@@ -6,8 +6,10 @@ import com.mongodb.client.*;
 import de.hdm.datacontainer.ConnectionInfo;
 
 import de.hdm.datacontainer.Result;
+import de.hdm.db.IDBConnection;
 import org.bson.Document;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -118,6 +120,25 @@ public class MongoConnection {
         System.out.println("searchObjects: "+ documentList);
         //Result rs = new Result(null, null, documentList);
         return null;
+    }
+
+
+
+    //might be unimportant
+    public List<String> getTableNames(String pattern) {
+        //how should I implement a pattern in mongo?
+        List<String> collectionNames = new ArrayList<>();
+        MongoIterable<String> collections = database.listCollectionNames();
+        for (String name : collections) {
+            collectionNames.add(name);
+        }
+        System.out.println("getTableNames: "+ collectionNames);
+        return collectionNames;
+    }
+
+
+    public void close() throws Exception {
+        mongoClient.close();
     }
 }
 
