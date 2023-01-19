@@ -1,13 +1,11 @@
 package de.hdm.db.mongo;
 import com.mongodb.*;
 import com.mongodb.ServerApi;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.*;
 
 import de.hdm.datacontainer.ConnectionInfo;
 
+import de.hdm.datacontainer.Result;
 import org.bson.Document;
 
 import java.util.ArrayList;
@@ -21,6 +19,8 @@ public class MongoConnection {
     static MongoClientSettings settings; //only for testing purposes static
     static ConnectionString connectionString;
     static MongoClient mongoClient;
+
+    static MongoDatabase database;
 
     //Constructor for MongoClient
     public MongoConnection(ConnectionInfo connectionInfo) {
@@ -46,10 +46,30 @@ public class MongoConnection {
         mongoClient = MongoClients.create(settings);
 
 
-        MongoDatabase database = mongoClient.getDatabase("dbgrep");
+        database = mongoClient.getDatabase("dbgrep");
         MongoCollection<Document> collection = database.getCollection("fahrzeuginfo");
         System.out.println("Collection testdb selected successfully");
 
+    }
+
+    public Result searchTableNames(String table) {
+        //search for table names in the mongo database
+        MongoCollection<Document> collection = database.getCollection(table);
+
+        //create new tableNames array of the same size
+        String[] tableNames = new String[(int) collection.countDocuments()];
+
+        //iterate over the collection
+        int i = 0;
+        MongoCursor<String> cursor = database.listCollectionNames().iterator();
+        while(cursor.hasNext()){
+            tableNames[i] = cursor.next();
+            i++;
+        }
+
+        //put the result collection in the result object
+
+        return new Result(tableNames, null, null );
     }
 }
 
