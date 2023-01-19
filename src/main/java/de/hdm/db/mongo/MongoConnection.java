@@ -18,8 +18,8 @@ import static com.mongodb.client.model.Filters.eq;
 //import com.mongodb.client.MongoDatabase;
 
 public class MongoConnection implements IDBConnection {
-
-    static MongoClientSettings settings; //only for testing purposes static
+    //only for testing purposes static
+    static MongoClientSettings settings;
     static ConnectionString connectionString;
     static MongoClient mongoClient;
 
@@ -39,6 +39,8 @@ public class MongoConnection implements IDBConnection {
                 .applyConnectionString(connectionString)
                 .serverApi(ServerApi.builder().version(ServerApiVersion.V1).build()).build();
         mongoClient = MongoClients.create(settings);
+
+        database = mongoClient.getDatabase("dbgrep");
     }
 
 
@@ -55,9 +57,6 @@ public class MongoConnection implements IDBConnection {
 
 
         database = mongoClient.getDatabase("dbgrep");
-        MongoCollection<Document> collection = database.getCollection("fahrzeuginfo");
-        System.out.println("Collection testdb selected successfully");
-
     }
 
     public Result searchTableNames(String table) {
