@@ -17,7 +17,7 @@ import java.util.function.Consumer;
 import static com.mongodb.client.model.Filters.eq;
 //import com.mongodb.client.MongoDatabase;
 
-public class MongoConnection {
+public class MongoConnection implements IDBConnection {
 
     static MongoClientSettings settings; //only for testing purposes static
     static ConnectionString connectionString;
@@ -26,7 +26,12 @@ public class MongoConnection {
     static MongoDatabase database;
 
     //Constructor for MongoClient
-    public MongoConnection(ConnectionInfo connectionInfo) {
+    public MongoConnection() {
+        //does nothing since we moved the connection to the connect method
+    }
+
+    @Override
+    public void connect(ConnectionInfo connectionInfo){
         String buildUri = "mongodb+srv://" + connectionInfo.getUsername() + ":" + connectionInfo.getPassword() + "@" + connectionInfo.getUrl() + "/?retryWrites=true&w=majority";
         connectionString = new ConnectionString(buildUri);
 
@@ -124,6 +129,7 @@ public class MongoConnection {
 
 
 
+
     //might be unimportant
     public List<String> getTableNames(String pattern) {
         //how should I implement a pattern in mongo?
@@ -136,7 +142,7 @@ public class MongoConnection {
         return collectionNames;
     }
 
-
+    @Override
     public void close() throws Exception {
         mongoClient.close();
     }
