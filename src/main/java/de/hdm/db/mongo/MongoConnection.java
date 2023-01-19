@@ -71,5 +71,25 @@ public class MongoConnection {
 
         return new Result(tableNames, null, null );
     }
+
+    public Result searchColumnNames(String column, String table){
+        MongoCollection<Document> collection = database.getCollection(table);
+        FindIterable<Document> documents = collection.find(new Document("column", new Document("$exists", true)));
+
+        // put the names of the columns in an array of strings
+        String[] columnNames = new String[(int) collection.countDocuments()];
+        int i = 0;
+        try (MongoCursor<Document> cursor = documents.iterator()) {
+            while (cursor.hasNext()) {
+                Document doc = cursor.next();
+                if (doc.containsKey(column)) {
+                    columnNames[i] = column;
+                    i++;
+                }
+            }
+        }
+
+        return new Result(null, columnNames, null);
+    }
 }
 
