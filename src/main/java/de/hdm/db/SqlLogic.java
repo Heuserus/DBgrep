@@ -4,59 +4,38 @@ import de.hdm.datacontainer.Query;
 import de.hdm.datacontainer.Result;
 
 import java.sql.SQLException;
-import java.util.List;
 
 public class SqlLogic implements ILogic {
     private SQLConnection sqlConnection;
     private Query query;
-    
-    public SqlLogic(SQLConnection sqlConnection){
+
+    public SqlLogic(SQLConnection sqlConnection) {
         this.sqlConnection = sqlConnection;
-        
     }
 
-    private String[] getConditions(Query query){
-        
-
-
+    private String[] getConditions(Query query) {
         return null;
     }
 
     public int count(Result result) {
-
         return 0;
-
     }
 
     public int count(String[] result) {
         return 0;
-
     }
 
-    public Result request(List<List<List<String>>> query) throws SQLException {
-        String argument = query.get(query.get(0).size() - 1).get(0).get(0);
+    public Result request(Query query) throws SQLException {
         System.out.println(query);
-        switch (argument) {
-            case "--table":
-            case "-t":
-                return sqlConnection.searchTableNames(query.get(query.get(0).size() - 1).get(1).get(0));
-
-
-            case "-c":
-            case "--column":
-                return sqlConnection.searchColumnNames(query.get(query.get(0).size() - 1).get(1).get(0), query.get(query.get(0).size() - 2).get(1).get(0));
-            
-
-            case "-o":
-            case "--object":
-            System.out.println("Object");
-            break;
+        switch (query.getQueryType()) {
+            case SEARCH_TABLE_NAMES:
+                return sqlConnection.searchTableNames(query.getTable());
+            case SEARCH_COLUMN_NAMES:
+                return sqlConnection.searchColumnNames(query.getTable(), query.getTable()); //TODO: change this call according to what is needed in method
+            case SEARCH_OBJECTS:
+                System.out.println("Object");
+                break;
         }
-        
         return null;
     }
-
-    
-
-    
 }

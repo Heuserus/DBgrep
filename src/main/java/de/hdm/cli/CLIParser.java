@@ -8,14 +8,13 @@ import picocli.CommandLine.ArgGroup;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
 @Command(name = "dbgrep", mixinStandardHelpOptions = true, version = "dbgrep 0.0.1", description = "offers features to conveniently search thorugh a database")
 public class CLIParser implements Callable<Integer> {
 
-  @ArgGroup(exclusive = true, multiplicity = "1", heading = "Connection Details")
+  @ArgGroup(multiplicity = "1", heading = "Connection Details")
   DBConnectionParser connectionProperties;
 
   @ArgGroup(exclusive = false, multiplicity = "1..*")
@@ -43,36 +42,13 @@ public class CLIParser implements Callable<Integer> {
       e.printStackTrace();
       return -1;
     }
-    var commandlineArguments = new ArrayList<List<List<List<String>>>>();
-    for (Query argument : queryArguments) {
-      commandlineArguments.add(argument.parseQuery());
-    }
-    Controller controller = new Controller(connectionInfo, commandlineArguments);
+
+    Controller controller = new Controller(connectionInfo, queryArguments);
     controller.run();
     return 0;
-  }
-
-  public DBConnectionParser getConnectionProperties() {
-    return connectionProperties;
-  }
-
-  public void setConnectionProperties(DBConnectionParser connectionProperties) {
-    this.connectionProperties = connectionProperties;
   }
 
   public boolean isHelp() {
     return help;
   }
-
-  public void setHelp(boolean help) {
-    this.help = help;
-  }
-
-  public boolean isRecursive() {
-    return recursive;
-  }
-
-  public void setRecursive(boolean recursive) {
-    this.recursive = recursive;
-  }  
 }
