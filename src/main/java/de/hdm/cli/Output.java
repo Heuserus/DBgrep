@@ -9,6 +9,8 @@ public class Output {
    
 
     public static void printResult(Result result){
+        if (result == null) return;
+        
         var tableNames = result.getTablenames();
         var columnNames = result.getColumnNames();
         var objects = result.getObjects();

@@ -26,6 +26,7 @@ import com.mongodb.client.MongoDatabase;
 import de.hdm.JDBCDriverLoader;
 
 public class FillDB {
+    //Mongo setup is still not working on macos and linux
     public static void main(String[] args) throws IOException, SQLException {
         var driver = JDBCDriverLoader.loadDriver("drivers/mariadb-java-client-3.1.0.jar");
         DriverManager.registerDriver(driver);

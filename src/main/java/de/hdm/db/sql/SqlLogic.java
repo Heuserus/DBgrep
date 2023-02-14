@@ -1,16 +1,11 @@
-package de.hdm.db;
+package de.hdm.db.sql;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-
-import org.postgresql.core.SqlCommand;
 
 import de.hdm.datacontainer.Query;
 import de.hdm.datacontainer.Result;
 import de.hdm.db.ILogic;
-import de.hdm.db.SQLConnection;
 
 public class SqlLogic implements ILogic {
     private SQLConnection sqlConnection;
