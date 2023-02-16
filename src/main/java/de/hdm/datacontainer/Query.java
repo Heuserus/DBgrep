@@ -1,5 +1,6 @@
 package de.hdm.datacontainer;
 
+import de.hdm.constants.DBGrepConstants;
 import de.hdm.constants.DBGrepConstants.QueryType;
 import org.apache.commons.collections4.MultiValuedMap;
 import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
@@ -65,24 +66,48 @@ public class Query {
          * @param optionList list of options configured for this application
          * @param args       arguments passed to this app
          */
-        private void consumeColumn(MultiValuedMap<String, String> columns, List<String> optionList, Stack<String> args) {
-            if (args.isEmpty()) throw new IllegalArgumentException(); //TODO: throw proper exception
+        private void consumeColumn(
+                MultiValuedMap<String, String> columns,
+                List<String> optionList,
+                Stack<String> args) {
+            if (args.isEmpty() || optionList.contains(args.peek()))
+                throw new IllegalArgumentException();  //TODO: throw proper exception
 
             final String columnName = args.pop();
             final List<String> columnConditions = new ArrayList<>();
 
             while (!args.isEmpty() && !optionList.contains(args.peek())) {
-//                if (!isValidArgument(currentOptionFlag, args.peek())) {
-//                    throw new IllegalArgumentException(); //TODO: throw proper exception
-//                }
+                if (!isValidArgument(args.peek(), optionList)) {
+                    throw new IllegalArgumentException(); //TODO: throw proper exception
+                }
                 columnConditions.add(args.pop());
             }
             columns.putAll(columnName, columnConditions.isEmpty() ? List.of() : columnConditions);
         }
 
-        private boolean isValidArgument(final String optionContext, final String argument) {
-            //TODO: to be implemented
-            return false;
+        private boolean isValidArgument(final String argument, final List<String> availableCLIOptions) {
+            return isOptionArgument(argument, availableCLIOptions) ||
+                    isLogOpArgument(argument) ||
+                    isRegexArgument(argument);
+        }
+
+        private boolean isLogOpArgument(final String argument) {
+            return argument.matches(DBGrepConstants.LOG_OP_EQUALS) ||
+                    argument.matches(DBGrepConstants.LOG_OP_EQUALS_NOT) ||
+                    argument.matches(DBGrepConstants.LOG_OP_LT) ||
+                    argument.matches(DBGrepConstants.LOG_OP_GT) ||
+                    argument.matches(DBGrepConstants.LOG_OP_CONTAINS);
+        }
+
+        private boolean isOptionArgument(
+                final String argument,
+                final List<String> availableCLIOptions) {
+            return !availableCLIOptions.contains(argument) &&
+                    argument.matches(DBGrepConstants.QUERY_ARGUMENT);
+        }
+
+        private boolean isRegexArgument(final String argument) {
+            return argument.matches(DBGrepConstants.QUERY_REGEX_ARGUMENT);
         }
     }
 }
