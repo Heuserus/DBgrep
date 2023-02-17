@@ -2,7 +2,7 @@ package de.hdm.exception;
 
 import de.hdm.constants.DBGrepConstants.ExitCode;
 
-public abstract class DBGrepException extends Exception{
+public abstract class DBGrepException extends RuntimeException {
     private ExitCode exitCode;
     private String message;
 

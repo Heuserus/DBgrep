@@ -1,0 +1,7 @@
+# driver: drivers\mariadb-java-client-3.1.0.jar
+host: localhost
+port: 27017
+dbname: dbgrep
+username: root
+password: example
+protocol: mongodb

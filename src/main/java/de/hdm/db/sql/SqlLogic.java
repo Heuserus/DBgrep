@@ -1,7 +1,8 @@
-package de.hdm.db;
+package de.hdm.db.sql;
 
 import de.hdm.datacontainer.Query;
 import de.hdm.datacontainer.Result;
+import de.hdm.db.ILogic;
 
 import java.sql.SQLException;
 

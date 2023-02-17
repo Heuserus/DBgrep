@@ -6,9 +6,13 @@ import de.hdm.datacontainer.Query;
 import de.hdm.datacontainer.Result;
 import de.hdm.db.IDBConnection;
 import de.hdm.db.ILogic;
-import de.hdm.db.SQLConnection;
-import de.hdm.db.SqlLogic;
+import de.hdm.db.mongo.MongoConnect;
+import de.hdm.db.sql.SQLConnection;
+import de.hdm.db.sql.SqlLogic;
+import de.hdm.exception.UnknownDBTypeException;
 
+import java.io.IOException;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -26,23 +30,38 @@ public class Controller {
         this.queryList = queryList;
     }
 
-    public void run() throws SQLException {
+    public void run() throws SQLException, IOException {
 
         //TODO: query muss geprueft werden
         IDBConnection dbConnection;
         ILogic logic;
 
-        if (true) {
+        // Import Profile if missing
+        if (connectionInfo.getDriver() != null) {
+            var driver = JDBCDriverLoader.loadDriver(connectionInfo.getDriver());
+            DriverManager.registerDriver(driver);
+        }
 
+        // JDBC Stuff
+        if (connectionInfo.getProtocol().toLowerCase().contains("jdbc")) {
             dbConnection = new SQLConnection();
             logic = new SqlLogic((SQLConnection) dbConnection);
-        } else {
 
+            dbConnection.connect(connectionInfo);
+            for (Query query : queryList) {
+                Result result = logic.request(query);
+                Output.printResult(result);
+            }
         }
-        dbConnection.connect(connectionInfo);
-        for (Query query : queryList) {
-            Result result = logic.request(query);
-            Output.printResult(result);
+
+        // MongoDB Stuff
+        else if (connectionInfo.getProtocol().toLowerCase().contains("mongo")) {
+            try (var mongoConnection = new MongoConnect(connectionInfo)) {
+                Result result = mongoConnection.request(queryList);
+                Output.printResult(result);
+            }
+        } else {
+            throw new UnknownDBTypeException("Unknown database type for given protocol '" + connectionInfo.getProtocol() + "'.");
         }
     }
 }

@@ -1,7 +1,7 @@
 driver: drivers\mariadb-java-client-3.1.0.jar
 host: localhost
-port: 5432
+port: 3306
 dbname: dbgrep
 username: root
 password: example
-protocol: jdbc:postgresql
+protocol: jdbc:mariadb

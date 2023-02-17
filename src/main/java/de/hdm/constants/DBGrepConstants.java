@@ -4,7 +4,8 @@ public class DBGrepConstants {
     public enum ExitCode {
         OK(0, "search successfull"),
         MISSING_PROFILE(1, "Missing profile or Database connection properties."),
-        INVALID_QUERY(2, "Provided database query is invalid.");
+        INVALID_QUERY(2, "Provided database query is invalid."),
+        UNKNOWN_DATABASE(3, "Could not determine the database type (JDBC or MongoDB)");
 
         // fields
         private final int code;
