@@ -7,5 +7,5 @@ public class UnknownDBTypeException extends DBGrepException {
     public UnknownDBTypeException(String message) {
         super(ExitCode.UNKNOWN_DATABASE, message);
     }
-    
+
 }

@@ -1,20 +1,17 @@
 package de.hdm.db.mongo;
-import com.mongodb.*;
+
+import com.mongodb.ConnectionString;
+import com.mongodb.MongoClientSettings;
 import com.mongodb.ServerApi;
+import com.mongodb.ServerApiVersion;
 import com.mongodb.client.*;
-
 import de.hdm.datacontainer.ConnectionInfo;
-
 import de.hdm.datacontainer.Result;
 import de.hdm.db.IDBConnection;
 import org.bson.Document;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
-
-import static com.mongodb.client.model.Filters.eq;
 //import com.mongodb.client.MongoDatabase;
 
 public class MongoConnection implements IDBConnection {
@@ -31,7 +28,7 @@ public class MongoConnection implements IDBConnection {
     }
 
     @Override
-    public void connect(ConnectionInfo connectionInfo){
+    public void connect(ConnectionInfo connectionInfo) {
         String buildUri = "mongodb+srv://" + connectionInfo.getUsername() + ":" + connectionInfo.getPassword() + "@" + connectionInfo.getUrl() + "/?retryWrites=true&w=majority";
         connectionString = new ConnectionString(buildUri);
 
@@ -77,10 +74,10 @@ public class MongoConnection implements IDBConnection {
 
         //put the result collection in the result object
 
-        return new Result(tableNames, null, null );
+        return new Result(tableNames, null, null);
     }
 
-    public Result searchColumnNames(String column, String table){
+    public Result searchColumnNames(String column, String table) {
         MongoCollection<Document> collection = database.getCollection(table);
         FindIterable<Document> documents = collection.find(new Document("column", new Document("$exists", true)));
 
@@ -121,12 +118,10 @@ public class MongoConnection implements IDBConnection {
                 }
             }
         }
-        System.out.println("searchObjects: "+ documentList);
+        System.out.println("searchObjects: " + documentList);
         //Result rs = new Result(null, null, documentList);
         return null;
     }
-
-
 
 
     //might be unimportant
@@ -137,7 +132,7 @@ public class MongoConnection implements IDBConnection {
         for (String name : collections) {
             collectionNames.add(name);
         }
-        System.out.println("getTableNames: "+ collectionNames);
+        System.out.println("getTableNames: " + collectionNames);
         return collectionNames;
     }
 

@@ -1,7 +1,5 @@
 package de.hdm.cli;
 
-import java.util.LinkedHashMap;
-
 import de.hdm.datacontainer.Result;
 
 public class Output {
@@ -10,18 +8,18 @@ public class Output {
 
     public static void printResult(Result result){
         if (result == null) return;
-        
+
         var tableNames = result.getTablenames();
         var columnNames = result.getColumnNames();
         var objects = result.getObjects();
 
-        if(tableNames != null){
+        if (tableNames != null) {
             for (String s : tableNames) {
                 System.out.println(s);
             }
             return;
 
-        } else if(columnNames != null){
+        } else if (columnNames != null) {
             for (String s : columnNames) {
                 System.out.println(s);
             }

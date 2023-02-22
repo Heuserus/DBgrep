@@ -4,7 +4,7 @@ public class DBGrepConstants {
     public enum ExitCode {
         OK(0, "search successfull"),
         MISSING_PROFILE(1, "Missing profile or Database connection properties."),
-        INVALID_QUERY(2,"Provided database query is invalid."),
+        INVALID_QUERY(2, "Provided database query is invalid."),
         UNKNOWN_DATABASE(3, "Could not determine the database type (JDBC or MongoDB)");
 
         // fields
@@ -24,12 +24,19 @@ public class DBGrepConstants {
         public String getMessage() {
             return message;
         }
-
-        @Override
-        public String toString() {
-            return String.format("code: %, message: %", code, message);
-        }
     }
 
-    public static final String LOG_OP_EQUALS = "(\\w*[ä|Ä|ö|Ö|ü|Ü]*\\w*)+=(\\w*[ä|Ä|ö|Ö|ü|Ü]*\\w*)+";
+    public enum QueryType {
+        SEARCH_TABLE_NAMES,
+        SEARCH_COLUMN_NAMES,
+        SEARCH_OBJECTS
+    }
+
+    public static final String QUERY_ARGUMENT = "\\p{L}+$";
+    public static final String QUERY_REGEX_ARGUMENT = "[\\p{L}]*%[\\p{L}]*$";
+    public static final String LOG_OP_EQUALS = "=\\d+|=\\p{L}+$+";
+    public static final String LOG_OP_EQUALS_NOT = "!=\\d+|=\\p{L}+$+|!=\\d{1,2}\\.\\d{1,2}\\.\\d{4}|!=\\d{1,2}\\.\\d{1,2}\\.\\d{2}";
+    public static final String LOG_OP_LT = "<\\d+$|<\\d{1,2}\\.\\d{1,2}\\.\\d{4}|<\\d{1,2}\\.\\d{1,2}\\.\\d{2}";
+    public static final String LOG_OP_GT = ">\\d+$|>\\d{1,2}\\.\\d{1,2}\\.\\d{4}|>\\d{1,2}\\.\\d{1,2}\\.\\d{2}";
+    public static final String LOG_OP_CONTAINS = ">\\d+";
 }

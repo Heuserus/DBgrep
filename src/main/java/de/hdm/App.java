@@ -3,7 +3,7 @@ package de.hdm;
 import de.hdm.cli.CLIParser;
 import de.hdm.devutils.AsciiArt;
 import de.hdm.exception.DBGrepException;
-import picocli.*;
+import picocli.CommandLine;
 
 public class App {
 
@@ -18,7 +18,7 @@ public class App {
         } else {
             try {
                 exitCode = cmd.execute(args);
-            } catch(DBGrepException e){
+            } catch (DBGrepException e) {
                 System.err.println(e.getMessage());
                 e.printStackTrace();
                 System.exit(e.getExitCode().getCode());

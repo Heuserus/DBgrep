@@ -1,29 +1,18 @@
 package de.hdm.devutils;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-
-import org.bson.Document;
-
-import com.mongodb.ConnectionString;
-import com.mongodb.MongoClientSettings;
-import com.mongodb.MongoCommandException;
-import com.mongodb.ServerApi;
-import com.mongodb.ServerApiVersion;
+import com.mongodb.*;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-
 import de.hdm.JDBCDriverLoader;
+import org.bson.Document;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.sql.*;
+import java.util.ArrayList;
 
 public class FillDB {
     //Mongo setup is still not working on macos and linux
@@ -49,10 +38,10 @@ public class FillDB {
 
         try {
 
-            String[] header = { "HSTBenennung", "HTBenennung", "UTBenennung", "Karosserie", "NeupreisBrutto",
+            String[] header = {"HSTBenennung", "HTBenennung", "UTBenennung", "Karosserie", "NeupreisBrutto",
                     "Produktgruppe", "Kraftstoffart", "Schadstoffklasse", "CCM", "KW", "HSTPS", "Getriebeart",
                     "GetriebeBenennung", "AnzahlderTüren", "Leergewicht", "Zuladung", "ZulässigesGG", "Länge", "Breite",
-                    "Höhe", "CO2Emissionen", "MinEnergieeffizienzklasse", "Antrieb", "KSTAMotor", "HSTHTBenennung" };
+                    "Höhe", "CO2Emissionen", "MinEnergieeffizienzklasse", "Antrieb", "KSTAMotor", "HSTHTBenennung"};
             connection = DriverManager.getConnection(jdbcURL, username, password);
             connection.setAutoCommit(false);
 
@@ -271,7 +260,7 @@ public class FillDB {
 
         ConnectionString connectionString = new ConnectionString("mongodb://root:example@localhost/");
         MongoClientSettings settings = MongoClientSettings.builder()
-            .applyConnectionString(connectionString)
+                .applyConnectionString(connectionString)
             .serverApi(ServerApi.builder().version(ServerApiVersion.V1).build()).build();
         try (MongoClient client = MongoClients.create(settings)){
             client.getDatabase("dbgrep").getCollection("fahrzeuginfo").drop();

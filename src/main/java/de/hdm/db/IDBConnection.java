@@ -1,19 +1,17 @@
 package de.hdm.db;
 
-import java.sql.SQLException;
-
 import de.hdm.datacontainer.ConnectionInfo;
 import de.hdm.datacontainer.Result;
 
-public interface IDBConnection extends AutoCloseable {
+import java.sql.SQLException;
 
+public interface IDBConnection extends AutoCloseable {
 
 
 //    -c, --column	column to be searched, table must be specified [if used without table search in every column the name provided matches]
 
 
-
-//                -C, --column-name	search for all column names (keys) of the specified name
+    //                -C, --column-name	search for all column names (keys) of the specified name
     public Result searchColumnNames(String column, String table) throws SQLException;
 
 //    [-c, --count ]	displays result count

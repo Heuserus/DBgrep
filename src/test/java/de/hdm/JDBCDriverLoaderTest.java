@@ -1,35 +1,37 @@
 package de.hdm;
 
+import org.junit.jupiter.api.Test;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import org.junit.Assert;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class JDBCDriverLoaderTest {
-    
+
     @Test
-    public void assertLoadOracleDriver(){
-        try{
+    public void assertLoadOracleDriver() {
+        try {
             DBGrepDriver d = (DBGrepDriver) JDBCDriverLoader.loadDriver("drivers/ojdbc11.jar");
-            Assert.assertTrue(d.getDriver().toString().contains("oracle.jdbc.OracleDriver"));
-        } catch(IOException e){
+            assertTrue(d.getDriver().toString().contains("oracle.jdbc.OracleDriver"));
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     @Test
-    public void assertLoadMariaDriver(){
-        try{
+    public void assertLoadMariaDriver() {
+        try {
             DBGrepDriver d = (DBGrepDriver) JDBCDriverLoader.loadDriver("drivers/mariadb-java-client-3.1.0.jar");
-            Assert.assertTrue(d.getDriver().toString().contains("org.mariadb.jdbc.Driver"));
-        } catch(IOException e){
+            assertTrue(d.getDriver().toString().contains("org.mariadb.jdbc.Driver"));
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    @Test(expected = FileNotFoundException.class)
-    public void assertFileNotFound() throws IOException{
-            JDBCDriverLoader.loadDriver("blah/fasel");
+    @Test
+    public void assertFileNotFound() throws IOException {
+        assertThrowsExactly(FileNotFoundException.class, () -> JDBCDriverLoader.loadDriver("blah/fasel"));
     }
 }
