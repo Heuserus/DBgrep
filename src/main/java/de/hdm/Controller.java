@@ -57,6 +57,7 @@ public class Controller {
                 Output.printResult(result);
             }
         }
+
         // MongoDB Stuff
         else if (connectionInfo.getProtocol().toLowerCase().contains("mongo")) {
             try(var mongoConnection = new MongoConnect(connectionInfo)){
