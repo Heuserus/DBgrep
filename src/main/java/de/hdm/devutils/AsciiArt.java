@@ -8,7 +8,7 @@ import java.nio.file.Paths;
 
 public class AsciiArt {
 
-    public static void display_welcome_message(){
+    public static void display_welcome_message() {
         String path = "src/main/java/de/hdm/devutils/ascii/Welcome.txt";
         try {
             String ascii_art = new String(Files.readAllBytes(Paths.get(path)));
@@ -23,7 +23,7 @@ public class AsciiArt {
     public static String readFile(String fileName) {
         String content = "";
         try {
-            content = new String (Files.readAllBytes(Paths.get(fileName)));
+            content = new String(Files.readAllBytes(Paths.get(fileName)));
         } catch (IOException e) {
             e.printStackTrace();
         }

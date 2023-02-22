@@ -1,18 +1,14 @@
 package de.hdm.cli;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintStream;
+import de.hdm.datacontainer.Result;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+
+import java.io.*;
 import java.util.LinkedHashMap;
 
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
-import de.hdm.datacontainer.Result;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 public class OutputTest {
@@ -21,7 +17,7 @@ public class OutputTest {
     private static ByteArrayOutputStream stream;
     private static PrintStream printStream;
 
-    @BeforeClass
+    @BeforeAll
     public static void setupStreams() {
         backup = System.out;
         stream = new ByteArrayOutputStream();
@@ -29,7 +25,7 @@ public class OutputTest {
         System.setOut(printStream);
     }
 
-    @AfterClass
+    @AfterAll
     public static void resetStreams() {
         System.setOut(backup);
         printStream.close();
@@ -41,7 +37,7 @@ public class OutputTest {
         var res = new Result(null, null, null);
         stream.reset();
         Output.printResult(res);
-        Assert.assertEquals("", stream.toString().replace("\r", ""));
+        assertEquals("", stream.toString().replace("\r", ""));
     }
 
     @Test
@@ -50,7 +46,7 @@ public class OutputTest {
         stream.reset();
         Output.printResult(res);
         String testString = getFileContent("test_files/test_table_names_1");
-        Assert.assertEquals(testString, stream.toString().replace("\r", ""));
+        assertEquals(testString, stream.toString().replace("\r", ""));
     }
 
     @Test
@@ -59,7 +55,7 @@ public class OutputTest {
         stream.reset();
         Output.printResult(res);
         String testString = getFileContent("test_files/test_table_names_1");
-        Assert.assertEquals(testString, stream.toString().replace("\r", ""));
+        assertEquals(testString, stream.toString().replace("\r", ""));
     }
 
     @Test
@@ -83,13 +79,13 @@ public class OutputTest {
         stream.reset();
         Output.printResult(res);
         String testString = getFileContent("test_files/test_objects_1");
-        Assert.assertEquals(testString, stream.toString().replaceAll("\r", ""));
+        assertEquals(testString, stream.toString().replaceAll("\r", ""));
     }
 
     private String getFileContent(String path) {
         String testString = "";
         try (var reader = new BufferedReader(new FileReader(path))){
-            String line = null;
+            String line;
             while ((line = reader.readLine()) != null) {
                 testString += line + "\n";
             }

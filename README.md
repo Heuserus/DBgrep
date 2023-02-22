@@ -83,7 +83,7 @@ password=wurst
 - [ ] Map argument string to queries in MongoDB [Luca]\
   ![69%](https://progress-bar.dev/69)
   - [ ] Simple Regexp (nur % und das was mongodb unterstützt)  [Luca] \
-      ![0%](https://progress-bar.dev/0)
+    ![0%](https://progress-bar.dev/0)
 - [ ] Map argument string to queries in Postgres [Ben] \
   ![7%](https://progress-bar.dev/7)
   - [ ] Simple Regexp (nur % und das was mongodb unterstützt)  [Ben] \

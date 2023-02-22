@@ -1,10 +1,6 @@
 package de.hdm;
 
-import java.sql.Connection;
-import java.sql.Driver;
-import java.sql.DriverPropertyInfo;
-import java.sql.SQLException;
-import java.sql.SQLFeatureNotSupportedException;
+import java.sql.*;
 import java.util.Properties;
 import java.util.logging.Logger;
 
@@ -12,11 +8,11 @@ public class DBGrepDriver implements Driver {
 
     private Driver driver;
 
-    public DBGrepDriver(Driver driver){
+    public DBGrepDriver(Driver driver) {
         this.driver = driver;
     }
 
-    public Driver getDriver(){
+    public Driver getDriver() {
         return driver;
     }
 
@@ -54,5 +50,5 @@ public class DBGrepDriver implements Driver {
     public Logger getParentLogger() throws SQLFeatureNotSupportedException {
         return driver.getParentLogger();
     }
-    
+
 }

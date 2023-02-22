@@ -1,7 +1,6 @@
 package de.hdm.datacontainer;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import picocli.CommandLine.Option;
 
 public class ConnectionInfo {

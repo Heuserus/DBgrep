@@ -1,21 +1,20 @@
 package de.hdm.db.mongo;
+
 import de.hdm.datacontainer.Query;
 import de.hdm.datacontainer.Result;
 import de.hdm.db.ILogic;
-import java.util.List;
+
+import java.sql.SQLException;
 
 public class MongoLogic implements ILogic {
 
-    public int count(Result result){
-
-        return 0;
-
-    }
-    public int count(String[] result){
-        return 0;
-
+    public int count(Result result) {
+        return 0; //TODO: needs to be implemented
     }
 
+    public int count(String[] result) {
+        return 0; //TODO: needs to be implemented
+    }
 
 
     //example query
@@ -40,35 +39,17 @@ test
 [-c,gewicht], [-c breite]]
 
      */
-
-
-
-
-
-
-    public Result request(List<List<String>> query) {
-        //currently the method of the sql logic is used
-
-
-        String argument = query.get(query.get(0).size()-1).get(0);
+    public Result request(Query query) throws SQLException {
         System.out.println(query);
-        switch (argument) {
-            case "--table":
-            case "-t":
-                return null;
-
-
-            case "-c":
-            case "--column":
-                return null;
-
-
-            case "-o":
-            case "--object":
+        switch (query.getQueryType()) {
+            case SEARCH_TABLE_NAMES:
+                //TODO: searchTableNames
+            case SEARCH_COLUMN_NAMES:
+                //TODO: searchColumnNames
+            case SEARCH_OBJECTS:
                 System.out.println("Object");
                 break;
         }
-
         return null;
     }
 }
