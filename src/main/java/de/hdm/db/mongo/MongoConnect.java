@@ -16,6 +16,8 @@ import de.hdm.datacontainer.Query;
 import de.hdm.datacontainer.Result;
 import org.apache.commons.collections4.MultiValuedMap;
 import org.bson.Document;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 
 public class MongoConnect implements AutoCloseable {
 
@@ -31,7 +33,10 @@ public class MongoConnect implements AutoCloseable {
      * @param connectionInfo Contains information on how to reach the MongoDB instance.
      */
     public MongoConnect(ConnectionInfo connectionInfo){
-        if(true) LucasMongoConnection(connectionInfo); //for the poor mac users whos docker containers are not working :(
+        Logger mongoLogger = Logger.getLogger( "org.mongodb.driver" );
+        mongoLogger.setLevel(Level.SEVERE);
+
+        if(false) LucasMongoConnection(connectionInfo); //for the poor mac users whos docker containers are not working :(
         else {
 
             this.connectionInfo = connectionInfo;
@@ -84,24 +89,29 @@ public class MongoConnect implements AutoCloseable {
                         }
                     }
                 }
+                System.out.println(matchingDocuments);
                 break;
             case SEARCH_TABLE_NAMES:
-                String tableNameRegex = ".*" + query.getTable() + ".*";
+                String tableNameRegex = query.getTable();
                 String[] tableNames = filterCollectionNames(tableNameRegex);
                 for (String tableName : tableNames) {
                     Document tableDocument = new Document("table", tableName);
                     matchingDocuments.add(tableDocument);
+
                 }
+                System.out.println(matchingDocuments);
                 break;
             case SEARCH_COLUMN_NAMES:
-                String columnNameRegex = ".*" + query.getColumns().keySet().iterator().next() + ".*";
+                String columnNameRegex = query.getColumns().keySet().iterator().next();
                 HashMap<String, String[]> documentKeys = filterDocumentKeys(columnNameRegex);
                 for (String tableName : documentKeys.keySet()) {
                     for (String columnName : documentKeys.get(tableName)) {
                         Document columnDocument = new Document("table", tableName).append("column", columnName);
                         matchingDocuments.add(columnDocument);
+
                     }
                 }
+                System.out.println(matchingDocuments);
                 break;
         }
 
@@ -195,6 +205,7 @@ public class MongoConnect implements AutoCloseable {
                 Output.printResult(result);
             }
         }
+
         catch(Exception e){
             e.printStackTrace();
         }

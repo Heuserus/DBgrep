@@ -17,7 +17,8 @@ import java.util.stream.Collectors;
 
 public class Query {
     @Option(names = {"-c",
-            "--column"}, description = "column to be searched, table must be specified [if used without table search in every column the name provided matches", parameterConsumer = QueryPreprocessor.class)
+            "--column"}, description = "column to be searched, table must be specified [if used without table search in every column the name provided matches]",
+            parameterConsumer = QueryPreprocessor.class)
     private MultiValuedMap<String, String> columns = new ArrayListValuedHashMap<>();
     @Option(names = {"-t", "--table"}, description = "specifies table to be searched")
     private String table;
@@ -34,13 +35,22 @@ public class Query {
         final boolean columnsPresent = !columns.isEmpty();
         final boolean tablePresent = table != null;
 
-        if (tablePresent && columnsPresent)
+        if (tablePresent && columnsPresent) // TODO: Bug?: Wenn beides nicht present ist, wird trotzdem collumn names zurück gegeben
             return QueryType.SEARCH_OBJECTS;
         else if (tablePresent)
             return QueryType.SEARCH_TABLE_NAMES;
         else
             return QueryType.SEARCH_COLUMN_NAMES;
     }
+    //Only for testing -> Delete later:
+    public void setColumns(MultiValuedMap<String, String> columns) {
+        this.columns = columns;
+    }
+
+    public void setTable(String table) {
+        this.table = table;
+    }
+    ///////
 
     public static class QueryPreprocessor implements IParameterConsumer {
         @Override
@@ -110,4 +120,7 @@ public class Query {
             return argument.matches(DBGrepConstants.QUERY_REGEX_ARGUMENT);
         }
     }
+
+
+
 }
