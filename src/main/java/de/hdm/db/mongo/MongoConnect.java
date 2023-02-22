@@ -13,6 +13,7 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
 
+import de.hdm.cli.Output;
 import de.hdm.datacontainer.ConnectionInfo;
 import de.hdm.datacontainer.Query;
 import de.hdm.datacontainer.Result;
@@ -123,6 +124,12 @@ public class MongoConnect implements AutoCloseable {
             });
         } catch(Exception e){
             e.printStackTrace();
+        }
+        try(var mongoConnection = new MongoConnect(connectionInfo)){
+            for (Query query : queryList) {
+                Result result = mongoConnection.request(query);
+                Output.printResult(result);
+            }
         }
     }
 
