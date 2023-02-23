@@ -203,7 +203,8 @@ public class MongoConnect implements AutoCloseable {
     }
 
     private LinkedHashMap<String, String[]> filterDocumentKeys(String collectionQuery, String docKeyQuery){
-        // todo: filtern nach allen keys, die zu `docKeyQuery` passen.
+        // todo: richtige doku
+        // filtern nach allen keys, die zu `docKeyQuery` passen.
         //  Aber nur in den Collections, die zu `collectionQuery` passen.
         var collectionNames = filterCollectionNames(collectionQuery);
         LinkedHashMap<String, String[]> res = new LinkedHashMap<>();

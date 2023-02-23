@@ -33,7 +33,7 @@ public class Query {
         final boolean columnQueryPresent = !columns.isEmpty() && columns.values().stream().allMatch(""::equals);
         final boolean tablePresent = table != null;
 
-        if (tablePresent && objectQueryPresent) // TODO: Bug?: Wenn beides nicht present ist, wird trotzdem collumn names zurück gegeben
+        if (tablePresent && objectQueryPresent)
             return QueryType.SEARCH_OBJECTS;
         else if (!columnQueryPresent && tablePresent)
             return QueryType.SEARCH_TABLE_NAMES;
