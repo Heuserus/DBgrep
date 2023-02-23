@@ -76,22 +76,25 @@ public class MongoConnect implements AutoCloseable {
         List<Document> matchingDocuments = new ArrayList<>();
 
         switch (query.getQueryType()) {
-            case SEARCH_OBJECTS:
-                MultiValuedMap<String, String> columns = query.getColumns();
-                String table = query.getTable();
-                for (String column : columns.keySet()) {
-                    List<String> conditions = (List<String>) columns.get(column);
-                    for (String condition : conditions) {
-                        Document filter = new Document(column, condition);
-                        FindIterable<Document> results = db.getCollection(table).find(filter);
-                        for (Document result : results) {
-                            matchingDocuments.add(result);
-                        }
-                    }
-                }
-                System.out.println(matchingDocuments);
-                break;
-            case SEARCH_TABLE_NAMES:
+            case SEARCH_OBJECTS -> {
+//                MultiValuedMap<String, String> columns = query.getColumns();
+//                String table = query.getTable();
+//                for (String column : columns.keySet()) {
+//                    List<String> conditions = (List<String>) columns.get(column);
+//                    for (String condition : conditions) {
+//                        Document filter = new Document(column, condition);
+//                        FindIterable<Document> results = db.getCollection(table).find(filter);
+//                        for (Document result : results) {
+//                            matchingDocuments.add(result);
+//                        }
+//                    }
+//                }
+//                System.out.println(matchingDocuments);
+//                break;
+                var objects = searchObjects(query);
+                return new Result(null, null, objects);
+            }
+            case SEARCH_TABLE_NAMES -> {
 //                String tableNameRegex = query.getTable();
 //                String[] tableNames = filterCollectionNames(tableNameRegex);
 //                for (String tableName : tableNames) {
@@ -102,7 +105,8 @@ public class MongoConnect implements AutoCloseable {
 //                System.out.println(matchingDocuments);
                 var tables = filterCollectionNames(query.getTable());
                 return new Result(tables, null, null);
-            case SEARCH_COLUMN_NAMES:
+            }
+            case SEARCH_COLUMN_NAMES -> {
 //                String columnNameRegex = query.getColumns().keySet().iterator().next();
 //                HashMap<String, String[]> documentKeys = filterDocumentKeys(columnNameRegex);
 //                for (String tableName : documentKeys.keySet()) {
@@ -113,41 +117,56 @@ public class MongoConnect implements AutoCloseable {
 //                    }
 //                }
 //                System.out.println(matchingDocuments);
+                LinkedHashMap<String, String[]> _res;
                 var key = query.getColumns().keys().iterator().next();
-                var _res = filterDocumentKeys(key);
-                var res = new HashSet<String>();
-                for (var _key : _res.values()){
+                if (query.getTable() == null){ // if no table query is specified search in every table
+                    _res = filterDocumentKeys(key);
+                } else {
+                    _res = filterDocumentKeys(query.getTable(), key);
+                }
+
+                var res = new LinkedHashSet<String>();
+                for (var _key : _res.values()) {
                     res.addAll(Arrays.asList(_key));
                 }
                 return new Result(null, res.toArray(new String[res.size()]), null);
-        }
-
-        String[] tableNames = new String[matchingDocuments.size()];
-        String[] columnNames = new String[matchingDocuments.size()];
-        LinkedHashMap<String, LinkedHashMap<String, String>[]> objects = new LinkedHashMap<>();
-
-        for (int i = 0; i < matchingDocuments.size(); i++) {
-            Document document = matchingDocuments.get(i);
-            Set<String> keySet = document.keySet();
-            LinkedHashMap<String, String>[] rows = new LinkedHashMap[1];
-            LinkedHashMap<String, String> row = new LinkedHashMap<>();
-
-            for (String key : keySet) {
-                Object value = document.get(key);
-                String valueString = (value == null) ? "" : value.toString();
-                row.put(key, valueString);
             }
-
-            rows[0] = row;
-            objects.put(document.getString("table"), rows);
-            tableNames[i] = document.getString("table");
-            columnNames[i] = document.getString("column");
+            default -> {
+                throw new RuntimeException("Query is of unknown Type"); //todo throw correct exception
+            }
         }
 
-        return new Result(tableNames, columnNames, objects);
+//        String[] tableNames = new String[matchingDocuments.size()];
+//        String[] columnNames = new String[matchingDocuments.size()];
+//        LinkedHashMap<String, LinkedHashMap<String, String>[]> objects = new LinkedHashMap<>();
+//
+//        for (int i = 0; i < matchingDocuments.size(); i++) {
+//            Document document = matchingDocuments.get(i);
+//            Set<String> keySet = document.keySet();
+//            LinkedHashMap<String, String>[] rows = new LinkedHashMap[1];
+//            LinkedHashMap<String, String> row = new LinkedHashMap<>();
+//
+//            for (String key : keySet) {
+//                Object value = document.get(key);
+//                String valueString = (value == null) ? "" : value.toString();
+//                row.put(key, valueString);
+//            }
+//
+//            rows[0] = row;
+//            objects.put(document.getString("table"), rows);
+//            tableNames[i] = document.getString("table");
+//            columnNames[i] = document.getString("column");
+//        }
+//
+//        return new Result(tableNames, columnNames, objects);
     }
 
 
+    private LinkedHashMap<String, LinkedHashMap<String, String>[]> searchObjects(Query query){
+        // todo: aus query objekt eine Mongo query machen
+        //  zurückgeben in der from linkedHashMap<ColletionName, LinkedHashMap<Key, Value>[]> (also pro Collection Name die 'Zeilen' der Documents
+        return null;
+    }
 
 
     private String[] filterCollectionNames(String query){
@@ -163,22 +182,42 @@ public class MongoConnect implements AutoCloseable {
     }
 
 
-    private HashMap<String, String[]> filterDocumentKeys(String query){
-        HashMap<String, String[]> res = new HashMap<>();
+    private LinkedHashMap<String, String[]> filterDocumentKeys(String query){
+        LinkedHashMap<String, String[]> res = new LinkedHashMap<>();
         var collections = db.listCollectionNames();
 
         for (String collectionName : collections) {
-            HashSet<String> keys = new HashSet<>();
+            ArrayList<String> keys = new ArrayList<>();
             var collection = db.getCollection(collectionName);
 
-            collection.find().forEach((var doc) ->{
-                doc.keySet().forEach((var key) -> {
+            collection.find().forEach((doc) ->{
+                doc.keySet().forEach((key) -> {
                     if(key.matches(query)){
                         keys.add(key);
                     }
                 });
             });
             res.put(collectionName, keys.toArray(new String[keys.size()]));
+        }
+        return res;
+    }
+
+    private LinkedHashMap<String, String[]> filterDocumentKeys(String collectionQuery, String docKeyQuery){
+        // todo: filtern nach allen keys, die zu `docKeyQuery` passen.
+        //  Aber nur in den Collections, die zu `collectionQuery` passen.
+        var collectionNames = filterCollectionNames(collectionQuery);
+        LinkedHashMap<String, String[]> res = new LinkedHashMap<>();
+        for(var name : collectionNames){
+            var collection = db.getCollection(name);
+            ArrayList<String> keys = new ArrayList<>();
+            collection.find().forEach((doc) ->{
+                doc.keySet().forEach((var key) -> {
+                    if(key.matches(docKeyQuery)){
+                        keys.add(key);
+                    }
+                });
+            });
+            res.put(name, keys.toArray(new String[keys.size()]));
         }
         return res;
     }
