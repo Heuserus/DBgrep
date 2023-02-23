@@ -9,10 +9,7 @@ import picocli.CommandLine.Model.ArgSpec;
 import picocli.CommandLine.Model.CommandSpec;
 import picocli.CommandLine.Option;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Query {
@@ -32,15 +29,18 @@ public class Query {
     }
 
     public QueryType getQueryType() {
-        final boolean columnsPresent = !columns.isEmpty();
+        final boolean objectQueryPresent = !columns.isEmpty() && !columns.values().stream().allMatch(""::equals);
+        final boolean columnQueryPresent = !columns.isEmpty() && columns.values().stream().allMatch(""::equals);
         final boolean tablePresent = table != null;
 
-        if (tablePresent && columnsPresent) // TODO: Bug?: Wenn beides nicht present ist, wird trotzdem collumn names zurück gegeben
+        if (tablePresent && objectQueryPresent) // TODO: Bug?: Wenn beides nicht present ist, wird trotzdem collumn names zurück gegeben
             return QueryType.SEARCH_OBJECTS;
-        else if (tablePresent)
+        else if (!columnQueryPresent && tablePresent)
             return QueryType.SEARCH_TABLE_NAMES;
-        else
+        else if (tablePresent)
             return QueryType.SEARCH_COLUMN_NAMES;
+        else // this is the case if columns.isEmpty() == true and table == null
+            throw new RuntimeException("Something is wrong with the query"); // Todo: Throw correct exception
     }
     //Only for testing -> Delete later:
     public void setColumns(MultiValuedMap<String, String> columns) {
