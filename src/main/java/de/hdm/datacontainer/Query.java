@@ -92,7 +92,7 @@ public class Query {
                 }
                 columnConditions.add(args.pop());
             }
-            columns.putAll(columnName, columnConditions.isEmpty() ? List.of() : columnConditions);
+            columns.putAll(columnName, columnConditions.isEmpty() ? List.of("") : columnConditions);
         }
 
         private boolean isValidArgument(final String argument, final List<String> availableCLIOptions) {

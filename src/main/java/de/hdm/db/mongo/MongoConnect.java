@@ -92,27 +92,34 @@ public class MongoConnect implements AutoCloseable {
                 System.out.println(matchingDocuments);
                 break;
             case SEARCH_TABLE_NAMES:
-                String tableNameRegex = query.getTable();
-                String[] tableNames = filterCollectionNames(tableNameRegex);
-                for (String tableName : tableNames) {
-                    Document tableDocument = new Document("table", tableName);
-                    matchingDocuments.add(tableDocument);
-
-                }
-                System.out.println(matchingDocuments);
-                break;
+//                String tableNameRegex = query.getTable();
+//                String[] tableNames = filterCollectionNames(tableNameRegex);
+//                for (String tableName : tableNames) {
+//                    Document tableDocument = new Document("table", tableName);
+//                    matchingDocuments.add(tableDocument);
+//
+//                }
+//                System.out.println(matchingDocuments);
+                var tables = filterCollectionNames(query.getTable());
+                return new Result(tables, null, null);
             case SEARCH_COLUMN_NAMES:
-                String columnNameRegex = query.getColumns().keySet().iterator().next();
-                HashMap<String, String[]> documentKeys = filterDocumentKeys(columnNameRegex);
-                for (String tableName : documentKeys.keySet()) {
-                    for (String columnName : documentKeys.get(tableName)) {
-                        Document columnDocument = new Document("table", tableName).append("column", columnName);
-                        matchingDocuments.add(columnDocument);
-
-                    }
+//                String columnNameRegex = query.getColumns().keySet().iterator().next();
+//                HashMap<String, String[]> documentKeys = filterDocumentKeys(columnNameRegex);
+//                for (String tableName : documentKeys.keySet()) {
+//                    for (String columnName : documentKeys.get(tableName)) {
+//                        Document columnDocument = new Document("table", tableName).append("column", columnName);
+//                        matchingDocuments.add(columnDocument);
+//
+//                    }
+//                }
+//                System.out.println(matchingDocuments);
+                var key = query.getColumns().keys().iterator().next();
+                var _res = filterDocumentKeys(key);
+                var res = new HashSet<String>();
+                for (var _key : _res.values()){
+                    res.addAll(Arrays.asList(_key));
                 }
-                System.out.println(matchingDocuments);
-                break;
+                return new Result(null, res.toArray(new String[res.size()]), null);
         }
 
         String[] tableNames = new String[matchingDocuments.size()];
