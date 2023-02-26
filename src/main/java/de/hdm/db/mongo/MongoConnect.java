@@ -23,6 +23,7 @@ import org.bson.conversions.Bson;
 
 import java.util.logging.Logger;
 import java.util.logging.Level;
+import java.util.regex.Pattern;
 
 public class MongoConnect implements AutoCloseable {
 
@@ -209,19 +210,40 @@ public class MongoConnect implements AutoCloseable {
     }
 
     private Bson parse_object_query(String key, String col) {
+        // This function takes in a key (column name) and a col (column condition) and returns a Bson object
+        // representing the query for that column and condition.
+
+        // If the condition starts with '=', create an 'eq' query (equals)
         if (col.startsWith("=")){
             return Filters.eq(key, col.substring(1));
-        } else if (col.startsWith("!=")) {
+        }
+        // If the condition starts with '!=', create a 'ne' query (not equals)
+        else if (col.startsWith("!=")) {
             return Filters.ne(key, col.substring(2));
-        } else if (col.startsWith("<")) {
+        }
+        // If the condition starts with '<', create a 'lt' query (less than)
+        else if (col.startsWith("<")) {
             return Filters.lt(key, col.substring(1));
-        } else if (col.startsWith(">")) {
+        }
+        // If the condition starts with '>', create a 'gt' query (greater than)
+        else if (col.startsWith(">")) {
             return Filters.gt(key, col.substring(1));
-        } else {
-            // todo string suche entweder regex oder normal
-            throw new RuntimeException("String suche ist noch nicht implementiert!");
+        }
+        // If the condition is a string, create a regex query
+        else {
+            // Create a regex pattern from the column condition
+            String pattern = col.substring(1); // remove the leading '+' or '-' character
+            if (col.startsWith("+")) { // if the condition starts with '+', match the pattern exactly
+                pattern = "^" + pattern + "$";
+            } else if (col.startsWith("-")) { // if the condition starts with '-', match the pattern as a substring
+                pattern = ".*" + pattern + ".*";
+            }
+            // Compile the regex pattern and create a 'regex' query
+            Pattern regexPattern = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE);
+            return Filters.regex(key, regexPattern);
         }
     }
+
 
 
     private String[] filterCollectionNames(String query){
