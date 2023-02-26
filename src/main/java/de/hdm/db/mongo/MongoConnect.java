@@ -1,6 +1,7 @@
 package de.hdm.db.mongo;
 
 import java.io.ByteArrayOutputStream;
+import java.sql.Array;
 import java.sql.ResultSet;
 import java.util.*;
 
@@ -10,12 +11,16 @@ import com.mongodb.ServerApi;
 import com.mongodb.ServerApiVersion;
 import com.mongodb.client.*;
 
+import com.mongodb.client.model.Filters;
 import de.hdm.cli.Output;
 import de.hdm.datacontainer.ConnectionInfo;
 import de.hdm.datacontainer.Query;
 import de.hdm.datacontainer.Result;
 import org.apache.commons.collections4.MultiValuedMap;
+import org.bson.BSONCallback;
 import org.bson.Document;
+import org.bson.conversions.Bson;
+
 import java.util.logging.Logger;
 import java.util.logging.Level;
 
@@ -92,7 +97,11 @@ public class MongoConnect implements AutoCloseable {
 //                System.out.println(matchingDocuments);
 //                break;
                 var objects = searchObjects(query);
-                return new Result(null, null, objects);
+                if (objects == null) {
+                    return new Result(null, null, null); // found nothing
+                } else {
+                    return new Result(null, null, objects);
+                }
             }
             case SEARCH_TABLE_NAMES -> {
 //                String tableNameRegex = query.getTable();
@@ -120,9 +129,9 @@ public class MongoConnect implements AutoCloseable {
                 LinkedHashMap<String, String[]> _res;
                 var key = query.getColumns().keys().iterator().next();
                 if (query.getTable() == null){ // if no table query is specified search in every table
-                    _res = filterDocumentKeys(key);
+                    _res = filterDocumentKeys(key); // -c docKey -> searches in whole database
                 } else {
-                    _res = filterDocumentKeys(query.getTable(), key);
+                    _res = filterDocumentKeys(query.getTable(), key); // -t test -c docKey -> searches in specific table
                 }
 
                 var res = new LinkedHashSet<String>();
@@ -161,11 +170,53 @@ public class MongoConnect implements AutoCloseable {
 //        return new Result(tableNames, columnNames, objects);
     }
 
+    // columnname: ["=xxx", "!=blah", ...]
+    // columnname2: [">xxx", "<blah", ...]
 
     private LinkedHashMap<String, LinkedHashMap<String, String>[]> searchObjects(Query query){
         // todo: aus query objekt eine Mongo query machen
         //  zurückgeben in der from linkedHashMap<ColletionName, LinkedHashMap<Key, Value>[]> (also pro Collection Name die 'Zeilen' der Documents
-        return null;
+        //  https://www.mongodb.com/docs/drivers/java/sync/v4.3/fundamentals/crud/query-document/
+        var collection = db.getCollection(query.getTable());
+        var and_query = new ArrayList<Bson>();
+        for (var key : query.getColumns().keys()) {
+            for (var col : query.getColumns().get(key)) {
+                and_query.add(parse_object_query(key, col));
+            }
+        }
+        var found = collection.find(Filters.and(and_query));
+
+        // Create result object
+        var cols = new ArrayList<LinkedHashMap<String, String>>();
+        for ( var f : found) {
+            var col = new LinkedHashMap<String, String>();
+            for ( var key : f.keySet()){
+                col.put(key, f.get(key).toString());
+            }
+            cols.add(col);
+        }
+        if (cols.isEmpty()) {
+            return null;
+        } else {
+
+            var res = new LinkedHashMap<String, LinkedHashMap<String, String>[]>();
+            res.put(query.getTable(), cols.toArray(new LinkedHashMap[cols.size()]));
+            return res;
+        }
+    }
+
+    private Bson parse_object_query(String key, String col) {
+        if (col.startsWith("=")){
+            return Filters.eq(key, col.substring(1));
+        } else if (col.startsWith("!=")) {
+            return Filters.ne(key, col.substring(2));
+        } else if (col.startsWith("<")) {
+            return Filters.lt(key, col.substring(1));
+        } else if (col.startsWith(">")) {
+            return Filters.gt(key, col.substring(1));
+        } else {
+            throw new RuntimeException("Unsupported operand type. Suported types are =, !=, < and >"); // todo throw correct exception type.
+        }
     }
 
 
