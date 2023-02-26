@@ -47,6 +47,13 @@
             <version>4.7.0</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/info.picocli/picocli-codegen -->
+        <dependency>
+            <groupId>info.picocli</groupId>
+            <artifactId>picocli-codegen</artifactId>
+            <version>4.7.1</version>
+        </dependency>
+
         <!-- https://mvnrepository.com/artifact/org.mongodb/mongo-java-driver -->
         <dependency>
             <groupId>org.mongodb</groupId>
@@ -75,6 +82,14 @@
             <version>RELEASE</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.assertj/assertj-core -->
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>3.24.2</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -87,21 +102,32 @@
                 <configuration>
                     <source>16</source>
                     <target>16</target>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>info.picocli</groupId>
+                            <artifactId>picocli-codegen</artifactId>
+                            <version>4.7.1</version>
+                        </path>
+                    </annotationProcessorPaths>
+                    <compilerArgs>
+                        <arg>-Aproject=de.hdm/dbgrep</arg>
+                    </compilerArgs>
                 </configuration>
             </plugin>
 
-            <!-- <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-javadoc-plugin</artifactId>
-          <version>3.1.1</version>
-              <configuration>
-              <linksource>true</linksource>
-                <additionalOptions>
-                  <additionalOption>-html5</additionalOption>
-                </additionalOptions>
-                <javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
-              </configuration>
-            </plugin> -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.2</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <mainClass>de.hdm.App</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
