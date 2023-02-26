@@ -215,7 +215,8 @@ public class MongoConnect implements AutoCloseable {
         } else if (col.startsWith(">")) {
             return Filters.gt(key, col.substring(1));
         } else {
-            throw new RuntimeException("Unsupported operand type. Suported types are =, !=, < and >"); // todo throw correct exception type.
+            // todo string suche entweder regex oder normal
+            throw new RuntimeException("String suche ist noch nicht implementiert!");
         }
     }
 
