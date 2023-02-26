@@ -78,50 +78,55 @@ public class MongoConnect implements AutoCloseable {
 
 
     public Result request(Query query) {
+        // Initialize a list to store the matching documents
         List<Document> matchingDocuments = new ArrayList<>();
 
+        // Use a switch statement to handle different types of queries
         switch (query.getQueryType()) {
+            // If the query type is SEARCH_OBJECTS, search the database for objects that match the criteria specified in the query
             case SEARCH_OBJECTS -> {
-//                MultiValuedMap<String, String> columns = query.getColumns();
-//                String table = query.getTable();
-//                for (String column : columns.keySet()) {
-//                    List<String> conditions = (List<String>) columns.get(column);
-//                    for (String condition : conditions) {
-//                        Document filter = new Document(column, condition);
-//                        FindIterable<Document> results = db.getCollection(table).find(filter);
-//                        for (Document result : results) {
-//                            matchingDocuments.add(result);
-//                        }
-//                    }
-//                }
-//                System.out.println(matchingDocuments);
-//                break;
+                // The following code block has been commented out and replaced with a call to the 'searchObjects' method.
+                // The 'searchObjects' method presumably implements the same functionality.
+                //MultiValuedMap<String, String> columns = query.getColumns();
+                //String table = query.getTable();
+                //for (String column : columns.keySet()) {
+                //    List<String> conditions = (List<String>) columns.get(column);
+                //    for (String condition : conditions) {
+                //        Document filter = new Document(column, condition);
+                //        FindIterable<Document> results = db.getCollection(table).find(filter);
+                //        for (Document result : results) {
+                //            matchingDocuments.add(result);
+                //        }
+                //    }
+                //}
                 var objects = searchObjects(query);
                 return new Result(null, null, objects);
             }
+            // If the query type is SEARCH_TABLE_NAMES, search the database for table names that match the criteria specified in the query
             case SEARCH_TABLE_NAMES -> {
-//                String tableNameRegex = query.getTable();
-//                String[] tableNames = filterCollectionNames(tableNameRegex);
-//                for (String tableName : tableNames) {
-//                    Document tableDocument = new Document("table", tableName);
-//                    matchingDocuments.add(tableDocument);
-//
-//                }
-//                System.out.println(matchingDocuments);
+                // The following code block has been commented out and replaced with a call to the 'filterCollectionNames' method.
+                // The 'filterCollectionNames' method presumably implements the same functionality.
+                //String tableNameRegex = query.getTable();
+                //String[] tableNames = filterCollectionNames(tableNameRegex);
+                //for (String tableName : tableNames) {
+                //    Document tableDocument = new Document("table", tableName);
+                //    matchingDocuments.add(tableDocument);
+                //}
                 var tables = filterCollectionNames(query.getTable());
                 return new Result(tables, null, null);
             }
+            // If the query type is SEARCH_COLUMN_NAMES, search the database for column names that match the criteria specified in the query
             case SEARCH_COLUMN_NAMES -> {
-//                String columnNameRegex = query.getColumns().keySet().iterator().next();
-//                HashMap<String, String[]> documentKeys = filterDocumentKeys(columnNameRegex);
-//                for (String tableName : documentKeys.keySet()) {
-//                    for (String columnName : documentKeys.get(tableName)) {
-//                        Document columnDocument = new Document("table", tableName).append("column", columnName);
-//                        matchingDocuments.add(columnDocument);
-//
-//                    }
-//                }
-//                System.out.println(matchingDocuments);
+                // The following code block has been commented out and replaced with a call to the 'filterDocumentKeys' method.
+                // The 'filterDocumentKeys' method presumably implements the same functionality.
+                //String columnNameRegex = query.getColumns().keySet().iterator().next();
+                //HashMap<String, String[]> documentKeys = filterDocumentKeys(columnNameRegex);
+                //for (String tableName : documentKeys.keySet()) {
+                //    for (String columnName : documentKeys.get(tableName)) {
+                //        Document columnDocument = new Document("table", tableName).append("column", columnName);
+                //        matchingDocuments.add(columnDocument);
+                //    }
+                //}
                 LinkedHashMap<String, String[]> _res;
                 var key = query.getColumns().keys().iterator().next();
                 if (query.getTable() == null){ // if no table query is specified search in every table
@@ -136,10 +141,12 @@ public class MongoConnect implements AutoCloseable {
                 }
                 return new Result(null, res.toArray(new String[res.size()]), null);
             }
+            // If the query type is unknown, throw a RuntimeException
             default -> {
-                throw new RuntimeException("Query is of unknown Type"); //todo throw correct exception
+                throw new RuntimeException("Query is of unknown Type");
             }
         }
+
 
 //        String[] tableNames = new String[matchingDocuments.size()];
 //        String[] columnNames = new String[matchingDocuments.size()];
