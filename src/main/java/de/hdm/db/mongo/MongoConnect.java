@@ -97,11 +97,7 @@ public class MongoConnect implements AutoCloseable {
 //                System.out.println(matchingDocuments);
 //                break;
                 var objects = searchObjects(query);
-                if (objects == null) {
-                    return new Result(null, null, null); // found nothing
-                } else {
-                    return new Result(null, null, objects);
-                }
+                return new Result(null, null, objects);
             }
             case SEARCH_TABLE_NAMES -> {
 //                String tableNameRegex = query.getTable();
