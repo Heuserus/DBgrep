@@ -35,49 +35,39 @@ public class MongoConnect implements AutoCloseable {
 
 
     /**
-     * Connects to a MongoDB instance with the given connection info.
+     * Connects to a MongoDB instance with the given {@link ConnectionInfo}.
      * @param connectionInfo Contains information on how to reach the MongoDB instance.
      */
     public MongoConnect(ConnectionInfo connectionInfo){
+        // suppress a log warning
         Logger mongoLogger = Logger.getLogger( "org.mongodb.driver" );
         mongoLogger.setLevel(Level.SEVERE);
 
-        if(false) LucasMongoConnection(connectionInfo); //for the poor mac users whos docker containers are not working :(
-        else {
+        this.connectionInfo = connectionInfo;
+        // connect to mongodb and save connection
+        var _uri = connectionInfo.getProtocol() + "://"
+                + connectionInfo.getUsername() + ":"
+                + connectionInfo.getPassword() + "@"
+                + connectionInfo.getHost() + ":"
+                + connectionInfo.getPort() + "/";
+        ConnectionString uri = new ConnectionString(_uri);
 
-            this.connectionInfo = connectionInfo;
-            // connect to mongodb and save connection
-            var _uri = connectionInfo.getProtocol() + "://"
-                    + connectionInfo.getUsername() + ":"
-                    + connectionInfo.getPassword() + "@"
-                    + connectionInfo.getHost() + ":"
-                    + connectionInfo.getPort() + "/";
-            ConnectionString uri = new ConnectionString(_uri);
-
-            var settings = MongoClientSettings.builder()
-                    .applyConnectionString(uri)
-                    .serverApi(
-                            ServerApi.builder()
-                                    .version(ServerApiVersion.V1).build())
-                    .build();
-            mongoClient = MongoClients.create(settings);
-            db = mongoClient.getDatabase(connectionInfo.getDbname());
-        }
-    }
-
-    public void LucasMongoConnection(ConnectionInfo connectionInfo){
-        ConnectionString connectionString = new ConnectionString("mongodb+srv://user:BTulHuo6VgfpUkeu@dbgrep.o3uj6ms.mongodb.net/?retryWrites=true&w=majority");
-        MongoClientSettings settings = MongoClientSettings.builder()
-                .applyConnectionString(connectionString)
-                .serverApi(ServerApi.builder()
-                        .version(ServerApiVersion.V1)
-                        .build())
+        var settings = MongoClientSettings.builder()
+                .applyConnectionString(uri)
+                .serverApi(
+                        ServerApi.builder()
+                                .version(ServerApiVersion.V1).build())
                 .build();
         mongoClient = MongoClients.create(settings);
         db = mongoClient.getDatabase(connectionInfo.getDbname());
     }
 
 
+    /**
+     * Search in a MongoDB for the parameters specified in the {@link Query}-object.
+     * @param query This contains the parameters for what should be searched in the MongoDB.
+     * @return A {@link Result}-object with the Data retrieved from the MongoDB.
+     */
     public Result request(Query query) {
         // Initialize a list to store the matching documents
         List<Document> matchingDocuments = new ArrayList<>();
@@ -86,48 +76,16 @@ public class MongoConnect implements AutoCloseable {
         switch (query.getQueryType()) {
             // If the query type is SEARCH_OBJECTS, search the database for objects that match the criteria specified in the query
             case SEARCH_OBJECTS -> {
-                // The following code block has been commented out and replaced with a call to the 'searchObjects' method.
-                // The 'searchObjects' method presumably implements the same functionality.
-                //MultiValuedMap<String, String> columns = query.getColumns();
-                //String table = query.getTable();
-                //for (String column : columns.keySet()) {
-                //    List<String> conditions = (List<String>) columns.get(column);
-                //    for (String condition : conditions) {
-                //        Document filter = new Document(column, condition);
-                //        FindIterable<Document> results = db.getCollection(table).find(filter);
-                //        for (Document result : results) {
-                //            matchingDocuments.add(result);
-                //        }
-                //    }
-                //}
                 var objects = searchObjects(query);
                 return new Result(null, null, objects);
             }
             // If the query type is SEARCH_TABLE_NAMES, search the database for table names that match the criteria specified in the query
             case SEARCH_TABLE_NAMES -> {
-                // The following code block has been commented out and replaced with a call to the 'filterCollectionNames' method.
-                // The 'filterCollectionNames' method presumably implements the same functionality.
-                //String tableNameRegex = query.getTable();
-                //String[] tableNames = filterCollectionNames(tableNameRegex);
-                //for (String tableName : tableNames) {
-                //    Document tableDocument = new Document("table", tableName);
-                //    matchingDocuments.add(tableDocument);
-                //}
                 var tables = filterCollectionNames(query.getTable());
                 return new Result(tables, null, null);
             }
             // If the query type is SEARCH_COLUMN_NAMES, search the database for column names that match the criteria specified in the query
             case SEARCH_COLUMN_NAMES -> {
-                // The following code block has been commented out and replaced with a call to the 'filterDocumentKeys' method.
-                // The 'filterDocumentKeys' method presumably implements the same functionality.
-                //String columnNameRegex = query.getColumns().keySet().iterator().next();
-                //HashMap<String, String[]> documentKeys = filterDocumentKeys(columnNameRegex);
-                //for (String tableName : documentKeys.keySet()) {
-                //    for (String columnName : documentKeys.get(tableName)) {
-                //        Document columnDocument = new Document("table", tableName).append("column", columnName);
-                //        matchingDocuments.add(columnDocument);
-                //    }
-                //}
                 LinkedHashMap<String, String[]> _res;
                 var key = query.getColumns().keys().iterator().next();
                 if (query.getTable() == null){ // if no table query is specified search in every table
@@ -147,40 +105,16 @@ public class MongoConnect implements AutoCloseable {
                 throw new RuntimeException("Query is of unknown Type");
             }
         }
-
-
-//        String[] tableNames = new String[matchingDocuments.size()];
-//        String[] columnNames = new String[matchingDocuments.size()];
-//        LinkedHashMap<String, LinkedHashMap<String, String>[]> objects = new LinkedHashMap<>();
-//
-//        for (int i = 0; i < matchingDocuments.size(); i++) {
-//            Document document = matchingDocuments.get(i);
-//            Set<String> keySet = document.keySet();
-//            LinkedHashMap<String, String>[] rows = new LinkedHashMap[1];
-//            LinkedHashMap<String, String> row = new LinkedHashMap<>();
-//
-//            for (String key : keySet) {
-//                Object value = document.get(key);
-//                String valueString = (value == null) ? "" : value.toString();
-//                row.put(key, valueString);
-//            }
-//
-//            rows[0] = row;
-//            objects.put(document.getString("table"), rows);
-//            tableNames[i] = document.getString("table");
-//            columnNames[i] = document.getString("column");
-//        }
-//
-//        return new Result(tableNames, columnNames, objects);
     }
 
-    // columnname: ["=xxx", "!=blah", ...]
-    // columnname2: [">xxx", "<blah", ...]
 
+    /**
+     * Search through the information stored in the MongoDB.
+     * @param query Search parameters containing information on what should be searched.
+     * @return A {@link LinkedHashMap} containing the per collection the documents that were retrieved.
+     */
     private LinkedHashMap<String, LinkedHashMap<String, String>[]> searchObjects(Query query){
-        // todo: aus query objekt eine Mongo query machen
-        //  zurückgeben in der from linkedHashMap<ColletionName, LinkedHashMap<Key, Value>[]> (also pro Collection Name die 'Zeilen' der Documents
-        //  https://www.mongodb.com/docs/drivers/java/sync/v4.3/fundamentals/crud/query-document/
+        // Create the query and send it to the DB
         var collection = db.getCollection(query.getTable());
         var and_query = new ArrayList<Bson>();
         for (var key : query.getColumns().keys()) {
@@ -190,7 +124,7 @@ public class MongoConnect implements AutoCloseable {
         }
         var found = collection.find(Filters.and(and_query));
 
-        // Create result object
+        // Create result object from the found data
         var cols = new ArrayList<LinkedHashMap<String, String>>();
         for ( var f : found) {
             var col = new LinkedHashMap<String, String>();
@@ -209,6 +143,13 @@ public class MongoConnect implements AutoCloseable {
         }
     }
 
+
+    /**
+     * Translate the user input into a Mongo search query.
+     * @param key The document key.
+     * @param col The input of the user that should match the value of the document.
+     * @return A {@link Bson}-object which represents the Mongo search query.
+     */
     private Bson parse_object_query(String key, String col) {
         // This function takes in a key (column name) and a col (column condition) and returns a Bson object
         // representing the query for that column and condition.
@@ -245,7 +186,11 @@ public class MongoConnect implements AutoCloseable {
     }
 
 
-
+    /**
+     * Get the names of all existing MongoDB collections and match them against the query.
+     * @param query The collection names need to match this query.
+     * @return All found collection names matching the query.
+     */
     private String[] filterCollectionNames(String query){
         ArrayList<String> res = new ArrayList<>();
         var names = db.listCollectionNames();
@@ -259,6 +204,11 @@ public class MongoConnect implements AutoCloseable {
     }
 
 
+    /**
+     * Get the keys from all existing Documents in the DB and match them against the query.
+     * @param query The keys need to match this query.
+     * @return All found keys matching the query.
+     */
     private LinkedHashMap<String, String[]> filterDocumentKeys(String query){
         LinkedHashMap<String, String[]> res = new LinkedHashMap<>();
         var collections = db.listCollectionNames();
@@ -279,10 +229,14 @@ public class MongoConnect implements AutoCloseable {
         return res;
     }
 
+
+    /**
+     * Get the keys from all documents that match the collectionQuery and match them against the docKeyQuery.
+     * @param collectionQuery The query matching the collection names.
+     * @param docKeyQuery The query matching the keys of the documents in the found collections.
+     * @return A {@link LinkedHashMap} containing the document keys per collection.
+     */
     private LinkedHashMap<String, String[]> filterDocumentKeys(String collectionQuery, String docKeyQuery){
-        // todo: richtige doku
-        // filtern nach allen keys, die zu `docKeyQuery` passen.
-        //  Aber nur in den Collections, die zu `collectionQuery` passen.
         var collectionNames = filterCollectionNames(collectionQuery);
         LinkedHashMap<String, String[]> res = new LinkedHashMap<>();
         for(var name : collectionNames){
@@ -300,40 +254,6 @@ public class MongoConnect implements AutoCloseable {
         return res;
     }
 
-
-    public static void main(String[] args) {
-        ConnectionInfo info = new ConnectionInfo();
-        info.setDbname("dbgrep");
-        info.setHost("localhost");
-        info.setPassword("example");
-        info.setUsername("root");
-        info.setPort(27017);
-        info.setProtocol("mongodb");
-        info.setDbname("test"); //Collection in the mongo cloud
-
-// simons code:
-//        try(MongoConnect m = new MongoConnect(info)){
-//            // Arrays.stream(m.filterCollectionNames(".*")).forEach((s) -> System.out.println(s));
-//            m.filterDocumentKeys(".*").forEach((var key, var val) -> {
-//                System.out.println(key);
-//                Arrays.stream(val).forEach((var s) -> System.out.println("  " + s));
-//            });
-//        } catch(Exception e){
-//            e.printStackTrace();
-//        }
-
-
-        try(var mongoConnection = new MongoConnect(info)){
-            for (Query query : queryList) {
-                Result result = mongoConnection.request(query);
-                Output.printResult(result);
-            }
-        }
-
-        catch(Exception e){
-            e.printStackTrace();
-        }
-    }
 
     @Override
     public void close() {
