@@ -11,9 +11,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.LinkedBlockingQueue;
 
-import org.apache.commons.collections4.MultiSet;
 import org.apache.commons.collections4.MultiValuedMap;
 
 public class SQLConnection implements IDBConnection {
@@ -23,6 +21,10 @@ public class SQLConnection implements IDBConnection {
     private DatabaseMetaData metaData;
     private String w = "T";
 
+    /**
+     * Builds Connection to the database
+     * @param connectionInfo Connectioninfo and authentication parameters.
+     */
     public void connect(ConnectionInfo connectionInfo) throws SQLException {
         connection = DriverManager.getConnection(connectionInfo.getUrl(), connectionInfo.getUsername(), connectionInfo.getPassword());
         statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -31,6 +33,11 @@ public class SQLConnection implements IDBConnection {
         metaData = connection.getMetaData();
     }
 
+    /**
+     * Searches through all tables of the database
+     * @param table Searchword
+     * @return Resultobject filled with tablenames
+     */
     public Result searchTableNames(String table) throws SQLException {
         
         List<String> matchingTables = getTableNames(table);
@@ -40,7 +47,12 @@ public class SQLConnection implements IDBConnection {
         return result;
     }
 
-    public List<String> getTableNames(String table) throws SQLException {
+    /**
+     * Searches through all tables of the database
+     * @param table Searchword
+     * @return String with tables matching the searchword
+     */
+    private List<String> getTableNames(String table) throws SQLException {
         ResultSet rs = metaData.getTables(null, null, null, new String[]{"TABLE"});
 
         List<String> tables = new ArrayList<>();
@@ -56,7 +68,13 @@ public class SQLConnection implements IDBConnection {
         return matchingTables;
     }
 
-    public List<String> getMatchingStrings(List<String> strings, String input) {
+    /**
+     * Helper function to get all strings of a list that contain the input string
+     * @param strings List to search through
+     * @param input Input string 
+     * @return List of matching strings
+     */
+    private List<String> getMatchingStrings(List<String> strings, String input) {
         List<String> matchingStrings = new ArrayList<>();
         for (String string : strings) {
             if (string.toLowerCase().contains(input.toLowerCase())) {
@@ -66,23 +84,39 @@ public class SQLConnection implements IDBConnection {
         return matchingStrings;
     }
 
-    public Result searchColumnNames(String column, String table) throws SQLException {
+    /**
+     * Searches through all columns of a set of tables
+     * @param table Searchword
+     * @param column Searchword
+     * @return Resultobject filled with columns and the tables they belong to
+     */
+    public Result searchColumnNames(MultiValuedMap<String, String> columns, String table) throws SQLException {
         List<String> tables = getTableNames(table);
-        List<String> matchingColumns = getColumnNames(column, tables.get(0));
+        LinkedHashMap<String,String[]> resColumns = new LinkedHashMap<>();
+        
 
-        for (int i = 1; i < tables.size(); i++) {
-            List<String> columnsOfTable = getColumnNames(column, tables.get(i));
-            matchingColumns.addAll(columnsOfTable);
+        for (int i = 0; i < tables.size(); i++) {
+            List<String> columnsOfTable = getColumnNames(columns, tables.get(i));
+            resColumns.put(tables.get(i),columnsOfTable.stream().toArray(String[]::new));
         }
 
-        String[] strings = matchingColumns.stream().toArray(String[]::new);
-//        Result result = new Result(null, strings, null);
-//        return result;
-        return null; // todo remove me
+        
+        
+        Result result = new Result(null, resColumns, null);
+        return result;
+        
     }
 
-    List<String> getColumnNames(String column, String table) throws SQLException {
+    /**
+     * Returns matching tables from one table
+     * @param query Searchword
+     * @param table Single found table
+     * @return Columns of a table matching the searchword
+     * @throws SQLException
+     */
+    private List<String> getColumnNames(MultiValuedMap<String, String> query, String table) throws SQLException {
         ResultSet rs = statement.executeQuery("select * from " + table);
+        String column = query.keys().iterator().next();
         ResultSetMetaData rsMetaData = rs.getMetaData();
         int count = rsMetaData.getColumnCount();
         List<String> columns = new ArrayList<>();
@@ -93,7 +127,12 @@ public class SQLConnection implements IDBConnection {
         return matchingColumns;
     }
 
-    public String[] getConditions(MultiValuedMap<String, String> columns) {
+    /**
+     * Turns the Column conditions from the query into a String Array
+     * @param columns Multivalued Column Map
+     * @return SQL Query Conditions as String Array
+     */
+    private String[] getConditions(MultiValuedMap<String, String> columns) {
         System.out.println(columns.size());
         String[] conditions = new String[columns.size()];
         Set<String> keys = columns.keySet();
@@ -116,7 +155,7 @@ public class SQLConnection implements IDBConnection {
                     value = con.substring(1, con.length());
                 }
                 
-                conditions[conditionIt] = column + " " + operator + "'" + value + "'";
+                conditions[conditionIt] = "'" + column + "'" + " " + operator + "'" + value + "'";
                 conditionIt++;
             }
         }
@@ -125,7 +164,14 @@ public class SQLConnection implements IDBConnection {
         return conditions;
     }
 
-    public LinkedHashMap<String, LinkedHashMap<String,String>[]> rsToHashMap(ResultSet result) throws SQLException{
+
+    /**
+     * Turns the Resultset from the query into a LinkedHashMap
+     * @param result Resultset from SQL Query
+     * @return LinkedHashmap of Results
+     * @throws SQLException
+     */
+    private LinkedHashMap<String, LinkedHashMap<String,String>[]> rsToHashMap(ResultSet result) throws SQLException{
         LinkedHashMap<String, LinkedHashMap<String,String>[]> resultMap = new LinkedHashMap<String, LinkedHashMap<String,String>[]>();
         ResultSetMetaData meta = result.getMetaData();
         String tableName = meta.getTableName(1);
@@ -155,6 +201,13 @@ public class SQLConnection implements IDBConnection {
 
     } 
 
+    /**
+     * Main Search function. Searches for Object (rows) in a Table
+     * @param table Table to be searched in
+     * @param columns Conditions for the query
+     * @return Result filled with found Objects
+     * @throws SQLException
+     */
     public Result searchObjects(String table, MultiValuedMap<String, String> columns) throws SQLException {
         StringBuilder queryBuilder = new StringBuilder();
         String[] conditions = getConditions(columns);

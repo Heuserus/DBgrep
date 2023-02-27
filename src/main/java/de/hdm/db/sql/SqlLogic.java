@@ -10,20 +10,19 @@ public class SqlLogic implements ILogic {
     private SQLConnection sqlConnection;
     private Query query;
 
+    /**
+     * Constructor for SQLLogic.
+     * @param sqlConnection JDBC Connection object
+     */
     public SqlLogic(SQLConnection sqlConnection) {
         this.sqlConnection = sqlConnection;
     }
 
-    
-
-    public int count(Result result) {
-        return 0;
-    }
-
-    public int count(String[] result) {
-        return 0;
-    }
-
+    /**
+     * Request function to execute the correct sql query.
+     * @param query Query object 
+     * @return Resultobject filled with the result data.
+     */
     public Result request(Query query) throws SQLException {
         
         switch (query.getQueryType()) {
@@ -31,7 +30,7 @@ public class SqlLogic implements ILogic {
                 
                 return sqlConnection.searchTableNames(query.getTable());
             case SEARCH_COLUMN_NAMES:
-                return sqlConnection.searchColumnNames(query.getTable(), query.getTable()); //TODO: change this call according to what is needed in method
+                return sqlConnection.searchColumnNames(query.getColumns(), query.getTable()); 
             case SEARCH_OBJECTS:
                 return sqlConnection.searchObjects(query.getTable(), query.getColumns());
                 
