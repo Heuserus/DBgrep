@@ -75,6 +75,15 @@
             <version>RELEASE</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.assertj/assertj-core -->
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>3.24.2</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -89,19 +98,6 @@
                     <target>16</target>
                 </configuration>
             </plugin>
-
-            <!-- <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-javadoc-plugin</artifactId>
-          <version>3.1.1</version>
-              <configuration>
-              <linksource>true</linksource>
-                <additionalOptions>
-                  <additionalOption>-html5</additionalOption>
-                </additionalOptions>
-                <javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
-              </configuration>
-            </plugin> -->
 
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>

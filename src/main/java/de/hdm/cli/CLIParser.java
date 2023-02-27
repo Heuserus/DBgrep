@@ -23,10 +23,41 @@ public class CLIParser implements Callable<Integer> {
     @Option(names = {"-h", "--help"}, usageHelp = true, description = "display help message")
     private boolean help = false;
 
+    /**
+     * Only implemented for testing purposes
+     *
+     * @return connectionProperties parsed from the commandline.
+     */
+    public DBConnectionParser getConnectionProperties() {
+        return connectionProperties;
+    }
 
-    @Option(names = {"-r", "--recursive"}, description = "follow foreign keys")
-    private boolean recursive;
+    /**
+     * Only implemented for testing purposes
+     *
+     * @param connectionProperties parsed from the commandline.
+     */
+    public void setConnectionProperties(DBConnectionParser connectionProperties) {
+        this.connectionProperties = connectionProperties;
+    }
 
+    /**
+     * Only implemented for testing purposes
+     *
+     * @return queryArguments parsed from the commandline.
+     */
+    public List<Query> getQueryArguments() {
+        return queryArguments;
+    }
+
+    /**
+     * Only implemented for testing purposes
+     *
+     * @param queryArguments parsed from the commandline.
+     */
+    public void setQueryArguments(List<Query> queryArguments) {
+        this.queryArguments = queryArguments;
+    }
 
     @Override
     public Integer call() throws Exception {

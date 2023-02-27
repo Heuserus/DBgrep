@@ -9,22 +9,44 @@
   <url>https://freedocs.mi.hdm-stuttgart.de/sd1_sect_mavenCli.html</url>
   <build>
     <plugins>
-      <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.8.1</version>
-        <configuration>
-          <source>16</source>
-          <target>16</target>
-        </configuration>
-      </plugin>
-      <plugin>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.0.0-M9</version>
-      </plugin>
-      <plugin>
-        <artifactId>maven-shade-plugin</artifactId>
-        <version>3.2.1</version>
-        <executions>
+        <plugin>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>3.8.1</version>
+            <configuration>
+                <source>16</source>
+                <target>16</target>
+                <annotationProcessorPaths>
+                    <path>
+                        <groupId>info.picocli</groupId>
+                        <artifactId>picocli-codegen</artifactId>
+                        <version>4.7.1</version>
+                    </path>
+                </annotationProcessorPaths>
+                <compilerArgs>
+                    <arg>-Aproject=de.hdm/dbgrep</arg>
+                </compilerArgs>
+            </configuration>
+        </plugin>
+        <plugin>
+            <artifactId>maven-jar-plugin</artifactId>
+            <version>3.2.2</version>
+            <configuration>
+                <archive>
+                    <manifest>
+                        <addClasspath>true</addClasspath>
+                        <mainClass>de.hdm.App</mainClass>
+                    </manifest>
+                </archive>
+            </configuration>
+        </plugin>
+        <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>3.0.0-M9</version>
+        </plugin>
+        <plugin>
+            <artifactId>maven-shade-plugin</artifactId>
+            <version>3.2.1</version>
+            <executions>
           <execution>
             <phase>package</phase>
             <goals>

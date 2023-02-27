@@ -14,11 +14,46 @@ import java.util.Optional;
 
 public class DBConnectionParser {
     @ArgGroup(exclusive = false, heading = "Connection Properties")
-    ConnectionInfo connectionInfo;
+    private ConnectionInfo connectionInfo;
 
     @Option(names = {"-p", " --profile"}, description = "connection path/profile")
-    Optional<String> profile;
+    private Optional<String> profile;
 
+    /**
+     * For testing purposes only.
+     *
+     * @return parsed from the commandline.
+     */
+    public ConnectionInfo getConnectionInfo() {
+        return connectionInfo;
+    }
+
+    /**
+     * For testing purposes only.
+     *
+     * @param connectionInfo parsed from the commandline.
+     */
+    public void setConnectionInfo(ConnectionInfo connectionInfo) {
+        this.connectionInfo = connectionInfo;
+    }
+
+    /**
+     * For testing purposes only.
+     *
+     * @return profile parsed from the commandline.
+     */
+    public Optional<String> getProfile() {
+        return profile;
+    }
+
+    /**
+     * For testing purposes only.
+     *
+     * @param profile profile from the commandline.
+     */
+    public void setProfile(Optional<String> profile) {
+        this.profile = profile;
+    }
 
     public ConnectionInfo parse() throws IOException, MissingProfileException {
         if (connectionInfo != null) {
