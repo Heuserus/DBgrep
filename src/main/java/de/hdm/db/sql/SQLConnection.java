@@ -65,8 +65,9 @@ public class SQLConnection implements IDBConnection {
         }
 
         String[] strings = matchingColumns.stream().toArray(String[]::new);
-        Result result = new Result(null, strings, null);
-        return result;
+//        Result result = new Result(null, strings, null);
+//        return result;
+        return null; // todo remove me
     }
 
     List<String> getColumnNames(String column, String table) throws SQLException {
