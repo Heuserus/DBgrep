@@ -8,25 +8,25 @@ public class ConnectionInfo {
     @JsonIgnore
     public String url; // needed for mongodb
 
-    @Option(names = "--protocol", description = "", required = true)
+    @Option(names = "--protocol", description = "The protocol of the connection. Something like 'mongo' or 'jdbc:mariadb'.", required = true)
     private String protocol;
 
-    @Option(names = "--driver", description = "", required = false)
+    @Option(names = "--driver", description = "Path to the JDBC driver of the database.", required = false)
     private String driver;
 
-    @Option(names = "--host", description = "", required = true)
+    @Option(names = "--host", description = "Hostname of the host on which the database management system is running.", required = true)
     private String host;
 
-    @Option(names = "--port", description = "", required = true)
+    @Option(names = "--port", description = "Port of the database management system.", required = true)
     private Integer port;
 
-    @Option(names = "--dbname", description = "", required = true)
+    @Option(names = "--dbname", description = "The name of the database.", required = true)
     private String dbname;
 
-    @Option(names = "--username", description = "", required = true)
+    @Option(names = "--username", description = "Username for authentication.", required = true)
     private String username;
 
-    @Option(names = "--password", description = "", required = true)
+    @Option(names = "--password", description = "Password for authentication.", required = true)
     private String password;
 
     public String getDriver() {
