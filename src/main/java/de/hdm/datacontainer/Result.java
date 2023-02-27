@@ -9,10 +9,10 @@ import java.util.LinkedHashMap;
 public class Result {
     
     private String[] tablenames;
-    private String[] columnNames;
+    private LinkedHashMap<String, String[]> columnNames;
     private LinkedHashMap<String, LinkedHashMap<String, String>[]> objects;
 
-    public Result(String[] tablenames, String[] columnNames, LinkedHashMap<String, LinkedHashMap<String, String>[]> objects) {
+    public Result(String[] tablenames, LinkedHashMap<String, String[]> columnNames, LinkedHashMap<String, LinkedHashMap<String, String>[]> objects) {
         this.tablenames = tablenames;
         this.columnNames = columnNames;
         this.objects = objects;
@@ -22,7 +22,7 @@ public class Result {
         return tablenames;
     }
 
-    public String[] getColumnNames() {
+    public LinkedHashMap<String, String[]> getColumnNames() {
         return columnNames;
     }
 

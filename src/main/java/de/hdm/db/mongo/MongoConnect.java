@@ -80,19 +80,14 @@ public class MongoConnect implements AutoCloseable {
             }
             // If the query type is SEARCH_COLUMN_NAMES, search the database for column names that match the criteria specified in the query
             case SEARCH_COLUMN_NAMES -> {
-                LinkedHashMap<String, String[]> _res;
+                LinkedHashMap<String, String[]> res;
                 var key = query.getColumns().keys().iterator().next();
                 if (query.getTable() == null){ // if no table query is specified search in every table
-                    _res = filterDocumentKeys(key); // -c docKey -> searches in whole database
+                    res = filterDocumentKeys(key); // -c docKey -> searches in whole database
                 } else {
-                    _res = filterDocumentKeys(query.getTable(), key); // -t test -c docKey -> searches in specific table
+                    res = filterDocumentKeys(query.getTable(), key); // -t test -c docKey -> searches in specific table
                 }
-
-                var res = new LinkedHashSet<String>();
-                for (var _key : _res.values()) {
-                    res.addAll(Arrays.asList(_key));
-                }
-                return new Result(null, res.toArray(new String[res.size()]), null);
+                return new Result(null, res, null);
             }
             // If the query type is unknown, throw a RuntimeException
             default -> {
@@ -208,7 +203,7 @@ public class MongoConnect implements AutoCloseable {
         var collections = db.listCollectionNames();
 
         for (String collectionName : collections) {
-            ArrayList<String> keys = new ArrayList<>();
+            var keys = new LinkedHashSet<>();
             var collection = db.getCollection(collectionName);
 
             collection.find().forEach((doc) ->{
@@ -235,7 +230,7 @@ public class MongoConnect implements AutoCloseable {
         LinkedHashMap<String, String[]> res = new LinkedHashMap<>();
         for(var name : collectionNames){
             var collection = db.getCollection(name);
-            ArrayList<String> keys = new ArrayList<>();
+            var keys = new LinkedHashSet<String>();
             collection.find().forEach((doc) ->{
                 doc.keySet().forEach((var key) -> {
                     if(key.matches(docKeyQuery)){

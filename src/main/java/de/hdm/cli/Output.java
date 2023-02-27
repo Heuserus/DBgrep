@@ -20,8 +20,11 @@ public class Output {
             return;
 
         } else if (columnNames != null) {
-            for (String s : columnNames) {
-                System.out.println(s);
+            for (String key : columnNames.keySet()) {
+                System.out.println(key);
+                for (var value : columnNames.get(key)){
+                    System.out.println("  " + value);
+                }
             }
             return;
 
