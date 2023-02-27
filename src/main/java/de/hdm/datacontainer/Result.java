@@ -66,10 +66,4 @@ public class Result {
       
         this.objects = result;
       }
-      
-    
-    
-    
-
-    
 }
