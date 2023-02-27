@@ -8,11 +8,8 @@ public class ConnectionInfo {
     @JsonIgnore
     public String url; // needed for mongodb
 
-    @Option(names = "--protocol", description = "The protocol of the connection. Something like 'mongo' or 'jdbc:mariadb'.", required = true)
+    @Option(names = "--protocol", description = "The protocol of the connection. Something like 'mongodb' or 'jdbc:mariadb'.", required = true)
     private String protocol;
-
-    @Option(names = "--driver", description = "Path to the JDBC driver of the database.", required = false)
-    private String driver;
 
     @Option(names = "--host", description = "Hostname of the host on which the database management system is running.", required = true)
     private String host;
@@ -28,6 +25,9 @@ public class ConnectionInfo {
 
     @Option(names = "--password", description = "Password for authentication.", required = true)
     private String password;
+
+    @Option(names = "--driver", description = "Path to the JDBC driver of the database. The Postgresql and MongoDB drivers are already contained in this package.", required = false)
+    private String driver;
 
     public String getDriver() {
         return driver;

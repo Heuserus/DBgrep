@@ -13,12 +13,18 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Query {
-    @Option(names = {"-c",
-            "--column"}, description = "column to be searched, table must be specified [if used without table search in every column the name provided matches]",
-            parameterConsumer = QueryPreprocessor.class)
-    private MultiValuedMap<String, String> columns = new ArrayListValuedHashMap<>();
-    @Option(names = {"-t", "--table"}, description = "specifies table to be searched")
+    @Option(names = {"-t", "--table"}, description = "Specifies the table to be searched.")
     private String table;
+
+    @Option(names = {"-c",
+            "--column"}, description = """
+            Columns to be searched. If one argument is given a column name search is executed. If two arguments are given a content search is executed. Supported operators are =, !=, <, >, + and -
+            The + operator matches a regex pattern exactly. The - operator matches a pattern as a substring.
+            """,
+            parameterConsumer = QueryPreprocessor.class)
+
+
+    private MultiValuedMap<String, String> columns = new ArrayListValuedHashMap<>();
 
     public MultiValuedMap<String, String> getColumns() {
         return columns;

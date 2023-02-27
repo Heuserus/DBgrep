@@ -13,10 +13,10 @@ import java.io.IOException;
 import java.util.Optional;
 
 public class DBConnectionParser {
-    @ArgGroup(exclusive = false, heading = "Connection Properties")
+    @ArgGroup(exclusive = false)
     ConnectionInfo connectionInfo;
 
-    @Option(names = {"-p", " --profile"}, description = "connection path/profile")
+    @Option(names = {"-p", " --profile"}, description = "Path to the profile file containing the connection information.")
     Optional<String> profile;
 
 
