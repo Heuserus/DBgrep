@@ -1,8 +1,5 @@
 package de.hdm.db.mongo;
 
-import java.io.ByteArrayOutputStream;
-import java.sql.Array;
-import java.sql.ResultSet;
 import java.util.*;
 
 import com.mongodb.ConnectionString;
@@ -12,12 +9,9 @@ import com.mongodb.ServerApiVersion;
 import com.mongodb.client.*;
 
 import com.mongodb.client.model.Filters;
-import de.hdm.cli.Output;
 import de.hdm.datacontainer.ConnectionInfo;
 import de.hdm.datacontainer.Query;
 import de.hdm.datacontainer.Result;
-import org.apache.commons.collections4.MultiValuedMap;
-import org.bson.BSONCallback;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
