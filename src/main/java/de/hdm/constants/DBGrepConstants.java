@@ -33,10 +33,9 @@ public class DBGrepConstants {
     }
 
     public static final String QUERY_ARGUMENT = "\\p{L}+$";
-    public static final String QUERY_REGEX_ARGUMENT = "[\\p{L}]*%[\\p{L}]*$";
-    public static final String LOG_OP_EQUALS = "=\\d+|=\\p{L}+$+";
-    public static final String LOG_OP_EQUALS_NOT = "!=\\d+|=\\p{L}+$+|!=\\d{1,2}\\.\\d{1,2}\\.\\d{4}|!=\\d{1,2}\\.\\d{1,2}\\.\\d{2}";
-    public static final String LOG_OP_LT = "<\\d+$|<\\d{1,2}\\.\\d{1,2}\\.\\d{4}|<\\d{1,2}\\.\\d{1,2}\\.\\d{2}";
-    public static final String LOG_OP_GT = ">\\d+$|>\\d{1,2}\\.\\d{1,2}\\.\\d{4}|>\\d{1,2}\\.\\d{1,2}\\.\\d{2}";
-    public static final String LOG_OP_CONTAINS = ">\\d+";
+    public static final String QUERY_REGEX_ARGUMENT = "=[\\p{L}]*%[\\p{L}]*$";
+    public static final String LOG_OP_EQUALS = "^=[\\p{L}\\d.\\-_,!?:() ]+$";
+    public static final String LOG_OP_EQUALS_NOT = "^!=[\\p{L}\\d.\\-_,!?:() ]+$";
+    public static final String LOG_OP_LT = "^<[\\p{L}\\d.\\-_,!?:() ]+$";
+    public static final String LOG_OP_GT = "^>[\\p{L}\\d.\\-_,!?:() ]+$";
 }
