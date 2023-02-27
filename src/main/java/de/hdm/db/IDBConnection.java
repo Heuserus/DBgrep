@@ -9,30 +9,38 @@ import org.apache.commons.collections4.MultiValuedMap;
 
 public interface IDBConnection extends AutoCloseable {
 
-
-//    -c, --column	column to be searched, table must be specified [if used without table search in every column the name provided matches]
-
-
-    //                -C, --column-name	search for all column names (keys) of the specified name
+    /**
+     * Finds column names of tables
+     * @param columns Searchword
+     * @param table Tables in which so search
+     * @return Result filled with found Columns
+     * @throws SQLException
+     */
     public Result searchColumnNames(MultiValuedMap<String, String> columns, String table) throws SQLException;
 
-//    [-c, --count ]	displays result count
+    /**
+     * Finds Tables in the Database
+     * @param table Searchword
+     * @return Result filled with tablenames
+     * @throws SQLException
+     */
     public Result searchTableNames(String table) throws SQLException;
 
-//    -t, --table	specifies table to be searched
+    /**
+     * Finds Objects in the Database
+     * @param table Table in which to search
+     * @param columns Conditions for the search
+     * @return Result filled with found Objects
+     * @throws SQLException
+     */
     public Result searchObjects(String table, MultiValuedMap<String, String> columns) throws SQLException;
 
+    /**
+     * Builds connection to the database
+     * @param connectionInfo Authentication and Connectioninfo
+     * @throws SQLException
+     */
     public void connect(ConnectionInfo connectionInfo) throws SQLException;
-//    -T, --table-name	specifies a table name to be searched
-
-//    - r, --recursive	follow foreign keys
-
-//    , --and	boolean AND operator specifying optional condition
-
-//    , --or	boolean OR operator specifying optional condition
-
-//    , --color	luca implements
-
 
 
 }
