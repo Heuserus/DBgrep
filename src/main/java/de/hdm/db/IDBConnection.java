@@ -14,7 +14,7 @@ public interface IDBConnection extends AutoCloseable {
 
 
     //                -C, --column-name	search for all column names (keys) of the specified name
-    public Result searchColumnNames(String column, String table) throws SQLException;
+    public Result searchColumnNames(MultiValuedMap<String, String> columns, String table) throws SQLException;
 
 //    [-c, --count ]	displays result count
     public Result searchTableNames(String table) throws SQLException;

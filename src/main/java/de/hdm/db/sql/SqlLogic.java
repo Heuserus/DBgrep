@@ -31,7 +31,7 @@ public class SqlLogic implements ILogic {
                 
                 return sqlConnection.searchTableNames(query.getTable());
             case SEARCH_COLUMN_NAMES:
-                return sqlConnection.searchColumnNames(query.getTable(), query.getTable()); //TODO: change this call according to what is needed in method
+                return sqlConnection.searchColumnNames(query.getColumns(), query.getTable()); //TODO: change this call according to what is needed in method
             case SEARCH_OBJECTS:
                 return sqlConnection.searchObjects(query.getTable(), query.getColumns());
                 

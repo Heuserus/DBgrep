@@ -66,23 +66,26 @@ public class SQLConnection implements IDBConnection {
         return matchingStrings;
     }
 
-    public Result searchColumnNames(String column, String table) throws SQLException {
+    public Result searchColumnNames(MultiValuedMap<String, String> columns, String table) throws SQLException {
         List<String> tables = getTableNames(table);
-        List<String> matchingColumns = getColumnNames(column, tables.get(0));
+        LinkedHashMap<String,String[]> resColumns = new LinkedHashMap<>();
+        
 
-        for (int i = 1; i < tables.size(); i++) {
-            List<String> columnsOfTable = getColumnNames(column, tables.get(i));
-            matchingColumns.addAll(columnsOfTable);
+        for (int i = 0; i < tables.size(); i++) {
+            List<String> columnsOfTable = getColumnNames(columns, tables.get(i));
+            resColumns.put(tables.get(i),columnsOfTable.stream().toArray(String[]::new));
         }
 
-        String[] strings = matchingColumns.stream().toArray(String[]::new);
-//        Result result = new Result(null, strings, null);
-//        return result;
-        return null; // todo remove me
+        
+        
+        Result result = new Result(null, resColumns, null);
+        return result;
+        
     }
 
-    List<String> getColumnNames(String column, String table) throws SQLException {
+    List<String> getColumnNames(MultiValuedMap<String, String> query, String table) throws SQLException {
         ResultSet rs = statement.executeQuery("select * from " + table);
+        String column = query.keys().iterator().next();
         ResultSetMetaData rsMetaData = rs.getMetaData();
         int count = rsMetaData.getColumnCount();
         List<String> columns = new ArrayList<>();
