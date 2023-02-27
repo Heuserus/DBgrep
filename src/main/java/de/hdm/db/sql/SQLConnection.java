@@ -103,7 +103,19 @@ public class SQLConnection implements IDBConnection {
             Collection<String> keyConditions = columns.get(column);
             Iterator<String> keyConditionsIt = keyConditions.iterator();
             while(keyConditionsIt.hasNext()){
-                conditions[conditionIt] = column + " " + keyConditionsIt.next();
+                String con = keyConditionsIt.next();
+                String operator = "";
+                String value = "";
+                if(con.length()>2 && con.substring(1,2).equals("=")){
+                    operator = con.substring(0,2);
+                    value = con.substring(2, con.length());
+                }
+                else{
+                    operator = con.substring(0,1);
+                    value = con.substring(1, con.length());
+                }
+                
+                conditions[conditionIt] = column + " " + operator + "'" + value + "'";
                 conditionIt++;
             }
         }
