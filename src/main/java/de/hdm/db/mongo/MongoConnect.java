@@ -215,7 +215,13 @@ public class MongoConnect implements AutoCloseable {
             });
             res.put(collectionName, keys.toArray(new String[keys.size()]));
         }
-        return res;
+        // check if keys were found
+        for( var key : res.keySet()){
+            if (res.get(key).length != 0) {
+                return res;
+            }
+        }
+        return null;
     }
 
 
@@ -239,6 +245,12 @@ public class MongoConnect implements AutoCloseable {
                 });
             });
             res.put(name, keys.toArray(new String[keys.size()]));
+        }
+        // check if keys were found
+        for( var key : res.keySet()){
+            if (res.get(key).length != 0) {
+                return res;
+            }
         }
         return res;
     }
