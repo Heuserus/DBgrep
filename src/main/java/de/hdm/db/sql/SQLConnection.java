@@ -6,7 +6,15 @@ import de.hdm.db.IDBConnection;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.LinkedBlockingQueue;
+
+import org.apache.commons.collections4.MultiSet;
+import org.apache.commons.collections4.MultiValuedMap;
 
 public class SQLConnection implements IDBConnection {
 
@@ -17,12 +25,14 @@ public class SQLConnection implements IDBConnection {
 
     public void connect(ConnectionInfo connectionInfo) throws SQLException {
         connection = DriverManager.getConnection(connectionInfo.getUrl(), connectionInfo.getUsername(), connectionInfo.getPassword());
-        statement = connection.createStatement();
+        statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+        ResultSet.CONCUR_READ_ONLY,
+        ResultSet.CLOSE_CURSORS_AT_COMMIT);
         metaData = connection.getMetaData();
     }
 
     public Result searchTableNames(String table) throws SQLException {
-
+        
         List<String> matchingTables = getTableNames(table);
         String[] strings = matchingTables.stream().toArray(String[]::new);
         Result result = new Result(strings, null, null);
@@ -31,13 +41,14 @@ public class SQLConnection implements IDBConnection {
     }
 
     public List<String> getTableNames(String table) throws SQLException {
-        ResultSet rs = metaData.getTables(null, null, table, null);
+        ResultSet rs = metaData.getTables(null, null, null, new String[]{"TABLE"});
 
         List<String> tables = new ArrayList<>();
         while (rs.next()) {
+            
 
             if (rs.getObject("table_type") != null && rs.getObject("table_type", w.getClass()).equals("TABLE")) {
-                //System.out.println(rs.getString("TABLE_NAME"));
+                
                 tables.add(rs.getString("TABLE_NAME"));
             }
         }
@@ -81,9 +92,59 @@ public class SQLConnection implements IDBConnection {
         return matchingColumns;
     }
 
+    public String[] getConditions(MultiValuedMap<String, String> columns) {
+        System.out.println(columns.size());
+        String[] conditions = new String[columns.size()];
+        Set<String> keys = columns.keySet();
+        Iterator<String> keysIt = keys.iterator();
+        int conditionIt = 0;
+        while(keysIt.hasNext()){
+            String column = keysIt.next();
+            Collection<String> keyConditions = columns.get(column);
+            Iterator<String> keyConditionsIt = keyConditions.iterator();
+            while(keyConditionsIt.hasNext()){
+                conditions[conditionIt] = column + " " + keyConditionsIt.next();
+                conditionIt++;
+            }
+        }
+        
 
-    public Result searchObjects(String table, String[] conditions) throws SQLException {
+        return conditions;
+    }
+
+    public LinkedHashMap<String, LinkedHashMap<String,String>[]> rsToHashMap(ResultSet result) throws SQLException{
+        LinkedHashMap<String, LinkedHashMap<String,String>[]> resultMap = new LinkedHashMap<String, LinkedHashMap<String,String>[]>();
+        ResultSetMetaData meta = result.getMetaData();
+        String tableName = meta.getTableName(1);
+        int columnCount = meta.getColumnCount();
+        String[] columns = new String[columnCount+1];
+        int size = 0;
+        while (result.next()) {
+            size++;
+        }
+        result.beforeFirst();
+        for (int i = 1; i <= columnCount; i++ ) {
+            columns[i] = meta.getColumnName(i);
+          }
+        int rowIndex = 0;
+        LinkedHashMap<String, String>[] rows = new LinkedHashMap[size];
+        while(result.next()){
+            LinkedHashMap<String,String> row = new LinkedHashMap<String,String>();
+            for(int i = 1; i<= columnCount; i++){
+            
+                row.put(columns[i],result.getString(i));
+            }
+            rows[rowIndex] = row;
+            rowIndex++;
+        }
+        resultMap.put(tableName,rows);
+        return resultMap;
+
+    } 
+
+    public Result searchObjects(String table, MultiValuedMap<String, String> columns) throws SQLException {
         StringBuilder queryBuilder = new StringBuilder();
+        String[] conditions = getConditions(columns);
         queryBuilder.append("SELECT * FROM " + table);
 
         if (conditions.length > 0) {
@@ -97,8 +158,10 @@ public class SQLConnection implements IDBConnection {
               }
           }
       }
+      System.out.println(queryBuilder.toString());
       ResultSet result  = statement.executeQuery(queryBuilder.toString());
-      return null;
+      Result resultObj = new Result(null, null, rsToHashMap(result));
+      return resultObj;
     }
     
 

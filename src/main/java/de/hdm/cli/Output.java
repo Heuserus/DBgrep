@@ -15,6 +15,7 @@ public class Output {
 
         if (tableNames != null) {
             for (String s : tableNames) {
+                
                 System.out.println(s);
             }
             return;
@@ -22,12 +23,15 @@ public class Output {
         } else if (columnNames != null) {
             for (String s : columnNames) {
                 System.out.println(s);
+                
             }
             return;
 
         } else if(objects != null){
             objects.forEach((table, rows) -> {
                 System.out.println(table);
+                
+                
                 for (var row : rows){
                     int longest_key = row.keySet().stream().reduce((a, b) -> a.length() > b.length() ? a : b).get().length();
                     int longest_val = row.values().stream().reduce((a, b) -> a.length() > b.length() ? a : b).get().length();

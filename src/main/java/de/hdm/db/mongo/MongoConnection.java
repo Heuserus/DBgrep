@@ -8,6 +8,8 @@ import com.mongodb.client.*;
 import de.hdm.datacontainer.ConnectionInfo;
 import de.hdm.datacontainer.Result;
 import de.hdm.db.IDBConnection;
+
+import org.apache.commons.collections4.MultiValuedMap;
 import org.bson.Document;
 
 import java.util.ArrayList;
@@ -97,48 +99,14 @@ public class MongoConnection implements IDBConnection {
         return new Result(null, columnNames, null);
     }
 
-    public Result searchObjects(String table, String[] conditions) {
-        MongoCollection<Document> collection = database.getCollection(table);
-        List<Document> documentList = new ArrayList<>();
-        //if conditions are empty, return all documents
-        if (conditions.length == 0) {
-            FindIterable<Document> documents = collection.find();
-            for (Document doc : documents) {
-                documentList.add(doc);
-            }
-        } else {
-            //if conditions are not empty, return only the documents that match the conditions
-            for (String s : conditions) {
-                String[] condition = s.split("=");
-                String key = condition[0];
-                String value = condition[1];
-                FindIterable<Document> documents = collection.find(new Document(key, value));
-                for (Document doc : documents) {
-                    documentList.add(doc);
-                }
-            }
-        }
-        System.out.println("searchObjects: " + documentList);
-        //Result rs = new Result(null, null, documentList);
+    public Result searchObjects(String table, MultiValuedMap<String, String> columns) {
         return null;
-    }
-
-
-    //might be unimportant
-    public List<String> getTableNames(String pattern) {
-        //how should I implement a pattern in mongo?
-        List<String> collectionNames = new ArrayList<>();
-        MongoIterable<String> collections = database.listCollectionNames();
-        for (String name : collections) {
-            collectionNames.add(name);
-        }
-        System.out.println("getTableNames: " + collectionNames);
-        return collectionNames;
-    }
+}
 
     @Override
     public void close() throws Exception {
-        mongoClient.close();
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'close'");
     }
 }
 

@@ -5,6 +5,8 @@ import de.hdm.datacontainer.Result;
 
 import java.sql.SQLException;
 
+import org.apache.commons.collections4.MultiValuedMap;
+
 public interface IDBConnection extends AutoCloseable {
 
 
@@ -18,7 +20,7 @@ public interface IDBConnection extends AutoCloseable {
     public Result searchTableNames(String table) throws SQLException;
 
 //    -t, --table	specifies table to be searched
-    public Result searchObjects(String table, String[] conditions) throws SQLException;
+    public Result searchObjects(String table, MultiValuedMap<String, String> columns) throws SQLException;
 
     public void connect(ConnectionInfo connectionInfo) throws SQLException;
 //    -T, --table-name	specifies a table name to be searched
