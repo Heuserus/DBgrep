@@ -7,8 +7,10 @@ import java.util.LinkedHashMap;
 
 public class Output {
 
-   
-
+    /**
+     * Prints the contents of a {@link Result}-object in a formatted manner.
+     * @param result {@link Result}-object that should be printed.
+     */
     public static void printResult(Result result){
         if (result == null) return;
 
@@ -50,6 +52,11 @@ public class Output {
     }
 
 
+    /**
+     * Iterates over every key and determines the length of it.
+     * @param rows Rows from the database
+     * @return A {@link HashMap} that contains the key and the length of it.
+     */
     private static HashMap<String, Integer> getMaxKeyLength(LinkedHashMap<String, String>[] rows){
         var res = new HashMap<String, Integer>();
         for ( var row : rows ) {
@@ -69,6 +76,12 @@ public class Output {
         return res;
     }
 
+
+    /**
+     * Iterates over every key and value and determines the length of the longest value.
+     * @param rows Rows from the database
+     * @return A {@link HashMap} that contains the key and the length of the longest value.
+     */
     private static HashMap<String, Integer> getMaxValueLength(LinkedHashMap<String, String>[] rows) {
         var res = new HashMap<String, Integer>();
         for ( var row : rows ) {
