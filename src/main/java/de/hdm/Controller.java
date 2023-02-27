@@ -16,7 +16,6 @@ import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
 import java.io.IOException;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 

@@ -7,9 +7,11 @@ import java.sql.SQLException;
 
 public interface ILogic {
     
-    
-
-
+     /**
+     * Request function to execute the correct query
+     * @param query Query object 
+     * @return Resultobject filled with the result data.
+     */
     public Result request(Query query) throws SQLException;
 
 }
