@@ -51,10 +51,12 @@ public class OutputTest {
 
     @Test
     public void testColumnNames() {
-        var res = new Result(null, new String[]{"a", "b", "c", "d"}, null);
+        var data = new LinkedHashMap<String, String[]>();
+        data.put("table", new String[]{"a", "b", "c", "d"});
+        var res = new Result(null, data, null);
         stream.reset();
         Output.printResult(res);
-        String testString = getFileContent("test_files/test_table_names_1");
+        String testString = getFileContent("test_files/test_column_names_1");
         assertEquals(testString, stream.toString().replace("\r", ""));
     }
 

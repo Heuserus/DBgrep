@@ -10,10 +10,14 @@ import de.hdm.db.mongo.MongoConnect;
 import de.hdm.db.sql.SQLConnection;
 import de.hdm.db.sql.SqlLogic;
 import de.hdm.exception.UnknownDBTypeException;
+import org.apache.commons.collections4.MultiValuedMap;
+import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
 
 import java.io.IOException;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -24,6 +28,29 @@ public class Controller {
 
     ILogic logic;
 
+    public static void main(String[] args) throws SQLException, IOException {
+        ConnectionInfo info = new ConnectionInfo();
+        info.setDbname("dbgrep");
+        info.setHost("localhost");
+        info.setPassword("example");
+        info.setUsername("root");
+        info.setPort(27017);
+        info.setProtocol("mongodb");
+
+        MultiValuedMap map = new ArrayListValuedHashMap<>();
+        map.put("KW", "");
+
+        Query query = new Query();
+        query.setTable("fahr.*");
+        query.setColumns(map);
+
+
+
+        var queries = Arrays.asList(new Query[]{query});
+        var controller = new Controller(info, queries);
+        controller.run();
+
+    }
 
     public Controller(final ConnectionInfo connectionInfo, final List<Query> queryList) {
         this.connectionInfo = connectionInfo;
@@ -58,8 +85,11 @@ public class Controller {
         // MongoDB Stuff
         else if (connectionInfo.getProtocol().toLowerCase().contains("mongo")) {
             try (var mongoConnection = new MongoConnect(connectionInfo)) {
-                Result result = mongoConnection.request(queryList);
-                Output.printResult(result);
+                //iterate over query
+                for (Query query:queryList) {
+                    Result result = mongoConnection.request(query);
+                    Output.printResult(result);
+                }
             }
         } else {
             throw new UnknownDBTypeException("Unknown database type for given protocol '" + connectionInfo.getProtocol() + "'.");
