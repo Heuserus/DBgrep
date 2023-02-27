@@ -9,15 +9,13 @@ import picocli.CommandLine.Model.ArgSpec;
 import picocli.CommandLine.Model.CommandSpec;
 import picocli.CommandLine.Option;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Query {
     @Option(names = {"-c",
-            "--column"}, description = "column to be searched, table must be specified [if used without table search in every column the name provided matches", parameterConsumer = QueryPreprocessor.class)
+            "--column"}, description = "column to be searched, table must be specified [if used without table search in every column the name provided matches]",
+            parameterConsumer = QueryPreprocessor.class)
     private MultiValuedMap<String, String> columns = new ArrayListValuedHashMap<>();
     @Option(names = {"-t", "--table"}, description = "specifies table to be searched")
     private String table;
@@ -31,16 +29,28 @@ public class Query {
     }
 
     public QueryType getQueryType() {
-        final boolean columnsPresent = !columns.isEmpty();
+        final boolean objectQueryPresent = !columns.isEmpty() && !columns.values().stream().allMatch(""::equals);
+        final boolean columnQueryPresent = !columns.isEmpty() && columns.values().stream().allMatch(""::equals);
         final boolean tablePresent = table != null;
 
-        if (tablePresent && columnsPresent)
+        if (tablePresent && objectQueryPresent)
             return QueryType.SEARCH_OBJECTS;
-        else if (tablePresent)
+        else if (!columnQueryPresent && tablePresent)
             return QueryType.SEARCH_TABLE_NAMES;
-        else
+        else if (tablePresent)
             return QueryType.SEARCH_COLUMN_NAMES;
+        else // this is the case if columns.isEmpty() == true and table == null
+            throw new RuntimeException("Something is wrong with the query"); // Todo: Throw correct exception
     }
+    //Only for testing -> Delete later:
+    public void setColumns(MultiValuedMap<String, String> columns) {
+        this.columns = columns;
+    }
+
+    public void setTable(String table) {
+        this.table = table;
+    }
+    ///////
 
     public static class QueryPreprocessor implements IParameterConsumer {
         @Override
@@ -82,7 +92,7 @@ public class Query {
                 }
                 columnConditions.add(args.pop());
             }
-            columns.putAll(columnName, columnConditions.isEmpty() ? List.of() : columnConditions);
+            columns.putAll(columnName, columnConditions.isEmpty() ? List.of("") : columnConditions);
         }
 
         private boolean isValidArgument(final String argument, final List<String> availableCLIOptions) {
@@ -110,4 +120,7 @@ public class Query {
             return argument.matches(DBGrepConstants.QUERY_REGEX_ARGUMENT);
         }
     }
+
+
+
 }
