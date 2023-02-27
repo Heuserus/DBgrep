@@ -77,6 +77,7 @@ public class Controller {
             dbConnection.connect(connectionInfo);
             for (Query query : queryList) {
                 Result result = logic.request(query);
+                
                 Output.printResult(result);
             }
         }
