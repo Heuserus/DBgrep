@@ -3,6 +3,9 @@ package de.hdm.datacontainer;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import picocli.CommandLine.Option;
 
+/**
+ * Specifies the properties to set up a database connection.
+ */
 public class ConnectionInfo {
 
     @JsonIgnore
@@ -11,7 +14,7 @@ public class ConnectionInfo {
     @Option(names = "--protocol", description = "", required = true)
     private String protocol;
 
-    @Option(names = "--driver", description = "", required = false)
+    @Option(names = "--driver", description = "")
     private String driver;
 
     @Option(names = "--host", description = "", required = true)
@@ -77,7 +80,6 @@ public class ConnectionInfo {
         return host;
     }
 
-    
     public void setProtocol(String protocol) {
         this.protocol = protocol;
     }
@@ -89,7 +91,7 @@ public class ConnectionInfo {
     public String getUrl(){
         return protocol + "://" + host + ":" + port + "/" + dbname;
     }
-    
+
     public void setUrl(String url){
         this.url = url;
     }
