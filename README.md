@@ -114,6 +114,30 @@ Search for values of the column "price" in the Table "laptops" which are smaller
 java --jar ./dbgrep.jar -p "path/to/profile.yml" -t "laptops" -c "price" "<500"
 ```
 
+## Setting up a test database
+
+Docker and Docker-Compose need to be installed for the following steps.
+
+To start up a MongoDB, a MariaDB and a Postgresql database you can use the provided docker-compose file.
+Either execute:
+
+```shell
+docker-compose -f ./docker/docker-compose.yml up
+```
+
+Or use the provided startup script:
+
+```shell
+./start_db.sh
+```
+
+It is possible to insert some test data in these databases using the provided `FillDB.jar`.
+Simply execute:
+
+```shell
+java -jar ./FillDB.jar
+```
+
 ## Dependencies
 
 DBgrep relies on several external libraries, the most important ones are:
