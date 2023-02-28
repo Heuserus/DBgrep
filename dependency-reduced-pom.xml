@@ -15,28 +15,6 @@
             <configuration>
                 <source>16</source>
                 <target>16</target>
-                <annotationProcessorPaths>
-                    <path>
-                        <groupId>info.picocli</groupId>
-                        <artifactId>picocli-codegen</artifactId>
-                        <version>4.7.1</version>
-                    </path>
-                </annotationProcessorPaths>
-                <compilerArgs>
-                    <arg>-Aproject=de.hdm/dbgrep</arg>
-                </compilerArgs>
-            </configuration>
-        </plugin>
-        <plugin>
-            <artifactId>maven-jar-plugin</artifactId>
-            <version>3.2.2</version>
-            <configuration>
-                <archive>
-                    <manifest>
-                        <addClasspath>true</addClasspath>
-                        <mainClass>de.hdm.App</mainClass>
-                    </manifest>
-                </archive>
             </configuration>
         </plugin>
         <plugin>
@@ -47,23 +25,23 @@
             <artifactId>maven-shade-plugin</artifactId>
             <version>3.2.1</version>
             <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>shade</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <transformers>
-            <transformer>
-              <manifestEntries>
-                <Main-Class>de.hdm.App</Main-Class>
-              </manifestEntries>
-            </transformer>
-          </transformers>
-        </configuration>
-      </plugin>
+                <execution>
+                    <phase>package</phase>
+                    <goals>
+                        <goal>shade</goal>
+                    </goals>
+                </execution>
+            </executions>
+            <configuration>
+                <transformers>
+                    <transformer>
+                        <manifestEntries>
+                            <Main-Class>de.hdm.App</Main-Class>
+                        </manifestEntries>
+                    </transformer>
+                </transformers>
+            </configuration>
+        </plugin>
       <plugin>
         <artifactId>maven-site-plugin</artifactId>
         <version>3.7.1</version>
@@ -76,37 +54,49 @@
       <artifactId>junit-jupiter-api</artifactId>
       <version>5.9.2</version>
       <scope>test</scope>
-      <exclusions>
-        <exclusion>
-          <artifactId>opentest4j</artifactId>
-          <groupId>org.opentest4j</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>junit-platform-commons</artifactId>
-          <groupId>org.junit.platform</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>apiguardian-api</artifactId>
-          <groupId>org.apiguardian</groupId>
-        </exclusion>
-      </exclusions>
+        <exclusions>
+            <exclusion>
+                <artifactId>opentest4j</artifactId>
+                <groupId>org.opentest4j</groupId>
+            </exclusion>
+            <exclusion>
+                <artifactId>junit-platform-commons</artifactId>
+                <groupId>org.junit.platform</groupId>
+            </exclusion>
+            <exclusion>
+                <artifactId>apiguardian-api</artifactId>
+                <groupId>org.apiguardian</groupId>
+            </exclusion>
+        </exclusions>
     </dependency>
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter</artifactId>
-      <version>RELEASE</version>
-      <scope>test</scope>
-      <exclusions>
-        <exclusion>
-          <artifactId>junit-jupiter-params</artifactId>
+      <dependency>
           <groupId>org.junit.jupiter</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>junit-jupiter-engine</artifactId>
-          <groupId>org.junit.jupiter</groupId>
-        </exclusion>
-      </exclusions>
-    </dependency>
+          <artifactId>junit-jupiter</artifactId>
+          <version>RELEASE</version>
+          <scope>test</scope>
+          <exclusions>
+              <exclusion>
+                  <artifactId>junit-jupiter-params</artifactId>
+                  <groupId>org.junit.jupiter</groupId>
+              </exclusion>
+              <exclusion>
+                  <artifactId>junit-jupiter-engine</artifactId>
+                  <groupId>org.junit.jupiter</groupId>
+              </exclusion>
+          </exclusions>
+      </dependency>
+      <dependency>
+          <groupId>org.assertj</groupId>
+          <artifactId>assertj-core</artifactId>
+          <version>3.24.2</version>
+          <scope>test</scope>
+          <exclusions>
+              <exclusion>
+                  <artifactId>byte-buddy</artifactId>
+                  <groupId>net.bytebuddy</groupId>
+              </exclusion>
+          </exclusions>
+      </dependency>
   </dependencies>
   <properties>
     <maven.compiler.target>16</maven.compiler.target>

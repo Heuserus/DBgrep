@@ -3,16 +3,10 @@ package de.hdm.db.sql;
 import de.hdm.datacontainer.ConnectionInfo;
 import de.hdm.datacontainer.Result;
 import de.hdm.db.IDBConnection;
+import org.apache.commons.collections4.MultiValuedMap;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Set;
-
-import org.apache.commons.collections4.MultiValuedMap;
+import java.util.*;
 
 public class SQLConnection implements IDBConnection {
 
@@ -86,8 +80,9 @@ public class SQLConnection implements IDBConnection {
 
     /**
      * Searches through all columns of a set of tables
-     * @param table Searchword
-     * @param column Searchword
+     *
+     * @param table   Searchword
+     * @param columns Searchword
      * @return Resultobject filled with columns and the tables they belong to
      */
     public Result searchColumnNames(MultiValuedMap<String, String> columns, String table) throws SQLException {
@@ -133,7 +128,7 @@ public class SQLConnection implements IDBConnection {
      * @return SQL Query Conditions as String Array
      */
     private String[] getConditions(MultiValuedMap<String, String> columns) {
-        System.out.println(columns.size());
+//        System.out.println(columns.size());
         String[] conditions = new String[columns.size()];
         Set<String> keys = columns.keySet();
         Iterator<String> keysIt = keys.iterator();

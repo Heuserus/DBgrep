@@ -3,11 +3,12 @@ package de.hdm.cli;
 import de.hdm.Controller;
 import de.hdm.datacontainer.ConnectionInfo;
 import de.hdm.datacontainer.Query;
-import de.hdm.exception.DBGrepException;
+import de.hdm.exception.MissingProfileException;
 import picocli.CommandLine.ArgGroup;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.concurrent.Callable;
 
@@ -64,13 +65,12 @@ public class CLIParser implements Callable<Integer> {
         ConnectionInfo connectionInfo;
         try {
             connectionInfo = connectionProperties.parse();
-        } catch (Exception e) {
-            if (e instanceof DBGrepException exception) {
-                System.err.println("Failed to Parse Profile");
-                return exception.getExitCode().getCode();
-            }
-            e.printStackTrace();
-            return -1;
+        } catch (FileNotFoundException e) {
+            System.err.println(e.getMessage());
+            return 2;
+        } catch (MissingProfileException e) {
+            System.err.println(e.getMessage());
+            return e.getExitCode().getCode();
         }
 
         new Controller(connectionInfo, queryArguments).run();

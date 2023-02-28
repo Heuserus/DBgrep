@@ -4,6 +4,7 @@ import de.hdm.constants.DBGrepConstants;
 import de.hdm.constants.DBGrepConstants.QueryType;
 import org.apache.commons.collections4.MultiValuedMap;
 import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
+import picocli.CommandLine;
 import picocli.CommandLine.IParameterConsumer;
 import picocli.CommandLine.Model.ArgSpec;
 import picocli.CommandLine.Model.CommandSpec;
@@ -65,7 +66,11 @@ public class Query {
                     .flatMap(optionSpec -> Arrays.stream(optionSpec.names()))
                     .collect(Collectors.toList());
 
-            consumeColumn(argSpec.getValue(), configuredOptions, args);
+            try {
+                consumeColumn(argSpec.getValue(), configuredOptions, args);
+            } catch (IllegalArgumentException e) {
+                throw new CommandLine.MissingParameterException(commandSpec.commandLine(), argSpec, e.getMessage());
+            }
         }
 
         /**
@@ -83,14 +88,14 @@ public class Query {
                 List<String> optionList,
                 Stack<String> args) {
             if (args.isEmpty() || optionList.contains(args.peek()))
-                throw new IllegalArgumentException();  //TODO: throw proper exception
+                throw new IllegalArgumentException("Please provide a column name for flag -c.");
 
             final String columnName = args.pop();
             final List<String> columnConditions = new ArrayList<>();
 
-            while (!args.isEmpty() && !optionList.contains(args.peek())) {
+            while (!args.isEmpty() && !optionList.contains(args.peek()) && !args.peek().startsWith("-")) {
                 if (!isValidArgument(args.peek(), optionList)) {
-                    throw new IllegalArgumentException(); //TODO: throw proper exception
+                    throw new IllegalArgumentException("Invalid condition '" + args.peek() + "'.");
                 }
                 columnConditions.add(args.pop());
             }
