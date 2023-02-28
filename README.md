@@ -83,8 +83,8 @@ Once you've installed DBgrep, you can use it to search through databases. The ba
 != (not equals)
 < (less than)
 > (greater than) 
-+ (exact match)
-- (substring match)
++ (regex match)
+
 
 There must not be spaces after operators or the expression must be written in quotation marks
 ```
