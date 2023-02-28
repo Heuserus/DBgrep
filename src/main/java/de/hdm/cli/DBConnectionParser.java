@@ -13,20 +13,11 @@ import java.io.IOException;
 import java.util.Optional;
 
 public class DBConnectionParser {
-    @ArgGroup(exclusive = false, heading = "Connection Properties")
+    @ArgGroup(exclusive = false, heading = "Properties specifying the database connection. Either database properties must be provided as arguments or via profile path.")
     private ConnectionInfo connectionInfo;
 
-    @Option(names = {"-p", " --profile"}, description = "connection path/profile")
+    @Option(names = {"-p", " --profile"}, description = "Path to profile containing properties specifying the database connection. Either database properties must be provided as arguments or via profile path.")
     private Optional<String> profile;
-
-    /**
-     * For testing purposes only.
-     *
-     * @return parsed from the commandline.
-     */
-    public ConnectionInfo getConnectionInfo() {
-        return connectionInfo;
-    }
 
     /**
      * For testing purposes only.
@@ -40,21 +31,19 @@ public class DBConnectionParser {
     /**
      * For testing purposes only.
      *
-     * @return profile parsed from the commandline.
-     */
-    public Optional<String> getProfile() {
-        return profile;
-    }
-
-    /**
-     * For testing purposes only.
-     *
      * @param profile profile from the commandline.
      */
     public void setProfile(Optional<String> profile) {
         this.profile = profile;
     }
 
+    /**
+     * Handles the provided database properties provided by the user. If properties are provided as arguments returns a valid {@link ConnectionInfo} object or tries to create an {@link ConnectionInfo} object from a profile loaded from the provided profile path.
+     *
+     * @return a valid {@link ConnectionInfo} object specifying the database connection properties.
+     * @throws IOException             if underlying input contains invalid content
+     * @throws MissingProfileException if neither connection properties nor a profile path was provided.
+     */
     public ConnectionInfo parse() throws IOException, MissingProfileException {
         if (connectionInfo != null) {
             return connectionInfo;

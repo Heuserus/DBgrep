@@ -2,8 +2,8 @@ package de.hdm.constants;
 
 public class DBGrepConstants {
     public enum ExitCode {
-        OK(0, "search successfull"),
         MISSING_PROFILE(2, "Missing profile or Database connection properties."),
+        INVALID_QUERY(2, "The provided Query is invalid."),
         UNKNOWN_DATABASE(2, "Could not determine the database type (JDBC or MongoDB)");
 
         // fields

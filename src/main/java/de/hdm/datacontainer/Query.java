@@ -2,6 +2,7 @@ package de.hdm.datacontainer;
 
 import de.hdm.constants.DBGrepConstants;
 import de.hdm.constants.DBGrepConstants.QueryType;
+import de.hdm.exception.InvalidQueryException;
 import org.apache.commons.collections4.MultiValuedMap;
 import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
 import picocli.CommandLine;
@@ -40,6 +41,13 @@ public class Query {
         this.table = table;
     }
 
+    /**
+     * Determines what type of query shall be executed according to the provided arguments.
+     *
+     * @return {@link QueryType#SEARCH_TABLE_NAMES} if only the table flag was provided <br>
+     * {@link QueryType#SEARCH_COLUMN_NAMES} if only a column flag was provided <br>
+     * {@link QueryType#SEARCH_OBJECTS} if a table, column and additional conditions were provided
+     */
     public QueryType getQueryType() {
         final boolean columnConditionsPresent = !columns.isEmpty() && !columns.values().stream().allMatch(""::equals);
         final boolean columnQueryPresent = !columns.isEmpty() && columns.values().stream().allMatch(""::equals);
@@ -52,10 +60,20 @@ public class Query {
         else if (tablePresent)
             return QueryType.SEARCH_COLUMN_NAMES;
         else // this is the case if columns.isEmpty() == true and table == null
-            throw new RuntimeException("Something is wrong with the query"); // Todo: Throw correct exception
+            throw new InvalidQueryException(DBGrepConstants.ExitCode.INVALID_QUERY);
     }
 
+    /**
+     * Custom processor for table flags.
+     */
     public static class QueryPreprocessor implements IParameterConsumer {
+        /**
+         * Consumes parameters from the commandline.
+         *
+         * @param args        the command line arguments
+         * @param argSpec     the option or positional parameter for which to consume command line arguments
+         * @param commandSpec the command that the option or positional parameter belongs to
+         */
         @Override
         public void consumeParameters(Stack<String> args, ArgSpec argSpec, CommandSpec commandSpec) {
             if (args.isEmpty()) {
@@ -102,12 +120,25 @@ public class Query {
             columns.putAll(columnName, columnConditions.isEmpty() ? List.of("") : columnConditions);
         }
 
+        /**
+         * Determines whether the current argument is valid or not.
+         *
+         * @param argument            current argument on top of the argument stack that shall be validated
+         * @param availableCLIOptions list of options available in the programm
+         * @return {@code true} if valid, {@code false} if invalid
+         */
         private boolean isValidArgument(final String argument, final List<String> availableCLIOptions) {
             return isOptionArgument(argument, availableCLIOptions) ||
                     isLogOpArgument(argument) ||
                     isRegexArgument(argument);
         }
 
+        /**
+         * Determines whether the current argument is a valid condition containing a logic operator or not.
+         *
+         * @param argument current argument on top of the argument stack that shall be validated
+         * @return {@code true} if valid, {@code false} if invalid
+         */
         private boolean isLogOpArgument(final String argument) {
             return argument.matches(DBGrepConstants.LOG_OP_EQUALS) ||
                     argument.matches(DBGrepConstants.LOG_OP_EQUALS_NOT) ||
@@ -115,6 +146,12 @@ public class Query {
                     argument.matches(DBGrepConstants.LOG_OP_GT);
         }
 
+        /**
+         * Determines whether the current argument is a valid option or not.
+         *
+         * @param argument current argument on top of the argument stack that shall be validated
+         * @return {@code true} if valid, {@code false} if invalid
+         */
         private boolean isOptionArgument(
                 final String argument,
                 final List<String> availableCLIOptions) {
@@ -122,6 +159,12 @@ public class Query {
                     argument.matches(DBGrepConstants.QUERY_ARGUMENT);
         }
 
+        /**
+         * Determines whether the current argument is a valid regular expression or not.
+         *
+         * @param argument current argument on top of the argument stack that shall be validated
+         * @return {@code true} if valid, {@code false} if invalid
+         */
         private boolean isRegexArgument(final String argument) {
             return argument.matches(DBGrepConstants.QUERY_REGEX_ARGUMENT);
         }
