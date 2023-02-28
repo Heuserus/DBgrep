@@ -9,39 +9,39 @@
   <url>https://freedocs.mi.hdm-stuttgart.de/sd1_sect_mavenCli.html</url>
   <build>
     <plugins>
-        <plugin>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <version>3.8.1</version>
-            <configuration>
-                <source>16</source>
-                <target>16</target>
-            </configuration>
-        </plugin>
-        <plugin>
-            <artifactId>maven-surefire-plugin</artifactId>
-            <version>3.0.0-M9</version>
-        </plugin>
-        <plugin>
-            <artifactId>maven-shade-plugin</artifactId>
-            <version>3.2.1</version>
-            <executions>
-                <execution>
-                    <phase>package</phase>
-                    <goals>
-                        <goal>shade</goal>
-                    </goals>
-                </execution>
-            </executions>
-            <configuration>
-                <transformers>
-                    <transformer>
-                        <manifestEntries>
-                            <Main-Class>de.hdm.App</Main-Class>
-                        </manifestEntries>
-                    </transformer>
-                </transformers>
-            </configuration>
-        </plugin>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.1</version>
+        <configuration>
+          <source>16</source>
+          <target>16</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.0.0-M9</version>
+      </plugin>
+      <plugin>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>3.2.1</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <transformers>
+            <transformer>
+              <manifestEntries>
+                <Main-Class>de.hdm.App</Main-Class>
+              </manifestEntries>
+            </transformer>
+          </transformers>
+        </configuration>
+      </plugin>
       <plugin>
         <artifactId>maven-site-plugin</artifactId>
         <version>3.7.1</version>
@@ -54,49 +54,49 @@
       <artifactId>junit-jupiter-api</artifactId>
       <version>5.9.2</version>
       <scope>test</scope>
-        <exclusions>
-            <exclusion>
-                <artifactId>opentest4j</artifactId>
-                <groupId>org.opentest4j</groupId>
-            </exclusion>
-            <exclusion>
-                <artifactId>junit-platform-commons</artifactId>
-                <groupId>org.junit.platform</groupId>
-            </exclusion>
-            <exclusion>
-                <artifactId>apiguardian-api</artifactId>
-                <groupId>org.apiguardian</groupId>
-            </exclusion>
-        </exclusions>
+      <exclusions>
+        <exclusion>
+          <artifactId>opentest4j</artifactId>
+          <groupId>org.opentest4j</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>junit-platform-commons</artifactId>
+          <groupId>org.junit.platform</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>apiguardian-api</artifactId>
+          <groupId>org.apiguardian</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
-      <dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>RELEASE</version>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>junit-jupiter-params</artifactId>
           <groupId>org.junit.jupiter</groupId>
-          <artifactId>junit-jupiter</artifactId>
-          <version>RELEASE</version>
-          <scope>test</scope>
-          <exclusions>
-              <exclusion>
-                  <artifactId>junit-jupiter-params</artifactId>
-                  <groupId>org.junit.jupiter</groupId>
-              </exclusion>
-              <exclusion>
-                  <artifactId>junit-jupiter-engine</artifactId>
-                  <groupId>org.junit.jupiter</groupId>
-              </exclusion>
-          </exclusions>
-      </dependency>
-      <dependency>
-          <groupId>org.assertj</groupId>
-          <artifactId>assertj-core</artifactId>
-          <version>3.24.2</version>
-          <scope>test</scope>
-          <exclusions>
-              <exclusion>
-                  <artifactId>byte-buddy</artifactId>
-                  <groupId>net.bytebuddy</groupId>
-              </exclusion>
-          </exclusions>
-      </dependency>
+        </exclusion>
+        <exclusion>
+          <artifactId>junit-jupiter-engine</artifactId>
+          <groupId>org.junit.jupiter</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <version>3.24.2</version>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>byte-buddy</artifactId>
+          <groupId>net.bytebuddy</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
   </dependencies>
   <properties>
     <maven.compiler.target>16</maven.compiler.target>

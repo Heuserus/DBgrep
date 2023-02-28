@@ -96,4 +96,31 @@ class SQLConnectTest {
         assertEquals(7, res.length);
     }
 
+    @Test
+    public void testSearchObjectsNotEqual() throws SQLException{
+        var q = createQuery("fahrzeuginfo", createCol("KW:!=101"));
+        var resp = sqlLogic.request(q);
+        var res = resp.getObjects().get("fahrzeuginfo");
+        assertEquals(991, res.length);
+    }
+
+
+    @Test
+    public void testSearchObjectsLessThan() throws SQLException{
+        // the less than will look for alphabetic order because the numbers are saved as strings
+        var q = createQuery("fahrzeuginfo", createCol("KW:<101"));
+        var resp = sqlLogic.request(q);
+        var res = resp.getObjects().get("fahrzeuginfo");
+        assertEquals(273, res.length);
+    }
+
+
+    @Test
+    public void testSearchObjectsGreaterThan() throws SQLException{
+        // the greater than will look for alphabetic order because the numbers are saved as strings
+        var q = createQuery("fahrzeuginfo", createCol("KW:>101"));
+        var resp = sqlLogic.request(q);
+        var res = resp.getObjects().get("fahrzeuginfo");
+        assertEquals(718, res.length);
+    }
 }

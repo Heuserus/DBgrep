@@ -149,16 +149,33 @@ public class SQLConnection implements IDBConnection {
                 String con = keyConditionsIt.next();
                 String operator = "";
                 String value = "";
+                
                 if(con.length()>2 && con.substring(1,2).equals("=")){
-                    operator = con.substring(0,2);
-                    value = con.substring(2, con.length());
+                    if(con.contains("%")){
+                        operator = "NOT LIKE";
+                        value = con.substring(2, con.length());
+                    }
+                    else{
+                        operator = con.substring(0,2);
+                        value = con.substring(2, con.length());
+
+                    }
+
+                  
                 }
                 else{
-                    operator = con.substring(0,1);
-                    value = con.substring(1, con.length());
+                    if(con.contains("%")){
+                        operator = "LIKE";
+                        value = con.substring(1, con.length());
+                    }
+                    else{
+                        operator = con.substring(0,1);
+                        value = con.substring(1, con.length());
+                    }
+                    
                 }
                 
-                conditions[conditionIt] = "'" + column + "'" + " " + operator + "'" + value + "'";
+                conditions[conditionIt] = column +  " " + operator + "'" + value + "'";
                 conditionIt++;
             }
         }
@@ -184,7 +201,7 @@ public class SQLConnection implements IDBConnection {
         while (result.next()) {
             size++;
         }
-        System.out.println("size:" + size);
+        //System.out.println("size:" + size);
         result.beforeFirst();
         for (int i = 1; i <= columnCount; i++ ) {
             columns[i] = meta.getColumnName(i);
@@ -202,7 +219,7 @@ public class SQLConnection implements IDBConnection {
             rowIndex++;
         }
         resultMap.put(tableName,rows);
-        return null;
+        return resultMap;
 
     } 
 
@@ -229,7 +246,7 @@ public class SQLConnection implements IDBConnection {
               }
           }
       }
-      System.out.println(queryBuilder.toString());
+      //System.out.println(queryBuilder.toString());
       ResultSet result  = statement.executeQuery(queryBuilder.toString());
       Result resultObj = new Result(null, null, rsToHashMap(result));
       return resultObj;
