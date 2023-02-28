@@ -38,10 +38,10 @@ protocol: mongodb
 
 A driver is not needed for MongoDB.
 
-## Usage
-Once you've installed DBgrep, you can use it to search through databases. The basic syntax of the commands is as follows:
+Alternatively, you can also set up a profile in this way, but both are not possible at the same time:
 
 ### Connection Properties
+
 
 ```
 --dbname=<dbname>
@@ -57,6 +57,10 @@ Once you've installed DBgrep, you can use it to search through databases. The ba
 ```
 -p, --profile=<profile>  connection path/profile
 ```
+
+## Usage
+Once you've installed DBgrep, you can use it to search through databases. The basic syntax of the commands is as follows:
+
 ### Search:
 
 ```
@@ -72,6 +76,8 @@ Once you've installed DBgrep, you can use it to search through databases. The ba
 > (greater than) 
 + (exact match)
 - (substring match)
+
+There must be no spaces after operators or the expression must be written in quotation marks
 ```
 
 If you get lost you can use dbgrep --help to get a list of all available commands and options.
