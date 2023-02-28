@@ -135,7 +135,7 @@ It is possible to insert some test data in these databases using the provided `F
 Simply execute:
 
 ```shell
-java -jar ./FillDB.jar
+java -jar ./filldb.jar
 ```
 
 ## Dependencies
