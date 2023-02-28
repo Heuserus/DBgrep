@@ -7,10 +7,11 @@ import java.sql.SQLException;
 
 public interface ILogic {
     
-    
-    public int count(Result result);
-    public int count(String[] result);
-
+     /**
+     * Request function to execute the correct query
+     * @param query Query object 
+     * @return Resultobject filled with the result data.
+     */
     public Result request(Query query) throws SQLException;
 
 }

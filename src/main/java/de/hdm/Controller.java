@@ -10,14 +10,10 @@ import de.hdm.db.mongo.MongoConnect;
 import de.hdm.db.sql.SQLConnection;
 import de.hdm.db.sql.SqlLogic;
 import de.hdm.exception.UnknownDBTypeException;
-import org.apache.commons.collections4.MultiValuedMap;
-import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
 
 import java.io.IOException;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -25,32 +21,6 @@ public class Controller {
 
     ConnectionInfo connectionInfo;
     List<Query> queryList;
-
-    ILogic logic;
-
-    public static void main(String[] args) throws SQLException, IOException {
-        ConnectionInfo info = new ConnectionInfo();
-        info.setDbname("dbgrep");
-        info.setHost("localhost");
-        info.setPassword("example");
-        info.setUsername("root");
-        info.setPort(27017);
-        info.setProtocol("mongodb");
-
-        MultiValuedMap map = new ArrayListValuedHashMap<>();
-        map.put("KW", "");
-
-        Query query = new Query();
-        query.setTable("fahr.*");
-        query.setColumns(map);
-
-
-
-        var queries = Arrays.asList(new Query[]{query});
-        var controller = new Controller(info, queries);
-        controller.run();
-
-    }
 
     public Controller(final ConnectionInfo connectionInfo, final List<Query> queryList) {
         this.connectionInfo = connectionInfo;
