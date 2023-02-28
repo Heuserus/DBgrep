@@ -3,7 +3,7 @@
 DBgrep is a command-line application that allows you to search through databases using multiple parameters. It's similar to the grep command, but instead of searching through text files, it searches through databases, making it a powerful tool for data analysis and querying.
 
 ## Requirements
-Requirements
+
 DBgrep is built using Java. You'll need to have Java 16 or later installed on your system to run the application. You'll also need to have Maven installed if you want to build the application from source.
 
 ## Installation
@@ -15,7 +15,7 @@ To install DBgrep, you can download the latest release in our the GitHub reposit
 
 To use DBgrep, you'll need to set up a profile in a YAML file. A profile is a configuration file that contains the information needed to connect to a database. You can create a profile following the syntax below:
 
-```
+```yaml
 driver: drivers\mariadb-java-client-3.1.0.jar
 host: localhost
 port: 3306
@@ -27,7 +27,7 @@ protocol: jdbc:mariadb
 
 For MongoDB, the syntax is as follows:
 
-```
+```yaml
 host: localhost
 port: 27017
 dbname: dbgrep
@@ -38,12 +38,12 @@ protocol: mongodb
 
 A driver is not needed for MongoDB.
 
-Alternatively, you can also set up a profile in this way, but both are not possible at the same time:
+Alternatively, you can also set up a profile in the following way, but both are not possible at the same time:
 
-### Connection Properties
+**Connection Properties**
 
 
-```
+```shell
 --dbname=<dbname>
 --driver=<driver>
 --host=<host>
@@ -52,9 +52,9 @@ Alternatively, you can also set up a profile in this way, but both are not possi
 --protocol=<protocol>
 --username=<username>
 ```
-### Connection Details
+**Connection Details**
 
-```
+```shell
 -p, --profile=<profile>  connection path/profile
 ```
 
@@ -64,9 +64,11 @@ Once you've installed DBgrep, you can use it to search through databases. The ba
 ### Search:
 
 ```
--c, --column=<columns>  column to be searched, table must be specified [if used without table search in every column the name provided matches]
--t, --table=<table>     specifies table to be searched
+-c, --column=<pattern>                  Search through the column names for the provided pattern.
+-c, --column=<column name> <pattern>    Search through the values of the specified column name.
+-t, --table=<table>                     Specifies table to be searched.
 ```
+
 ### Supported syntax
 
 ```
@@ -77,16 +79,39 @@ Once you've installed DBgrep, you can use it to search through databases. The ba
 + (exact match)
 - (substring match)
 
-There must be no spaces after operators or the expression must be written in quotation marks
+There must not be spaces after operators or the expression must be written in quotation marks
 ```
 
-If you get lost you can use dbgrep --help to get a list of all available commands and options.
+If you get lost you can use `dbgrep --help` to get a list of all available commands and options.
 
-```
+``` shell
 dbgrep --help
 ```
 
+### Examples
+
+Search for all table names beginning with a capital "K":
+
+```shell
+java --jar ./dbgrep.jar -p "path/to/profile.yml" -t "K.*" # for MongoDB
+java --jar ./dbgrep.jar -p "path/to/profile.yml" -t "K" # for SQL databases
+```
+
+Search for all column names in containing named something with "price" in all tables beginning with "K":
+
+```shell
+java --jar ./dbgrep.jar -p "path/to/profile.yml" -t "K.*" -c ".*price.*" # for MongoDB
+java --jar ./dbgrep.jar -p "path/to/profile.yml" -t "K" -c "price" # for SQL databases
+```
+
+Search for values of the column "price" in the Table "laptops" which are smaller than 500:
+
+```shell
+java --jar ./dbgrep.jar -p "path/to/profile.yml" -t "laptops" -c "price" "<500"
+```
+
 ## Dependencies
+
 DBgrep relies on several external libraries, the most important ones are:
 
 - Junit 5
