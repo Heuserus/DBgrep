@@ -13,7 +13,7 @@ To install DBgrep, you can download the latest release in our the GitHub reposit
 
 ## Setting up a profile
 
-To use DBgrep, you'll need to set up a profile in yaml file. A profile is a configuration file that contains the information needed to connect to a database. You can create a profile following the syntax below:
+To use DBgrep, you'll need to set up a profile in a YAML file. A profile is a configuration file that contains the information needed to connect to a database. You can create a profile following the syntax below:
 
 ```
 driver: drivers\mariadb-java-client-3.1.0.jar
@@ -39,7 +39,7 @@ protocol: mongodb
 A driver is not needed for MongoDB.
 
 ## Usage
-Once you've installed DBgrep, you can use it to search through databases. The basic syntax of the command is as follows:
+Once you've installed DBgrep, you can use it to search through databases. The basic syntax of the commands is as follows:
 
 ### Connection Properties
 
@@ -81,7 +81,7 @@ dbgrep --help
 ```
 
 ## Dependencies
-DBgrep relies on several external libraries, which are specified in the pom.xml file:
+DBgrep relies on several external libraries, the most important ones are:
 
 - Junit 5
 - Picocli
