@@ -20,10 +20,10 @@ public class AppTest {
             {VALID_PROFILE, "-t=%info"},
             {VALID_PROFILE, "-c=\"HST Benennung\" =Volkswagen"},
             {VALID_PROFILE, "-t=Fahrzeuginfo", "-c=Neupreis Netto"},
-            {VALID_PROFILE, "-t=Fahrzeuginfo", "-c=Neupreis Brutto", "<5"},
-            {VALID_PROFILE, "-t=Fahrzeuginfo", "-c=Neupreis Brutto", ">5", "-c=Neupreis Brutto", "<20"},
-            {VALID_PROFILE, "-t=Fahrzeuginfo", "-c=Neupreis Brutto", ">5", "-c=Neupreis Brutto", "20"},
-            {VALID_PROFILE, "-t=Fahrzeuginfo", "-c=Neupreis Brutto", ">5", "-c=Neupreis Brutto", "20"},
+            {VALID_PROFILE, "-t=Fahrzeuginfo", "-c=NeupreisBrutto", "<5"},
+            {VALID_PROFILE, "-t=Fahrzeuginfo", "-c=NeupreisBrutto", ">5", "-c=NeupreisBrutto", "<20"},
+            {VALID_PROFILE, "-t=Fahrzeuginfo", "-c=NeupreisBrutto", ">5", "-c=NeupreisBrutto", "=20"},
+            {VALID_PROFILE, "-t=Fahrzeuginfo", "-c=NeupreisBrutto", ">5", "-c=NeupreisBrutto", ">20"},
     };
 
     private final String[][] invalidQueries = {
