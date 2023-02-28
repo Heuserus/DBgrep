@@ -54,7 +54,9 @@ public class SQLConnection implements IDBConnection {
      */
     private List<String> getTableNames(String table) throws SQLException {
         ResultSet rs = metaData.getTables(null, null, null, new String[]{"TABLE"});
-
+        if(table==null){
+            table ="";
+        }
         List<String> tables = new ArrayList<>();
         while (rs.next()) {
             
@@ -64,7 +66,7 @@ public class SQLConnection implements IDBConnection {
                 tables.add(rs.getString("TABLE_NAME"));
             }
         }
-        List<String> matchingTables = tables;
+        List<String> matchingTables = getMatchingStrings(tables, table);
         return matchingTables;
     }
 
@@ -94,13 +96,19 @@ public class SQLConnection implements IDBConnection {
         List<String> tables = getTableNames(table);
         LinkedHashMap<String,String[]> resColumns = new LinkedHashMap<>();
         
-
+        boolean foundone = false;
         for (int i = 0; i < tables.size(); i++) {
             List<String> columnsOfTable = getColumnNames(columns, tables.get(i));
-            resColumns.put(tables.get(i),columnsOfTable.stream().toArray(String[]::new));
+            if(columnsOfTable.size()>0){
+                foundone= true;
+                resColumns.put(tables.get(i),columnsOfTable.stream().toArray(String[]::new));
+            }
+            
         }
 
-        
+        if(!foundone){
+            resColumns = null;
+        }
         
         Result result = new Result(null, resColumns, null);
         return result;
@@ -133,7 +141,7 @@ public class SQLConnection implements IDBConnection {
      * @return SQL Query Conditions as String Array
      */
     private String[] getConditions(MultiValuedMap<String, String> columns) {
-        System.out.println(columns.size());
+        
         String[] conditions = new String[columns.size()];
         Set<String> keys = columns.keySet();
         Iterator<String> keysIt = keys.iterator();
@@ -181,6 +189,7 @@ public class SQLConnection implements IDBConnection {
         while (result.next()) {
             size++;
         }
+        System.out.println("size:" + size);
         result.beforeFirst();
         for (int i = 1; i <= columnCount; i++ ) {
             columns[i] = meta.getColumnName(i);
@@ -192,12 +201,13 @@ public class SQLConnection implements IDBConnection {
             for(int i = 1; i<= columnCount; i++){
             
                 row.put(columns[i],result.getString(i));
+                
             }
             rows[rowIndex] = row;
             rowIndex++;
         }
         resultMap.put(tableName,rows);
-        return resultMap;
+        return null;
 
     } 
 
