@@ -35,6 +35,9 @@ public class CLIParser implements Callable<Integer> {
             
             To search for the content of rows both specify a table and columns. The argument '-c'/'--column' takes two parameters, where the first is the column name and the second is the search query matched against the data.
             Example: ... -t "tableName" -c "columnName" "=value"
+            Operators: < > = != 
+            Only in SQL: "=val%" or "=%al%" 
+            
             
             """)
     List<Query> queryArguments;
