@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.Optional;
 
 public class DBConnectionParser {
-    @ArgGroup(exclusive = false, heading = "Properties specifying the database connection. Either database properties must be provided as arguments or via profile path.")
+    @ArgGroup(exclusive = false, heading = "Properties specifying the database connection. Either database properties must be provided as arguments or via profile path.\n")
     private ConnectionInfo connectionInfo;
 
     @Option(names = {"-p", " --profile"}, description = "Path to profile containing properties specifying the database connection. Either database properties must be provided as arguments or via profile path.")
