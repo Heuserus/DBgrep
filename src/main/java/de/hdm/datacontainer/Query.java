@@ -63,7 +63,7 @@ public class Query {
             return QueryType.SEARCH_OBJECTS;
         else if (!columnQueryPresent && tablePresent)
             return QueryType.SEARCH_TABLE_NAMES;
-        else if (tablePresent)
+        else if (columnQueryPresent)
             return QueryType.SEARCH_COLUMN_NAMES;
         else // this is the case if columns.isEmpty() == true and table == null
             throw new InvalidQueryException(DBGrepConstants.ExitCode.INVALID_QUERY);

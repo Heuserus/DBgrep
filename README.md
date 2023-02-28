@@ -13,7 +13,11 @@ To install DBgrep, you can download the latest release in our the GitHub reposit
 
 ## Setting up a profile
 
-To use DBgrep, you'll need to set up a profile in a YAML file. A profile is a configuration file that contains the information needed to connect to a database. You can create a profile following the syntax below:
+To use DBgrep, you'll need to set up a connection to your database. This is either possible using ``profile.yml`` file or by providing the information as arguments. Providing a profile ``AND`` the database properties as arguments at the same time is not possible.
+
+### Connection profile
+
+A profile is a configuration file that contains the information needed to connect to a database. You can create a profile following the syntax below. After creating the profile.yml file you are able to use it via the commandline by providing the ``--profile <path/to/profile.yml>`` argument and specifying the profile path.
 
 ```yaml
 driver: drivers\mariadb-java-client-3.1.0.jar
@@ -38,10 +42,9 @@ protocol: mongodb
 
 A driver is not needed for MongoDB.
 
-Alternatively, you can also set up a profile in the following way, but both are not possible at the same time:
+### Connection Properties as commandline arguments
 
-**Connection Properties**
-
+Alternatively, you can also set up a database connection by providing the required information as commandline arguments. When doing so, the ``--profile`` argument is not required.
 
 ```shell
 --dbname=<dbname>
@@ -52,7 +55,8 @@ Alternatively, you can also set up a profile in the following way, but both are 
 --protocol=<protocol>
 --username=<username>
 ```
-**Connection Details**
+
+### Connection Details
 
 ```shell
 -p, --profile=<profile>  connection path/profile
