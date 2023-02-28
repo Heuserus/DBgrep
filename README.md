@@ -119,7 +119,7 @@ java --jar ./dbgrep.jar -p "path/to/profile.yml" -t "laptops" -c "price" "<500"
 
 ## Setting up a test database
 
-Docker and Docker-Compose need to be installed for the following steps. In addition, the repository needs to be cloned.
+Docker and Docker-Compose need to be installed for the following steps. In addition, the repository **needs to be cloned**.
 
 To start up a MongoDB, a MariaDB and a Postgresql database you can use the provided docker-compose file.
 Either execute:
