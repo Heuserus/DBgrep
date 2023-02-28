@@ -120,21 +120,10 @@ class MongoConnectTest {
 
     @Test
     public void testSearchObjectsRegex(){
-        // Exact matches
         var q = createQuery("fahrzeuginfo", createCol("HSTBenennung:+Mercedes-Benz"));
         var resp = mongo.request(q);
         var res = resp.getObjects().get("fahrzeuginfo");
         assertEquals(173, res.length);
-        // There is no Mercedes. Only Mercedes-Benz
-        var q2 = createQuery("fahrzeuginfo", createCol("HSTBenennung:+Mercedes"));
-        var resp2 = mongo.request(q2);
-        assertNull(resp2.getObjects());
-
-        // Substring match
-        var q3 = createQuery("fahrzeuginfo", createCol("HSTBenennung:-Mercedes"));
-        var resp3 = mongo.request(q3);
-        var res3 = resp3.getObjects().get("fahrzeuginfo");
-        assertEquals(173, res3.length);
     }
 
 

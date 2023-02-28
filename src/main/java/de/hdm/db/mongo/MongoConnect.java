@@ -9,9 +9,11 @@ import com.mongodb.ServerApiVersion;
 import com.mongodb.client.*;
 
 import com.mongodb.client.model.Filters;
+import de.hdm.constants.DBGrepConstants;
 import de.hdm.datacontainer.ConnectionInfo;
 import de.hdm.datacontainer.Query;
 import de.hdm.datacontainer.Result;
+import de.hdm.exception.UnknownCommandException;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
@@ -160,17 +162,12 @@ public class MongoConnect implements AutoCloseable {
             return Filters.gt(key, col.substring(1));
         }
         // If the condition is a string, create a regex query
-        else {
-            // Create a regex pattern from the column condition
-            String pattern = col.substring(1); // remove the leading '+' or '-' character
-            if (col.startsWith("+")) { // if the condition starts with '+', match the pattern exactly
-                pattern = "^" + pattern + "$";
-            } else if (col.startsWith("-")) { // if the condition starts with '-', match the pattern as a substring
-                pattern = ".*" + pattern + ".*";
-            }
+        else if (col.startsWith("+")) {
             // Compile the regex pattern and create a 'regex' query
-            Pattern regexPattern = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE);
+            Pattern regexPattern = Pattern.compile(col.substring(1), Pattern.CASE_INSENSITIVE);
             return Filters.regex(key, regexPattern);
+        } else {
+            throw new UnknownCommandException(DBGrepConstants.ExitCode.UNKNOWN_COMMAND);
         }
     }
 
