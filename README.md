@@ -17,7 +17,9 @@ To use DBgrep, you'll need to set up a connection to your database. This is eith
 
 ### Connection profile
 
-A profile is a configuration file that contains the information needed to connect to a database. You can create a profile following the syntax below. After creating the profile.yml file you are able to use it via the commandline by providing the ``--profile <path/to/profile.yml>`` argument and specifying the profile path.
+A profile is a configuration file that contains the information needed to connect to a database. You can create a
+profile following the syntax below. After creating the profile.yml file you are able to use it via the commandline by
+providing the ``--profile <path/to/profile.yml>`` argument and specifying the profile path.
 
 ```yaml
 driver: drivers\mariadb-java-client-3.1.0.jar
@@ -44,7 +46,8 @@ A driver is not needed for MongoDB.
 
 ### Connection Properties as commandline arguments
 
-Alternatively, you can also set up a database connection by providing the required information as commandline arguments. When doing so, the ``--profile`` argument is not required.
+Alternatively, you can also set up a database connection by providing the required information as commandline arguments.
+When doing so, the ``--profile`` argument is not required.
 
 ```shell
 --dbname=<dbname>
@@ -80,8 +83,8 @@ Once you've installed DBgrep, you can use it to search through databases. The ba
 != (not equals)
 < (less than)
 > (greater than) 
-+ (exact match)
-- (substring match)
++ (regex match)
+
 
 There must not be spaces after operators or the expression must be written in quotation marks
 ```
