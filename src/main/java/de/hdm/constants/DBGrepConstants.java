@@ -2,10 +2,9 @@ package de.hdm.constants;
 
 public class DBGrepConstants {
     public enum ExitCode {
-        OK(0, "search successfull"),
-        MISSING_PROFILE(1, "Missing profile or Database connection properties."),
-        INVALID_QUERY(2, "Provided database query is invalid."),
-        UNKNOWN_DATABASE(3, "Could not determine the database type (JDBC or MongoDB)");
+        MISSING_PROFILE(2, "Missing profile or Database connection properties."),
+        INVALID_QUERY(2, "The provided Query is invalid."),
+        UNKNOWN_DATABASE(2, "Could not determine the database type (JDBC or MongoDB)");
 
         // fields
         private final int code;
@@ -33,10 +32,9 @@ public class DBGrepConstants {
     }
 
     public static final String QUERY_ARGUMENT = "\\p{L}+$";
-    public static final String QUERY_REGEX_ARGUMENT = "[\\p{L}]*%[\\p{L}]*$";
-    public static final String LOG_OP_EQUALS = "=\\d+|=\\p{L}+$+";
-    public static final String LOG_OP_EQUALS_NOT = "!=\\d+|=\\p{L}+$+|!=\\d{1,2}\\.\\d{1,2}\\.\\d{4}|!=\\d{1,2}\\.\\d{1,2}\\.\\d{2}";
-    public static final String LOG_OP_LT = "<\\d+$|<\\d{1,2}\\.\\d{1,2}\\.\\d{4}|<\\d{1,2}\\.\\d{1,2}\\.\\d{2}";
-    public static final String LOG_OP_GT = ">\\d+$|>\\d{1,2}\\.\\d{1,2}\\.\\d{4}|>\\d{1,2}\\.\\d{1,2}\\.\\d{2}";
-    public static final String LOG_OP_CONTAINS = ">\\d+";
+    public static final String QUERY_REGEX_ARGUMENT = "=[\\p{L}]*%[\\p{L}]*$";
+    public static final String LOG_OP_EQUALS = "^=[\\p{L}\\d.\\-_,!?:() ]+$";
+    public static final String LOG_OP_EQUALS_NOT = "^!=[\\p{L}\\d.\\-_,!?:() ]+$";
+    public static final String LOG_OP_LT = "^<[\\p{L}\\d.\\-_,!?:() ]+$";
+    public static final String LOG_OP_GT = "^>[\\p{L}\\d.\\-_,!?:() ]+$";
 }
